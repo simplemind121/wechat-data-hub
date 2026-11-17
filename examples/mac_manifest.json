@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "export_id": "synthetic-mac-20261117-001",
+  "account_ref": "demo-account-a",
+  "device_ref": "demo-mac-a",
+  "platform": "macos",
+  "os_version": "synthetic",
+  "wechat_version": "unknown",
+  "exporter_name": "synthetic-fixture-generator",
+  "exporter_version": "1.0.0",
+  "exported_at": "2026-11-17T12:00:00Z",
+  "original_timezone": "UTC",
+  "data_format": "jsonl-v1",
+  "payload_files": [
+    {
+      "path": "mac_messages.jsonl",
+      "size_bytes": 623,
+      "sha256": "7b6b398abcf70cd4489951ecaafa8058def123ee1bf9b914360c992416e1bb59"
+    }
+  ],
+  "media_base_path": "media",
+  "consent_scope": "synthetic-data-only",
+  "coverage_notes": "Second device synthetic sample, same native_server_id for deterministic merge contract testing"
+}

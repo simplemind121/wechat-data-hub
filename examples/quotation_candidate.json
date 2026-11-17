@@ -1,0 +1,12 @@
+{
+  "entity_type": "quotation",
+  "status": "pending_review",
+  "supplier_ref": "wxid-supplier",
+  "product_model": "M620 Ultra",
+  "quantity_moq": 50,
+  "unit_price": "3200.00",
+  "currency": "CNY",
+  "evidence_source_record_ids": ["iphone-001"],
+  "extractor_version": "demo-manual-fixture-1",
+  "notes": "SYNTHETIC - not a real supplier quote"
+}

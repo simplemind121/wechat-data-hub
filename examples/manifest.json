@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "export_id": "synthetic-iphone-20261117-001",
+  "account_ref": "demo-account-a",
+  "device_ref": "demo-iphone-a",
+  "platform": "ios",
+  "os_version": "synthetic",
+  "wechat_version": "unknown",
+  "exporter_name": "synthetic-fixture-generator",
+  "exporter_version": "1.0.0",
+  "exported_at": "2026-11-17T12:00:00Z",
+  "original_timezone": "Asia/Shanghai",
+  "data_format": "jsonl-v1",
+  "payload_files": [
+    {
+      "path": "messages.jsonl",
+      "size_bytes": 837,
+      "sha256": "0de1a27f85054e20056a12382a6347cd444c2e4cf41bfdf03631955c7c80118a"
+    }
+  ],
+  "media_base_path": "media",
+  "consent_scope": "synthetic-data-only",
+  "coverage_notes": "Fixture only; not actual WeChat data"
+}

@@ -1,0 +1,2 @@
+{"source_record_id":"mac-987","native_server_id":"srv-10001","account_ref":"demo-account-a","conversation_ref":"wxid-supplier-demo","sender_ref":"wxid-supplier","sent_at":"2026-11-17T11:30:00Z","message_type":"text","body_text":"M620 Ultra，50套起订，3200元/套","reply_to":null,"media":[]}
+{"source_record_id":"mac-988","native_server_id":null,"account_ref":"demo-account-a","conversation_ref":"demo-family-chatroom","sender_ref":"wxid-demo-member","sent_at":"2026-11-16T08:20:00Z","message_type":"text","body_text":"这是一条合成的家庭群聊天记录，不允许业务同步。","reply_to":null,"media":[]}
