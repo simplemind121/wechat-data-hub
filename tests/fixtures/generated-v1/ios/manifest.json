@@ -1,0 +1,24 @@
+{
+  "account_ref": "synthetic-a",
+  "consent_scope": "synthetic-data-only",
+  "coverage_notes": "NOT real WeChat data",
+  "data_format": "jsonl-v1",
+  "device_ref": "synthetic-ios",
+  "export_id": "synthetic-ios-001",
+  "exported_at": "2026-11-17T12:00:00Z",
+  "exporter_name": "wdh-synthetic-factory",
+  "exporter_version": "1.0.0",
+  "media_base_path": "media",
+  "original_timezone": "Asia/Shanghai",
+  "os_version": "synthetic",
+  "payload_files": [
+    {
+      "path": "messages.jsonl",
+      "sha256": "f516909f2b9e514b66578f5fbfab71e397ade6575646cc249de7e65fabfeacef",
+      "size_bytes": 267823
+    }
+  ],
+  "platform": "ios",
+  "schema_version": "1.0.0",
+  "wechat_version": "NOT_TESTED"
+}

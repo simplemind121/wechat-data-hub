@@ -1,0 +1,177 @@
+[
+  {
+    "classification": "synthetic-only",
+    "expected": "merge only with certified synthetic namespace",
+    "id": "strong_cross_device"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "two records remain two canonical messages",
+    "id": "duplicate_text"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "preserve alias history",
+    "id": "group_rename"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "do not merge identities by nickname",
+    "id": "same_nickname"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "unresolved sender",
+    "id": "empty_identity"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "same instant as +08:00",
+    "id": "timezone_utc"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "require explicit DST offset",
+    "id": "timezone_dst"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "parse seconds explicitly",
+    "id": "epoch_seconds"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "parse milliseconds explicitly",
+    "id": "epoch_millis"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "unresolved; never invent timestamp",
+    "id": "missing_time"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "raw bytes preserved; NFKC search only",
+    "id": "unicode"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "text only; never resolve entities",
+    "id": "xml_cdata"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "render as text",
+    "id": "xss"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "bounded streaming",
+    "id": "long_text"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "preserve event and source",
+    "id": "revoke"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "keep old and new observations",
+    "id": "edit"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "link when target available",
+    "id": "reply_found"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "unresolved reference",
+    "id": "reply_missing"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "availability=missing",
+    "id": "missing_media"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "hash and preserve",
+    "id": "present_media"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "one physical blob",
+    "id": "same_content_paths"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "distinct hashes",
+    "id": "same_name_different_content"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "preserve raw type",
+    "id": "unknown_type"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "escape only on CSV export",
+    "id": "csv_formula"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "quarantine invalid row; continue valid rows",
+    "id": "invalid_jsonl"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "explicit field mapping",
+    "id": "partial_csv"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "archive with completeness=partial",
+    "id": "degraded_html_txt"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "reject",
+    "id": "path_traversal"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "reject",
+    "id": "absolute_path"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "reject",
+    "id": "symlink"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "reject high ratio",
+    "id": "zip_bomb"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "deny foreign workspace objects",
+    "id": "cross_workspace"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "deny outbox",
+    "id": "unapproved_entity"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "manual review required",
+    "id": "supplier_conflict"
+  },
+  {
+    "classification": "synthetic-only",
+    "expected": "read back before retry",
+    "id": "odoo_timeout"
+  }
+]

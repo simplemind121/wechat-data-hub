@@ -1,0 +1,19 @@
+{
+  "candidates": [
+    {
+      "currency": "CNY",
+      "moq": 50
+    },
+    {
+      "currency": "USD",
+      "moq": 100
+    }
+  ],
+  "entity_type": "quotation",
+  "evidence_source_record_ids": [
+    "strong-a"
+  ],
+  "privacy_scope": "private",
+  "status": "pending_review",
+  "supplier_name": "合成同名供应商"
+}

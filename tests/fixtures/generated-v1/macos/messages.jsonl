@@ -1,0 +1,2 @@
+{"source_record_id": "strong-mac", "native_server_id": "synthetic-server-1", "account_ref": "synthetic-a", "conversation_ref": "synthetic-business", "sender_ref": "synthetic-contact-a", "sent_at": "2026-11-17T11:30:00Z", "message_type": "text", "body_text": "合成测试消息 🧪", "media": [], "reply_to": null}
+{"source_record_id": "family", "native_server_id": null, "account_ref": "synthetic-a", "conversation_ref": "synthetic-group", "sender_ref": "synthetic-contact-a", "sent_at": "2026-11-17T19:30:00+08:00", "message_type": "text", "body_text": "合成私人会话", "media": [], "reply_to": null}

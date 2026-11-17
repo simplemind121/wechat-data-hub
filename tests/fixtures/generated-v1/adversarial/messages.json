@@ -1,0 +1,38 @@
+[
+  {
+    "account_ref": "synthetic-a",
+    "body_text": "合成测试消息 🧪",
+    "conversation_ref": "synthetic-business",
+    "media": [],
+    "message_type": "text",
+    "native_server_id": "synthetic-server-1",
+    "reply_to": null,
+    "sender_ref": "synthetic-contact-a",
+    "sent_at": "2026-11-17T19:30:00+08:00",
+    "source_record_id": "strong-a"
+  },
+  {
+    "account_ref": "synthetic-a",
+    "body_text": "收到",
+    "conversation_ref": "synthetic-business",
+    "media": [],
+    "message_type": "text",
+    "native_server_id": null,
+    "reply_to": null,
+    "sender_ref": "synthetic-contact-a",
+    "sent_at": "2026-11-17T19:30:00+08:00",
+    "source_record_id": "repeat-a"
+  },
+  {
+    "account_ref": "synthetic-a",
+    "body_text": "收到",
+    "conversation_ref": "synthetic-business",
+    "media": [],
+    "message_type": "text",
+    "native_server_id": null,
+    "reply_to": null,
+    "sender_ref": "synthetic-contact-a",
+    "sent_at": "2026-11-17T19:30:00+08:00",
+    "source_record_id": "repeat-b"
+  }
+]
