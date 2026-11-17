@@ -6,13 +6,26 @@ from wdh_api.main import create_app
 def test_errors_do_not_echo_malicious_input_or_paths() -> None:
     with TestClient(create_app(Settings(_env_file=None))) as client:
         response = client.get("/api/v1/unknown?password=secret&body=<script>alert(1)</script>")
-        assert response.status_code == 404
+        assert response.status_code == 401
         assert "secret" not in response.text
         assert "<script>" not in response.text
         assert response.headers["Cache-Control"] == "no-store"
 
 
-def test_no_data_or_mutation_endpoints_exposed_before_authentication_exists() -> None:
+def test_every_data_endpoint_rejects_anonymous_requests() -> None:
     paths = create_app(Settings(_env_file=None)).openapi()["paths"]
-    assert set(paths) == {"/api/v1/health/live", "/api/v1/health/ready"}
-    assert all(set(methods) == {"get"} for methods in paths.values())
+    public = {
+        "/api/v1/health/live",
+        "/api/v1/health/ready",
+        "/api/v1/auth/login",
+        "/api/v1/auth/setup",
+        "/api/v1/auth/status",
+    }
+    with TestClient(create_app(Settings(_env_file=None))) as client:
+        for path, methods in paths.items():
+            if path in public:
+                continue
+            for method in methods:
+                url = path.replace("{batch_id}", "00000000-0000-0000-0000-000000000000")
+                response = client.request(method, url)
+                assert response.status_code == 401, (method, path)

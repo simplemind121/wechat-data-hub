@@ -43,10 +43,10 @@ def test_ready_requires_migration(tmp_path: Path) -> None:
         assert client.get("/api/v1/health/ready").json() == {"status": "ready"}
 
 
-def test_unimplemented_data_routes_are_unavailable() -> None:
+def test_data_routes_require_authentication() -> None:
     with TestClient(create_app(Settings(_env_file=None))) as client:
         response = client.get("/api/v1/imports")
-        assert response.status_code == 404
+        assert response.status_code == 401
         assert set(response.json()) == {"code", "message", "request_id", "details"}
         assert response.json()["request_id"] == response.headers["X-Request-ID"]
 

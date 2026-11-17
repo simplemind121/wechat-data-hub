@@ -158,7 +158,7 @@ def generate(output: Path) -> None:
         }
         (folder / "manifest.json").write_bytes(encode(manifest))
     pixel = base64.b64decode(
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jOwoAAAAASUVORK5CYII="
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
     )
     for name, content in {
         "media/pixel.png": pixel,

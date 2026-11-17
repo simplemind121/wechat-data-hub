@@ -6,6 +6,8 @@ import re
 import stat
 import tempfile
 import zipfile
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import BinaryIO
@@ -107,6 +109,19 @@ class ContentStore:
         if hashlib.sha256(data).hexdigest() != digest:
             raise StorageError("HASH_MISMATCH")
         return data
+
+    @contextmanager
+    def open(self, digest: str) -> Iterator[BinaryIO]:
+        """Verify then stream a stored original without loading the file into memory."""
+        path = self._path(digest)
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
+        with os.fdopen(fd, "rb") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                raise StorageError("UNSAFE_PATH")
+            if hashlib.file_digest(stream, "sha256").hexdigest() != digest:
+                raise StorageError("HASH_MISMATCH")
+            stream.seek(0)
+            yield stream
 
 
 def validate_archive(

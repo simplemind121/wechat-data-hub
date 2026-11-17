@@ -41,9 +41,8 @@ down:
 migrate:
 	$(COMPOSE) run --rm migrate
 
-seed-demo: fixtures
-	@echo "Synthetic files generated. Database import is not implemented (WDH-014); no records were seeded."
-	@exit 2
+seed-demo:
+	$(COMPOSE) exec api python -m wdh_api.seed
 
 fixtures:
 	$(PY) scripts/generate_fixtures.py --output .local/fixtures-$$(date -u +%Y%m%dT%H%M%S)-$${RANDOM}
@@ -57,6 +56,14 @@ dev-api:
 dev-web:
 	npm --prefix apps/web run dev
 
-benchmark backup restore-check:
-	@echo "BLOCKED: $@ is not implemented. See TASKS.md (WDH-061/062)."
-	@exit 2
+backup:
+	$(COMPOSE) exec api python -m wdh_api.cli backup
+
+restore-check:
+	.venv/bin/pytest tests/integration/test_backup.py -q
+
+benchmark:
+	$(PY) scripts/benchmark.py
+
+worker:
+	.venv/bin/python -m wdh_api.worker

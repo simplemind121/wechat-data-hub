@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     app_env: str = "development"
+    app_bind_host: str = "127.0.0.1"
     database_url: str = "postgresql+psycopg://hub@127.0.0.1:5432/wechat_hub"
     data_root: Path = Path(".local/data")
     import_max_bytes: int = Field(default=1_073_741_824, gt=0)
@@ -20,6 +21,10 @@ class Settings(BaseSettings):
     enable_odoo: bool = False
     allow_external_ai: bool = False
     enable_object_storage: bool = False
+    cookie_secure: bool = False
+    session_hours: int = Field(default=12, ge=1, le=168)
+    allowed_hosts: str = "127.0.0.1,localhost,testserver"
+    worker_poll_seconds: float = Field(default=1.0, ge=0.1)
 
     @field_validator("database_url")
     @classmethod

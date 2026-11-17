@@ -1,0 +1,10 @@
+# Optional separate-container topology: docker compose -f compose.yaml -f compose.workers.yaml up -d
+services:
+  api:
+    command: [uvicorn, "wdh_api.main:create_app", --factory, --host, 0.0.0.0, --port, "8000", --no-access-log]
+    depends_on: !override
+      migrate: {condition: service_completed_successfully}
+  migrate:
+    profiles: []
+  worker:
+    profiles: []
