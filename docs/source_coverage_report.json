@@ -1,0 +1,16 @@
+{
+  "report_version": "1.0.0",
+  "generated_at": "2026-11-17",
+  "status": "BLOCKED",
+  "reason": "REAL_SOURCE_VALIDATION",
+  "scope": "No authorized real device exports supplied. All examples and generated fixtures are synthetic.",
+  "devices": [
+    {"platform": "ios", "status": "BLOCKED", "os_version": null, "wechat_version": null, "exporter_version": null, "metrics": null},
+    {"platform": "macos", "status": "BLOCKED", "os_version": null, "wechat_version": null, "exporter_version": null, "metrics": null},
+    {"platform": "windows", "status": "BLOCKED", "os_version": null, "wechat_version": null, "exporter_version": null, "metrics": null}
+  ],
+  "native_encrypted_backups": {"parsing": "UNSUPPORTED", "tested": false},
+  "verified_real_device_combinations": [],
+  "synthetic_fixture_cases": 35,
+  "notes": "Null metrics mean NOT TESTED, not zero messages or missing records. Generation verifies fixtures only, not downstream processing."
+}
