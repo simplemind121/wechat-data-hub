@@ -150,14 +150,22 @@ def normalize_record(
         if strong
         else None
     )
-    conflicting = message if message and message.content_signature != signature else None
+    reply_ref = str(value["reply_to"]) if value.get("reply_to") is not None else None
+    conflicting = (
+        message
+        if message
+        and (message.content_signature != signature or message.reply_source_ref != reply_ref)
+        else None
+    )
     while message and message.merged_into:
         message = session.scalar(
             select(Message).where(
                 Message.workspace_id == workspace, Message.id == message.merged_into
             )
         )
-    if message and message.content_signature != signature:
+    if message and (
+        message.content_signature != signature or message.reply_source_ref != reply_ref
+    ):
         conflicting = message
     if conflicting:
         message = None
@@ -386,7 +394,15 @@ class Worker:
                     )
                 )
                 for message in unresolved:
-                    target = session.scalar(
+                    sources = list(
+                        session.scalars(
+                            select(Observation).where(
+                                Observation.workspace_id == job.workspace_id,
+                                Observation.message_id == message.id,
+                            )
+                        )
+                    )
+                    targets = (
                         select(Message)
                         .join(Observation, Observation.message_id == Message.id)
                         .where(
@@ -395,10 +411,30 @@ class Worker:
                             Message.conversation_id == message.conversation_id,
                             Observation.source_message_id == message.reply_source_ref,
                         )
-                        .limit(1)
                     )
-                    if target:
-                        message.reply_to_id = target.id
+                    matches = list(
+                        session.scalars(
+                            targets.where(
+                                Observation.batch_id.in_([source.batch_id for source in sources])
+                            )
+                            .distinct()
+                            .limit(2)
+                        )
+                    )
+                    if not matches:
+                        matches = list(
+                            session.scalars(
+                                targets.where(
+                                    Observation.device_id.in_(
+                                        [source.device_id for source in sources]
+                                    )
+                                )
+                                .distinct()
+                                .limit(2)
+                            )
+                        )
+                    if len(matches) == 1:
+                        message.reply_to_id = matches[0].merged_into or matches[0].id
                 errors = (
                     session.scalar(
                         select(func.count())
