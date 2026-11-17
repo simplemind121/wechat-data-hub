@@ -1,0 +1,39 @@
+name: WDH foundation
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:17.6-alpine@sha256:ef257d85f76e48da1c64832459b59fcaba1a4dac97bf5d7450c77753542eee94
+        env:
+          POSTGRES_USER: test_hub
+          POSTGRES_PASSWORD: synthetic-ci-only
+          POSTGRES_DB: wdh_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U test_hub -d wdh_test"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      TEST_POSTGRES_URL: postgresql+psycopg://test_hub:synthetic-ci-only@127.0.0.1:5432/wdh_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24.11.1', cache: npm, cache-dependency-path: apps/web/package-lock.json}
+      - run: pip install uv==0.9.17
+      - run: make bootstrap
+      - run: make lint test test-security
+      - run: npm --prefix apps/web run build
+      - run: cd apps/web && npx playwright install --with-deps chromium
+      - run: make test-e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: foundation-test-evidence
+          path: |
+            apps/web/test-results
+            docs/evidence/*.png

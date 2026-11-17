@@ -1,0 +1,1 @@
+"""Local immutable content storage."""

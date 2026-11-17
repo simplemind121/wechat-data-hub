@@ -1,0 +1,27 @@
+# Allow only application/build inputs; never send local data or credentials to the builder.
+**
+!pyproject.toml
+!uv.lock
+!.python-version
+!alembic.ini
+!apps/
+!apps/api/
+!apps/api/**
+!apps/web/
+!apps/web/**
+!packages/
+!packages/**
+!migrations/
+!migrations/**
+!infra/
+!infra/**
+**/node_modules
+**/dist
+**/__pycache__
+**/test-results
+**/playwright-report
+**/*.tsbuildinfo
+**/*.key
+**/*.pem
+**/.env
+**/secrets
