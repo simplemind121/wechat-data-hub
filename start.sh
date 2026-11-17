@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+if [[ -f WeChat_Data_Hub_images_v0.2.0.tar.gz ]]; then
+  exec bash ./start-offline.sh
+fi
 command -v docker >/dev/null || { echo '请先安装并启动 Docker Desktop / Docker Engine。'; exit 1; }
 docker info >/dev/null 2>&1 || { echo 'Docker 尚未运行，请启动后重试。'; exit 1; }
 if [[ ! -f .env ]]; then

@@ -12,34 +12,34 @@
 | WDH-003 | P0 | 001 | 实机/真实导出样本格式验证（仅授权时）；`source_coverage_report.json` | 每设备/版本记录 PASS/FAIL/BLOCKED，不根据猜测标记 PASS | BLOCKED |
 | WDH-010 | P1 | 000,002 | PostgreSQL / Alembic、workspace、account、device、batch、raw schema | migration up 可运行；从空库重建一致 | PASS |
 | WDH-011 | P1 | 010 | Content-addressed storage、SHA256、原子写与媒体去重 | 同文件多次保存一份；原件只读；路径/zip 攻击测试通过 | PASS |
-| WDH-012 | P1 | 010,011 | JSONL/JSON/CSV adapter + registry + schema report | 流式读取、版本化格式错误报告、字段映射有单元测试 | TODO |
-| WDH-013 | P1 | 012 | 异步任务状态机、lease、重试、dead-letter、取消 | crash/restart 不丢已归档批次；幂等一致 | TODO |
-| WDH-014 | P1 | 013 | 上传 API、导入清单、批次状态、隔离区、覆盖度报告 | 用合成多设备数据重复导入 3 次结果一致 | TODO |
-| WDH-020 | P2 | 014 | contact、conversation、messages、observations、events schema | 可查询来源信息，外键和唯一约束生效 | TODO |
-| WDH-021 | P2 | 020 | 时间/Unicode/类型/昵称处理、消息规范化与未知类型保留 | 时区、emoji、system、未知类型测试通过 | TODO |
-| WDH-022 | P2 | 021 | 强匹配合并 + 弱匹配审核候选 +冲突版本 | 两条同文字消息不被误吞；有来源多对一映射 | TODO |
-| WDH-023 | P2 | 022 | 附件关系、媒体引用缺失、引用消息目标补链 | 缺附件能显示缺失而不 500；hash 一致 | TODO |
-| WDH-024 | P2 | 023 | parser_version 重算与差异预览 | 旧版本可比对；无破坏性覆盖原件 | TODO |
-| WDH-030 | P3 | 020 | 安全认证、admin/reviewer/reader + workspace 授权 | 权限绕过的 API 测试全部拒绝 | TODO |
-| WDH-031 | P3 | 023,030 | 会话/消息/联系人/附件 REST API + 游标分页 | OpenAPI 契约与集成测试一致 | TODO |
-| WDH-032 | P3 | 031 | React UI：概览、导入、会话、来源详情、附件 | Playwright 端到端可演示，错误/空状态完善 | TODO |
-| WDH-033 | P3 | 031 | 关键词搜索、时间/来源/类型筛选、导出 | 中文检索样例正确；100k 样本性能有测试报告 | TODO |
-| WDH-034 | P3 | 022,032 | 冲突审核、身份映射审批、操作审计 | merge/reject/defer 均记录审计，支持重跑 | TODO |
-| WDH-035 | P3 | 030,032 | 安全配置、数据访问日志、隐私标签 | 私人会话不能进入业务抽取与同步 | TODO |
+| WDH-012 | P1 | 010,011 | JSONL/JSON/CSV adapter + registry + schema report | 流式读取、版本化格式错误报告、字段映射有单元测试 | PASS |
+| WDH-013 | P1 | 012 | 异步任务状态机、lease、重试、dead-letter、取消 | crash/restart 不丢已归档批次；幂等一致 | PASS |
+| WDH-014 | P1 | 013 | 上传 API、导入清单、批次状态、隔离区、覆盖度报告 | 用合成多设备数据重复导入 3 次结果一致 | PASS |
+| WDH-020 | P2 | 014 | contact、conversation、messages、observations、events schema | 可查询来源信息，外键和唯一约束生效 | PASS |
+| WDH-021 | P2 | 020 | 时间/Unicode/类型/昵称处理、消息规范化与未知类型保留 | 时区、emoji、system、未知类型测试通过 | PASS |
+| WDH-022 | P2 | 021 | 强匹配合并 + 弱匹配审核候选 +冲突版本 | 两条同文字消息不被误吞；有来源多对一映射 | PASS |
+| WDH-023 | P2 | 022 | 附件关系、媒体引用缺失、引用消息目标补链 | 缺附件能显示缺失而不 500；hash 一致 | PASS |
+| WDH-024 | P2 | 023 | parser_version 重算与差异预览 | 旧版本可比对；无破坏性覆盖原件 | IN_PROGRESS |
+| WDH-030 | P3 | 020 | 安全认证、admin/reviewer/reader + workspace 授权 | 权限绕过的 API 测试全部拒绝 | PASS |
+| WDH-031 | P3 | 023,030 | 会话/消息/联系人/附件 REST API + 游标分页 | OpenAPI 契约与集成测试一致 | PASS |
+| WDH-032 | P3 | 031 | React UI：概览、导入、会话、来源详情、附件 | Playwright 端到端可演示，错误/空状态完善 | PASS |
+| WDH-033 | P3 | 031 | 关键词搜索、时间/来源/类型筛选、导出 | 中文检索样例正确；100k 样本性能有测试报告 | PASS |
+| WDH-034 | P3 | 022,032 | 冲突审核、身份映射审批、操作审计 | merge/reject/defer 均记录审计，支持重跑 | PASS |
+| WDH-035 | P3 | 030,032 | 安全配置、数据访问日志、隐私标签 | 私人会话不能进入业务抽取与同步 | PASS |
 | WDH-040 | P4 | 023,033 | OCR provider、任务、结果证据与可禁用开关 | 启用/禁用切换、错误处理、图片证据定位通过 | TODO |
 | WDH-041 | P4 | 023,033 | ASR provider，音频格式检查/解码能力边界 | 支持格式有转录与时间片；不支持明确报错 | TODO |
 | WDH-042 | P4 | 033,035 | embedding + pgvector / 混合搜索 / 权限过滤 | 不外发、workspace 隔离、结果指向消息证据 | TODO |
 | WDH-043 | P4 | 040,041,042 | LLM 实体抽取、schema 验证、review workflow | 提取报价/客户/产品候选，不能直接推送 Odoo | TODO |
-| WDH-044 | P4 | 043 | 业务实体 UI：审批、拒绝、编辑与证据链 | 批准字段全部来源可追溯，虚构字段测试拦截 | TODO |
-| WDH-050 | P5 | 044 | OdooAdapter 连接握手/模型权限检查 | 在授权 CE 测试实例报告可用模型与权限；无实例 BLOCKED | TODO |
-| WDH-051 | P5 | 050 | 实体映射与 Odoo dry-run diff | 未审批实体绝不进入待写队列，匹配冲突待审 | TODO |
+| WDH-044 | P4 | 043 | 业务实体 UI：审批、拒绝、编辑与证据链 | 批准字段全部来源可追溯，虚构字段测试拦截 | IN_PROGRESS |
+| WDH-050 | P5 | 044 | OdooAdapter 连接握手/模型权限检查 | 在授权 CE 测试实例报告可用模型与权限；无实例 BLOCKED | BLOCKED |
+| WDH-051 | P5 | 050 | 实体映射与 Odoo dry-run diff | 未审批实体绝不进入待写队列，匹配冲突待审 | IN_PROGRESS |
 | WDH-052 | P5 | 051 | 审核后 outbox、重试、远端回读、防重复创建 | 断网/超时重试不产生重复 Odoo 草稿 | TODO |
 | WDH-053 | P5 | 013 | n8n webhook 样例（可选）、签名与重放防护 | 无 n8n 仍工作，有 n8n 可在样例中安全触发 | TODO |
-| WDH-060 | P6 | 035 | 安全审计、SBOM、依赖许可清单、上传攻击复测 | `make test-security` PASS，阻断高危缺陷 | TODO |
-| WDH-061 | P6 | 052 | 加密备份、恢复、升级与回滚手册 | 干净主机恢复成功，DB 和媒体哈希核验 | TODO |
-| WDH-062 | P6 | 033,061 | 压测与容量报告、资源监测、故障注入 | 指标测得实值，未达标写明 FAIL | TODO |
-| WDH-063 | P6 | 003,062 | 客户端/导出工具真实兼容回归和缺口报告 | 只有实际验证过的组合标记 SUPPORTED；否则 BLOCKED | TODO |
-| WDH-064 | P6 | 060,061,062,063 | Release Candidate 发布和交付文档 | 有版本 tag、SHA256、测试报告、部署/恢复/回滚指南和已知限制 | TODO |
+| WDH-060 | P6 | 035 | 安全审计、SBOM、依赖许可清单、上传攻击复测 | `make test-security` PASS，阻断高危缺陷 | IN_PROGRESS |
+| WDH-061 | P6 | 052 | 加密备份、恢复、升级与回滚手册 | 干净主机恢复成功，DB 和媒体哈希核验 | IN_PROGRESS |
+| WDH-062 | P6 | 033,061 | 压测与容量报告、资源监测、故障注入 | 指标测得实值，未达标写明 FAIL | IN_PROGRESS |
+| WDH-063 | P6 | 003,062 | 客户端/导出工具真实兼容回归和缺口报告 | 只有实际验证过的组合标记 SUPPORTED；否则 BLOCKED | BLOCKED |
+| WDH-064 | P6 | 060,061,062,063 | Release Candidate 发布和交付文档 | 有版本 tag、SHA256、测试报告、部署/恢复/回滚指南和已知限制 | BLOCKED |
 
 ## 阶段强制顺序与并行
 
@@ -60,3 +60,7 @@
 ## 2026-11-17 首轮记录
 
 WDH-000/001/002/010/011 PASS；WDH-003 `BLOCKED: REAL_SOURCE_VALIDATION`。代码提交和边界见 `docs/IMPLEMENTATION_STATUS.md`，实测命令、环境限制、日志/截图见 `docs/TEST_EVIDENCE.md`。P1 整体未完成，下一任务 WDH-012。
+
+## 2026-11-17 本地核心成品更新
+
+核心实现 `c37a470`，来源补链修复 `8cef071`。P1–P3 核心通过功能/权限/浏览器测试，已提供独立运行镜像和离线启动。WDH-024仅预览；044为本地规则候选，LLM依赖仍TODO；051仅dry-run、050无授权实例、052未实现。061的核心加密恢复已实测，整合外部系统前保留IN_PROGRESS；062十万条实测通过但完整故障监控未完成。060开发依赖ReDoS和全OS审计待完成；063/064由真实来源及全REQUIRED未通过阻断。详细证据见 docs/TEST_EVIDENCE.md，成品能力见 docs/DELIVERY_STATUS.md。

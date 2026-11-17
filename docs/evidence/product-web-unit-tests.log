@@ -1,0 +1,13 @@
+
+> @wdh/web@0.2.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /workspace/wechat-data-hub/apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  17:46:39
+   Duration  368ms (tests 74%, import 12%, transform 8%, worker 6%)
+

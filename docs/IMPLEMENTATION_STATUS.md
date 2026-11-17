@@ -1,21 +1,22 @@
-# Implementation Status
+# 实现状态 · 0.2.0
 
-日期：2026-11-17。版本：0.1.0 开发切片。**P0 工程基础、P1 Bronze/CAS 已实现；P1 整体尚未完成，非 MVP / RC / 生产交付。**
+日期：2026-11-17。交付定位：可用的本地核心应用；尚非全规格 RC。源码关键提交 `c37a470`（核心全链路）、`8cef071`（按来源限制引用补链与复核回归）；本文件和启动包更新见后续 Git 提交。
 
-| 任务 | 进度 | Commit | 备注 |
-| --- | --- | --- | --- |
-| WDH-000 | PASS | `104633b`, `e304738` | 单仓库、锁文件、Makefile、CI、API/Web、Compose；bootstrap/lint/test、浏览器与容器启动已通过，见测试证据中的环境适配说明 |
-| WDH-001 | PASS | `5796a63` | `docs/ADR/001-boundaries.md`，三个上游固定提交 README/许可只读核对；商业许可冲突和未找到许可项已明确记录 |
-| WDH-002 | PASS | `26ecdb2` | 工厂、`tests/fixtures/generated-v1`；两设备、两会话、35 类边界预期；重复生成树哈希相同 |
-| WDH-003 | BLOCKED | `5796a63` | `REAL_SOURCE_VALIDATION`，无真实导出；来源报告见 `docs/source_coverage_report.json` |
-| WDH-010 | PASS | `104633b` | 初始 Alembic 迁移；PostgreSQL 17.6 重复 upgrade/check，复合外键、批次幂等、行定位唯一性 |
-| WDH-011 | PASS | `de1d143` | 原字节 CAS 库；并发只保存一份、SHA-256、0400、原子提交、超限清理、损坏不覆盖、路径/ZIP 检查 |
-| WDH-012 至 WDH-064（除上列项） | TODO | — | 适配器、持久任务、上传、Silver、RBAC、业务 UI、AI、Odoo、灾备与正式验收尚未实现 |
+| 范围 | 状态与证据 |
+| --- | --- |
+| WDH-000/001/002/010/011 | 原基础 PASS，沿用版本化迁移、CAS、上游许可边界、35类合成工厂；图片样例 CRC 已修复并实测预览 |
+| WDH-012/013/014 | 通用适配、上传、manifest/原件哈希、隔离错误、持久任务、重试取消及幂等测试通过 |
+| WDH-020/021/022/023 | 标准化、Unicode/时区、消息观测、强/弱匹配与冲突、媒体和源域引用补链测试通过 |
+| WDH-024 | IN_PROGRESS：不破坏原件的重处理差异预览；完整派生版本审批切换未实现 |
+| WDH-030–035 | 认证/RBAC/workspace/隐私、真实 UI/API、搜索/导出、复核/映射/审计通过核心功能测试；十万条 PostgreSQL 搜索报告在证据目录 |
+| WDH-040/041/042/043 | TODO：OCR、ASR、embedding/RAG、LLM provider 均未实现，默认关闭 |
+| WDH-044 | IN_PROGRESS：本地规则报价候选 UI、证据约束和审核已实现；不是 WDH-043 LLM 依赖完成 |
+| WDH-050/051/052 | 050 BLOCKED 无授权实例；051仅本地映射 dry-run；052真实同步/outbox未实现 |
+| WDH-060 | IN_PROGRESS：攻击/RBAC/Bandit、运行依赖审计、SBOM/许可完成；开发 picomatch high 尚无修复、全 OS 镜像审计未完成 |
+| WDH-061 | IN_PROGRESS：核心加密备份和 PG 新目标恢复演练通过；完整外部集成依赖未完成，未承诺生产灾备 |
+| WDH-062 | IN_PROGRESS：实测十万条导入、内存及搜索P95；完整故障/容量监控验收尚未全部完成 |
+| WDH-003/063/064 | BLOCKED：真实导出未提供、全规格 REQUIRED 未全过，不发布正式 RC |
 
-WDH-032 未领取。当前 Web 是 WDH-000 的真实健康状态和开发说明外壳，不是已通过业务 E2E 的消息浏览界面。当前公开 API 仅 live/ready；目标 OpenAPI 和已实现契约分别保存。
+原件字节只追加，不因复核合并删除；JSON/CSV 的行 hash 是解析视图序列化 hash，完整字节另外由 CAS 校验和保存。用户声明导出来源不等于验证了真实 exporter；未认证 server ID 不自动强合并。重试使用任务租约/fencing token 和数据库唯一约束，重复短文本保留为独立记录。
 
-本轮只验证 CAS 库和 ZIP 元数据检查，不具备完整上传/解压/MIME 预览安全链路。文件入库关联、导入覆盖报告与媒体引用属于后续任务。35 类合成预期不等于35项业务功能已实现。
-
-CI 配置已生成并通过本地等效命令验证；未连接远端仓库，未声称 GitHub Actions 已执行。没有版本 tag、镜像推送、外部数据写入或生产发布。
-
-下一任务：WDH-012，版本化 JSONL/JSON/CSV adapter registry、流式读取、字段映射和解析报告；随后 WDH-013/014，之后才进入 P2。
+当前包的 UI/API 都是真实运行服务，不是展示数据外壳；演示仅来自用户主动导入的合成 ZIP。原规格和目标 OpenAPI 保留，已实现 API 是 `contracts/implemented-openapi.json`。所有测试数据为合成，无真实聊天被用于测试或打包。

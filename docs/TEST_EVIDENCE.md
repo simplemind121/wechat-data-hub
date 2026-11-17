@@ -58,3 +58,49 @@ curl -fsS http://127.0.0.1:5173/api/v1/health/ready
 - 没有消息上传、解析/规范化、跨设备合并、业务检索/审核、角色/会话授权、AI、Odoo、加密备份恢复或性能基准结果。
 - ZIP 目前只做元数据检查，不执行解压；MIME、实际解压流限额、XSS 内容预览、CSRF、登录爆破等完整 HTTP 安全链路未实现。`make test-security` 是当前切片边界回归，不是 AC-601 全部通过。
 - 尚未进行完整 SBOM/依赖漏洞审计或灾备演练，未做 Release Candidate / 正式发布。没有删除、覆盖真实数据，未向任何外部系统写数据。
+
+# 0.2.0 本地核心成品验收 · 2026-11-17
+
+以下是新的业务应用证据；上方0.1.0历史记录不代表当前能力。核心源码 `c37a470`，补链/审核修复 `8cef071`。所有输入为合成数据，真实微信设备和真实 Odoo 实例仍未测试。
+
+## 最终验证
+
+| 命令/场景 | 实际结果 | 证据 |
+| --- | --- | --- |
+| `TEST_POSTGRES_URL=<new schema_validation DB> PRODUCT_POSTGRES_URL=<isolated control DB> .venv/bin/pytest -q` | **77 passed，32.37s，0 skip**，产品测试逐项建立新 PostgreSQL 库；含迁移、错误隔离、幂等、权限、恢复、引用/身份/证据约束 | `evidence/product-final-postgres-tests.log` |
+| `make lint` | Ruff/check/format、mypy20文件、TypeScript、已实现 OpenAPI 漂移检查通过 | `evidence/product-lint.log` |
+| `make test-security` | **27 passed，10.00s**；Bandit exit0，无排除规则；27是77的子集，不额外相加 | `evidence/product-security-tests.log` |
+| `npm --prefix apps/web test` | Vitest5.1.0，**3 passed** | `evidence/product-web-unit-tests.log` |
+| 隔离源码 E2E，独立SQLite+worker，实际Chromium | **3 passed，23.5s** | `evidence/product-browser-tests.log` |
+| 全新 Compose 项目/PG卷/原件卷，自包含 API+Nginx 镜像，`playwright test --config playwright.installed.config.ts` | **3 passed，28.2s**；首次建号→下载样例→上传→独立worker→重复导入→双“收到”保留→来源/缺附件→业务批准→规则候选→检索/审核→导出→审批/Odoo dry-run→备份下载→注销；390px移动端、有效PNG实际解码预览 | `evidence/product-installed-browser-tests.log`、`evidence/product-installed-runtime.json` |
+| 安装镜像内 `python -m wdh_api.seed` 两次 | 两次完成，同一演示批次未重复入库，不预设/重置现有密码 | `evidence/product-installed-runtime.json` |
+| 成品镜像内部加密备份→新PostgreSQL空库 | 成功，所有表计数/对象校验，旧会话作废；无源码/额外依赖挂载 | `evidence/product-image-restore.json` |
+| 默认本地交付实例 `bash start-offline.sh` | 镜像内容ID校验通过，3服务健康；仅127.0.0.1:5173/8000，数据库无宿主端口，无默认管理员 | `images.lock`；最终交付运行清单 |
+
+最终浏览器运行截图：`product-empty.png`、`product-imports.png`、`product-conversations.png`、`product-evidence.png`、`product-search.png`、`product-mobile.png`、`product-odoo-preview.png`。截图仅合成内容。Playwright 启动的 Vite 仅用于源码回归；成品回归走 Nginx 静态页面和真实 PostgreSQL，二者明确区分。
+
+Python 有一个上游 Starlette TestClient→httpx 弃用告警，不是失败；实际产品容器使用 Uvicorn，不依赖 TestClient。CI文件已提供，尚未声称远端 CI 服务执行成功。
+
+## 十万条容量与检索
+
+实测 PostgreSQL17.6，3逻辑CPU的 Linux x86_64 Cloud：100,000/100,000条规范化，原文件 **70,177,780字节**，导入 **1097.28秒**，进程峰值RSS **293,648KiB（约287MiB）**。30次关键词请求 P95 **0.299391秒**，中位 **0.165938秒**，达到此环境中AC-105/603目标。样本、原始时间、硬件信息见 `evidence/benchmark-100k.json`。
+
+检索计时包括真实PG查询/API序列化，通过进程内HTTP TestClient执行，不含外部网络RTT；不宣称任意电脑或真实微信全量媒体都达到同样指标。导入并行构建时受磁盘竞争影响，报告保留实际耗时，未重写为理想值。Cloud仅7.9GB、Docker VFS层复制开销大，不适合长期全量聊天；交付单层镜像避免本环境的重复构建层，但数据和备份仍需另规划容量。监控/完整故障注入验收未全部完成。
+
+## 恢复与安全
+
+PostgreSQL→新PostgreSQL的恢复演练：备份0.129秒、恢复0.524秒（微型合成集），4个原件逐一SHA-256验证，恢复媒体下载字节一致，重新登录/检索/来源可用，旧会话失效。`evidence/restore-drill.json`记录实际表计数；`counts.login_sessions=0`，`source_counts`保留备份时数量。没有生产备份调度，不承诺生产RPO/RTO。成品容器的第二次独立恢复证据见 `product-image-restore.json`。WDHBK02封装尚需独立密码学审查。
+
+- Python **运行依赖** pip-audit 未发现已知漏洞（cryptography已升级50.0.2，修复47系列告警）；`evidence/python-runtime-audit.json`。
+- npm **运行依赖** audit 为0漏洞；`evidence/npm-runtime-audit.json`。
+- 完整开发/构建依赖 audit：5条HIGH派生报告，一个根因 [GHSA-fc5q-39xc-vjpf](https://github.com/advisories/GHSA-fc5q-39xc-vjpf)，picomatch<=4.0.7 ReDoS；`evidence/npm-all-audit.json`。审计时上游最新4.0.7，4.0.8查询404；不能用未发布版本伪造修复，也不接受回退到存在其他critical的旧Vitest建议。缓解范围：构建只处理可信仓库/配置glob，上传不进入构建目录；成品Nginx不含Node/Vite/Vitest，不运行开发服务器。上游修复及正式安全复审仍待办，不能宣称全依赖干净。
+- SBOM `evidence/sbom.cdx.json` 和 `DEPENDENCIES.md` 是安装Python元数据+完整npm锁，包含开发/可选依赖，**不包括OS镜像软件包**。`THIRD_PARTY_NOTICES.md`保留运行JS许可。未整合外部微信提取器源码，未改变其许可边界。
+- 上传攻击/路径/压缩比/symlink/MIME、CSRF/登录限速、角色与workspace越权、私有会话不可业务处理、CSV公式、workspace备份隔离都有自动测试。SQL引擎隐藏参数，不在审计中保存消息体/密码；这不替代独立渗透审计。
+
+## 安装包和发布限制
+
+镜像从无数据卷、无凭据的专用构建容器封装，包含安装后的wheel、依赖、迁移和静态页面。`product-installed-runtime.json`确认API只有原件volume、Web无源码bind挂载；Linux amd64镜像内容ID在 `images.lock`。默认源码 Dockerfile仍锁定上游digest，可重新构建；离线Compose使用本地tag并由脚本先核对确切ID、禁止拉取。
+
+合成验证项目及其明确命名的测试卷已清理，交付实例的原件/PostgreSQL卷保留，不打入压缩包。之前自动审批曾拒绝宽范围 `docker system prune --force`，未执行；后续仅清理了明确属于本任务的构建/测试资源，未影响用户数据卷。
+
+完整规格 REQUIRED 未全部通过，尤其OCR/ASR/RAG/LLM/真实Odoo outbox和真实兼容覆盖；参见 `ACCEPTANCE_STATUS.md`。当前交付为可用本地核心版本，不是正式RC，不把合成兼容结果冒充真实微信实机验收。

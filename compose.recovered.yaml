@@ -1,0 +1,10 @@
+# Apply only to a NEW recovery project with new volumes, never the existing project.
+services:
+  api:
+    environment:
+      DATA_ROOT: /var/lib/wechat-hub/restored
+      TMPDIR: /var/lib/wechat-hub/restored/quarantine
+  worker:
+    environment:
+      DATA_ROOT: /var/lib/wechat-hub/restored
+      TMPDIR: /var/lib/wechat-hub/restored/quarantine

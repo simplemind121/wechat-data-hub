@@ -1,0 +1,2649 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:0d9d16c7-2a79-4db7-bc04-e5da1c5ba1a1",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-17T17:54:52.469363+00:00",
+    "component": {
+      "type": "application",
+      "name": "WeChat Data Hub",
+      "version": "0.2.0"
+    },
+    "properties": [
+      {
+        "name": "wdh:scope",
+        "value": "Python installed environment + npm lock; excludes OS/image packages"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "Mako",
+      "version": "1.4.3",
+      "purl": "pkg:pypi/mako@1.4.3",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "MarkupSafe",
+      "version": "3.0.4",
+      "purl": "pkg:pypi/markupsafe@3.0.4",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "PyYAML",
+      "version": "6.0.3",
+      "purl": "pkg:pypi/pyyaml@6.0.3",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Pygments",
+      "version": "2.21.0",
+      "purl": "pkg:pypi/pygments@2.21.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-2-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "SQLAlchemy",
+      "version": "2.0.58",
+      "purl": "pkg:pypi/sqlalchemy@2.0.58",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "alembic",
+      "version": "1.20.1",
+      "purl": "pkg:pypi/alembic@1.20.1",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "annotated-doc",
+      "version": "0.0.6",
+      "purl": "pkg:pypi/annotated-doc@0.0.6",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "annotated-types",
+      "version": "0.8.0",
+      "purl": "pkg:pypi/annotated-types@0.8.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "anyio",
+      "version": "4.16.0",
+      "purl": "pkg:pypi/anyio@4.16.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "bandit",
+      "version": "1.9.4",
+      "purl": "pkg:pypi/bandit@1.9.4",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "certifi",
+      "version": "2026.10.23",
+      "purl": "pkg:pypi/certifi@2026.10.23",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MPL-2.0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cffi",
+      "version": "2.1.1",
+      "purl": "pkg:pypi/cffi@2.1.1",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT-0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "click",
+      "version": "8.5.1",
+      "purl": "pkg:pypi/click@8.5.1",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cryptography",
+      "version": "50.0.2",
+      "purl": "pkg:pypi/cryptography@50.0.2",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0 OR BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fastapi",
+      "version": "0.163.1",
+      "purl": "pkg:pypi/fastapi@0.163.1",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "greenlet",
+      "version": "3.5.6",
+      "purl": "pkg:pypi/greenlet@3.5.6",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT AND PSF-2.0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "h11",
+      "version": "0.16.0",
+      "purl": "pkg:pypi/h11@0.16.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "httpcore",
+      "version": "1.0.9",
+      "purl": "pkg:pypi/httpcore@1.0.9",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "httpx",
+      "version": "0.28.1",
+      "purl": "pkg:pypi/httpx@0.28.1",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "idna",
+      "version": "3.20",
+      "purl": "pkg:pypi/idna@3.20",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ijson",
+      "version": "3.6.0",
+      "purl": "pkg:pypi/ijson@3.6.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause AND ISC"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "iniconfig",
+      "version": "2.3.1",
+      "purl": "pkg:pypi/iniconfig@2.3.1",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "librt",
+      "version": "0.16.0",
+      "purl": "pkg:pypi/librt@0.16.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "markdown-it-py",
+      "version": "4.3.0",
+      "purl": "pkg:pypi/markdown-it-py@4.3.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "NOASSERTION"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "mdurl",
+      "version": "0.1.2",
+      "purl": "pkg:pypi/mdurl@0.1.2",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "NOASSERTION"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "mypy",
+      "version": "1.20.2",
+      "purl": "pkg:pypi/mypy@1.20.2",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "mypy_extensions",
+      "version": "1.2.0",
+      "purl": "pkg:pypi/mypy-extensions@1.2.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "opentelemetry-api",
+      "version": "1.45.2",
+      "purl": "pkg:pypi/opentelemetry-api@1.45.2",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "packaging",
+      "version": "26.3",
+      "purl": "pkg:pypi/packaging@26.3",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0 OR BSD-2-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pathspec",
+      "version": "1.1.1",
+      "purl": "pkg:pypi/pathspec@1.1.1",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "NOASSERTION"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pluggy",
+      "version": "1.7.0",
+      "purl": "pkg:pypi/pluggy@1.7.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "psycopg",
+      "version": "3.3.9",
+      "purl": "pkg:pypi/psycopg@3.3.9",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "LGPL-3.0-only"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "psycopg-binary",
+      "version": "3.3.9",
+      "purl": "pkg:pypi/psycopg-binary@3.3.9",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "LGPL-3.0-only"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pycparser",
+      "version": "3.12",
+      "purl": "pkg:pypi/pycparser@3.12",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pydantic",
+      "version": "2.14.3",
+      "purl": "pkg:pypi/pydantic@2.14.3",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pydantic-settings",
+      "version": "2.16.3",
+      "purl": "pkg:pypi/pydantic-settings@2.16.3",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pydantic_core",
+      "version": "2.50.4",
+      "purl": "pkg:pypi/pydantic-core@2.50.4",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pytest",
+      "version": "8.4.2",
+      "purl": "pkg:pypi/pytest@8.4.2",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "python-dotenv",
+      "version": "1.2.4",
+      "purl": "pkg:pypi/python-dotenv@1.2.4",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "python-multipart",
+      "version": "0.0.34",
+      "purl": "pkg:pypi/python-multipart@0.0.34",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "rich",
+      "version": "15.0.0",
+      "purl": "pkg:pypi/rich@15.0.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ruff",
+      "version": "0.17.5",
+      "purl": "pkg:pypi/ruff@0.17.5",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "starlette",
+      "version": "1.10.0",
+      "purl": "pkg:pypi/starlette@1.10.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "stevedore",
+      "version": "5.10.0",
+      "purl": "pkg:pypi/stevedore@5.10.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "typing-inspection",
+      "version": "0.4.5",
+      "purl": "pkg:pypi/typing-inspection@0.4.5",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "purl": "pkg:pypi/typing-extensions@4.16.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "PSF-2.0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "uvicorn",
+      "version": "0.54.0",
+      "purl": "pkg:pypi/uvicorn@0.54.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "wechat-data-hub",
+      "version": "0.2.0",
+      "purl": "pkg:pypi/wechat-data-hub@0.2.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "NOASSERTION"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/code-frame",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/code-frame@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/compat-data",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/compat-data@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/core",
+      "version": "7.29.13",
+      "purl": "pkg:npm/%40babel/core@7.29.13",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/generator",
+      "version": "7.29.14",
+      "purl": "pkg:npm/%40babel/generator@7.29.14",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helper-compilation-targets",
+      "version": "7.29.13",
+      "purl": "pkg:npm/%40babel/helper-compilation-targets@7.29.13",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helper-globals",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/helper-globals@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helper-module-imports",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/helper-module-imports@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helper-module-transforms",
+      "version": "7.29.14",
+      "purl": "pkg:npm/%40babel/helper-module-transforms@7.29.14",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helper-plugin-utils",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/helper-plugin-utils@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helper-string-parser",
+      "version": "7.29.14",
+      "purl": "pkg:npm/%40babel/helper-string-parser@7.29.14",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helper-validator-identifier",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/helper-validator-identifier@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helper-validator-option",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/helper-validator-option@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/helpers",
+      "version": "7.29.14",
+      "purl": "pkg:npm/%40babel/helpers@7.29.14",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/parser",
+      "version": "7.29.14",
+      "purl": "pkg:npm/%40babel/parser@7.29.14",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/plugin-transform-react-jsx-self",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/plugin-transform-react-jsx-self@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/plugin-transform-react-jsx-source",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/plugin-transform-react-jsx-source@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/template",
+      "version": "7.29.7",
+      "purl": "pkg:npm/%40babel/template@7.29.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/traverse",
+      "version": "7.29.14",
+      "purl": "pkg:npm/%40babel/traverse@7.29.14",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@babel/types",
+      "version": "7.29.14",
+      "purl": "pkg:npm/%40babel/types@7.29.14",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/aix-ppc64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/aix-ppc64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/android-arm",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/android-arm@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/android-arm64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/android-arm64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/android-x64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/android-x64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/darwin-arm64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/darwin-arm64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/darwin-x64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/darwin-x64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/freebsd-arm64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/freebsd-arm64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/freebsd-x64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/freebsd-x64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/linux-arm",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/linux-arm@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/linux-arm64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/linux-arm64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/linux-ia32",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/linux-ia32@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/linux-loong64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/linux-loong64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/linux-mips64el",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/linux-mips64el@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/linux-ppc64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/linux-ppc64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/linux-riscv64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/linux-riscv64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/linux-s390x",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/linux-s390x@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/linux-x64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/linux-x64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/netbsd-arm64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/netbsd-arm64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/netbsd-x64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/netbsd-x64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/openbsd-arm64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/openbsd-arm64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/openbsd-x64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/openbsd-x64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/openharmony-arm64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/openharmony-arm64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/sunos-x64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/sunos-x64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/win32-arm64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/win32-arm64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/win32-ia32",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/win32-ia32@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@esbuild/win32-x64",
+      "version": "0.25.12",
+      "purl": "pkg:npm/%40esbuild/win32-x64@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@jridgewell/gen-mapping",
+      "version": "0.3.13",
+      "purl": "pkg:npm/%40jridgewell/gen-mapping@0.3.13",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@jridgewell/remapping",
+      "version": "2.3.5",
+      "purl": "pkg:npm/%40jridgewell/remapping@2.3.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@jridgewell/resolve-uri",
+      "version": "3.1.3",
+      "purl": "pkg:npm/%40jridgewell/resolve-uri@3.1.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@jridgewell/sourcemap-codec",
+      "version": "1.6.0",
+      "purl": "pkg:npm/%40jridgewell/sourcemap-codec@1.6.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@jridgewell/trace-mapping",
+      "version": "0.3.31",
+      "purl": "pkg:npm/%40jridgewell/trace-mapping@0.3.31",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@playwright/test",
+      "version": "1.65.1",
+      "purl": "pkg:npm/%40playwright/test@1.65.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rolldown/pluginutils",
+      "version": "1.0.0-beta.27",
+      "purl": "pkg:npm/%40rolldown/pluginutils@1.0.0-beta.27",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-android-arm-eabi",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-android-arm-eabi@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-android-arm64",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-android-arm64@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-android-x64",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-android-x64@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-darwin-arm64",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-darwin-arm64@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-darwin-x64",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-darwin-x64@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-freebsd-arm64",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-freebsd-arm64@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-freebsd-x64",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-freebsd-x64@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-arm-gnueabihf",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-arm-gnueabihf@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-arm-musleabihf",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-arm-musleabihf@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-arm64-gnu",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-arm64-gnu@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-arm64-musl",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-arm64-musl@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-loong64-gnu",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-loong64-gnu@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-loong64-musl",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-loong64-musl@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-ppc64-gnu",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-ppc64-gnu@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-ppc64-musl",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-ppc64-musl@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-riscv64-gnu",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-riscv64-gnu@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-riscv64-musl",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-riscv64-musl@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-s390x-gnu",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-s390x-gnu@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-x64-gnu",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-x64-gnu@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-linux-x64-musl",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-linux-x64-musl@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-openbsd-x64",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-openbsd-x64@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-openharmony-arm64",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-openharmony-arm64@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-win32-arm64-msvc",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-win32-arm64-msvc@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-win32-ia32-msvc",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-win32-ia32-msvc@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-win32-x64-gnu",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-win32-x64-gnu@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@rollup/rollup-win32-x64-msvc",
+      "version": "4.68.5",
+      "purl": "pkg:npm/%40rollup/rollup-win32-x64-msvc@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@tanstack/query-core",
+      "version": "5.90.5",
+      "purl": "pkg:npm/%40tanstack/query-core@5.90.5",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@tanstack/react-query",
+      "version": "5.90.5",
+      "purl": "pkg:npm/%40tanstack/react-query@5.90.5",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/babel__core",
+      "version": "7.20.5",
+      "purl": "pkg:npm/%40types/babel__core@7.20.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/babel__generator",
+      "version": "7.27.0",
+      "purl": "pkg:npm/%40types/babel__generator@7.27.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/babel__template",
+      "version": "7.4.4",
+      "purl": "pkg:npm/%40types/babel__template@7.4.4",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/babel__traverse",
+      "version": "7.28.0",
+      "purl": "pkg:npm/%40types/babel__traverse@7.28.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/chai",
+      "version": "5.2.3",
+      "purl": "pkg:npm/%40types/chai@5.2.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/deep-eql",
+      "version": "4.0.2",
+      "purl": "pkg:npm/%40types/deep-eql@4.0.2",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/estree",
+      "version": "1.0.10",
+      "purl": "pkg:npm/%40types/estree@1.0.10",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/node",
+      "version": "24.19.2",
+      "purl": "pkg:npm/%40types/node@24.19.2",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/react",
+      "version": "19.3.0",
+      "purl": "pkg:npm/%40types/react@19.3.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@types/react-dom",
+      "version": "19.3.0",
+      "purl": "pkg:npm/%40types/react-dom@19.3.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@vitejs/plugin-react",
+      "version": "4.7.0",
+      "purl": "pkg:npm/%40vitejs/plugin-react@4.7.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@vitest/mocker",
+      "version": "5.1.0",
+      "purl": "pkg:npm/%40vitest/mocker@5.1.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@vitest/spy",
+      "version": "5.1.0",
+      "purl": "pkg:npm/%40vitest/spy@5.1.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "assertion-error",
+      "version": "2.0.1",
+      "purl": "pkg:npm/assertion-error@2.0.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "baseline-browser-mapping",
+      "version": "2.11.38",
+      "purl": "pkg:npm/baseline-browser-mapping@2.11.38",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "browserslist",
+      "version": "4.29.6",
+      "purl": "pkg:npm/browserslist@4.29.6",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "caniuse-lite",
+      "version": "1.0.30001826",
+      "purl": "pkg:npm/caniuse-lite@1.0.30001826",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "CC-BY-4.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "chai",
+      "version": "6.3.0",
+      "purl": "pkg:npm/chai@6.3.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "convert-source-map",
+      "version": "2.0.0",
+      "purl": "pkg:npm/convert-source-map@2.0.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "csstype",
+      "version": "3.2.4",
+      "purl": "pkg:npm/csstype@3.2.4",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "debug",
+      "version": "4.4.3",
+      "purl": "pkg:npm/debug@4.4.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "electron-to-chromium",
+      "version": "1.5.487",
+      "purl": "pkg:npm/electron-to-chromium@1.5.487",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "ISC"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "es-module-lexer",
+      "version": "2.3.2",
+      "purl": "pkg:npm/es-module-lexer@2.3.2",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "esbuild",
+      "version": "0.25.12",
+      "purl": "pkg:npm/esbuild@0.25.12",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "escalade",
+      "version": "3.2.0",
+      "purl": "pkg:npm/escalade@3.2.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "estree-walker",
+      "version": "3.0.3",
+      "purl": "pkg:npm/estree-walker@3.0.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "expect-type",
+      "version": "1.4.0",
+      "purl": "pkg:npm/expect-type@1.4.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fdir",
+      "version": "6.5.0",
+      "purl": "pkg:npm/fdir@6.5.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fsevents",
+      "version": "2.3.3",
+      "purl": "pkg:npm/fsevents@2.3.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "gensync",
+      "version": "1.0.0-beta.2",
+      "purl": "pkg:npm/gensync@1.0.0-beta.2",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "js-tokens",
+      "version": "4.0.0",
+      "purl": "pkg:npm/js-tokens@4.0.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "jsesc",
+      "version": "3.1.0",
+      "purl": "pkg:npm/jsesc@3.1.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "json5",
+      "version": "2.2.3",
+      "purl": "pkg:npm/json5@2.2.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "lru-cache",
+      "version": "5.1.1",
+      "purl": "pkg:npm/lru-cache@5.1.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "ISC"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "magic-string",
+      "version": "1.4.5",
+      "purl": "pkg:npm/magic-string@1.4.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ms",
+      "version": "2.1.3",
+      "purl": "pkg:npm/ms@2.1.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "nanoid",
+      "version": "3.3.20",
+      "purl": "pkg:npm/nanoid@3.3.20",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "node-releases",
+      "version": "2.0.65",
+      "purl": "pkg:npm/node-releases@2.0.65",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "obug",
+      "version": "3.0.0",
+      "purl": "pkg:npm/obug@3.0.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "picocolors",
+      "version": "1.1.1",
+      "purl": "pkg:npm/picocolors@1.1.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "ISC"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "picomatch",
+      "version": "4.0.7",
+      "purl": "pkg:npm/picomatch@4.0.7",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "playwright",
+      "version": "1.65.1",
+      "purl": "pkg:npm/playwright@1.65.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "playwright-core",
+      "version": "1.65.1",
+      "purl": "pkg:npm/playwright-core@1.65.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "postcss",
+      "version": "8.5.33",
+      "purl": "pkg:npm/postcss@8.5.33",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "prettier",
+      "version": "3.6.2",
+      "purl": "pkg:npm/prettier@3.6.2",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "react",
+      "version": "19.2.0",
+      "purl": "pkg:npm/react@19.2.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "react-dom",
+      "version": "19.2.0",
+      "purl": "pkg:npm/react-dom@19.2.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "react-refresh",
+      "version": "0.17.0",
+      "purl": "pkg:npm/react-refresh@0.17.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "rollup",
+      "version": "4.68.5",
+      "purl": "pkg:npm/rollup@4.68.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "scheduler",
+      "version": "0.27.0",
+      "purl": "pkg:npm/scheduler@0.27.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "semver",
+      "version": "6.3.2",
+      "purl": "pkg:npm/semver@6.3.2",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "ISC"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "source-map-js",
+      "version": "1.2.2",
+      "purl": "pkg:npm/source-map-js@1.2.2",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "std-env",
+      "version": "4.3.0",
+      "purl": "pkg:npm/std-env@4.3.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "tinybench",
+      "version": "6.2.3",
+      "purl": "pkg:npm/tinybench@6.2.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "tinyexec",
+      "version": "1.3.1",
+      "purl": "pkg:npm/tinyexec@1.3.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "tinyglobby",
+      "version": "0.2.17",
+      "purl": "pkg:npm/tinyglobby@0.2.17",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "typescript",
+      "version": "5.9.3",
+      "purl": "pkg:npm/typescript@5.9.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "undici-types",
+      "version": "7.24.6",
+      "purl": "pkg:npm/undici-types@7.24.6",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "update-browserslist-db",
+      "version": "1.4.0",
+      "purl": "pkg:npm/update-browserslist-db@1.4.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "vite",
+      "version": "6.4.6",
+      "purl": "pkg:npm/vite@6.4.6",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "vitest",
+      "version": "5.1.0",
+      "purl": "pkg:npm/vitest@5.1.0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "why-is-node-running",
+      "version": "3.2.1",
+      "purl": "pkg:npm/why-is-node-running@3.2.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "yallist",
+      "version": "3.1.1",
+      "purl": "pkg:npm/yallist@3.1.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "ISC"
+        }
+      ]
+    }
+  ]
+}

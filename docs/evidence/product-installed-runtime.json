@@ -1,0 +1,44 @@
+{
+  "scope": "new synthetic-only PostgreSQL and archive volumes",
+  "source_mounts": false,
+  "images": [
+    {
+      "container": "/wdh-clean-validation-db-1",
+      "image_id": "sha256:d741b376874687de90374fd34f55c6b2760e8f7bd7e4ae5cd47f50757fc08cf8",
+      "user": "70:70",
+      "read_only": false,
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/var/lib/postgresql/data"
+        }
+      ],
+      "health": "healthy"
+    },
+    {
+      "container": "/wdh-clean-validation-api-1",
+      "image_id": "sha256:6389c35147693439147a03c1a4e33e2f19154a8a6eee2f79759371359e7b53d0",
+      "user": "10001:10001",
+      "read_only": true,
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/var/lib/wechat-hub"
+        }
+      ],
+      "health": "healthy"
+    },
+    {
+      "container": "/wdh-clean-validation-web-1",
+      "image_id": "sha256:266adb68f497c9af5ed35f70905b35f42e99aadf4414ce08c0c1c4f448add6ae",
+      "user": "101:101",
+      "read_only": true,
+      "mounts": [],
+      "health": "healthy"
+    }
+  ],
+  "browser_tests": "3 passed; 28.2s",
+  "postgres_tests": "77 passed; 32.37s",
+  "seed_cli": "twice succeeded; idempotent synthetic batch",
+  "original_project_volumes": "preserved; no administrator created for delivery"
+}

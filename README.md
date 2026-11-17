@@ -1,54 +1,46 @@
-# WeChat Data Hub — Codex 工程交付包
+# WeChat Data Hub · 0.2.0 本地可用版
 
-版本：1.0.0（2026-11-17）  
-状态：**0.1.0 工程基础切片已实现；完整导入平台与真实设备兼容性尚未验收。**
+把已合法导出的聊天文件保存在自己的电脑：导入、会话浏览、中文搜索、来源追溯、附件预览、重复候选复核、导出和加密备份。默认不接外部 AI，不暴露公网，不提供默认管理员密码。
 
-## 当前代码与运行
+## 直接使用
 
-已提供 FastAPI 健康检查、React 工作台、PostgreSQL 17 Bronze 迁移、原件 CAS 库、35 类合成边界样例、CI 与锁定依赖。当前不提供消息导入/浏览、身份认证、AI 或 Odoo。可验收范围和实际证据见 [实施状态](docs/IMPLEMENTATION_STATUS.md) 和 [测试记录](docs/TEST_EVIDENCE.md)。
+1. 安装并启动 Docker Desktop（或 Docker Engine + Compose v2）。建议至少 4GB 可用内存、5GB 可用磁盘，另为聊天和备份预留空间。
+2. 解压完整运行包，在解压目录运行：
 
 ```sh
-make bootstrap
-make lint
-make test
-make test-security
-make up
+bash start-offline.sh
 ```
 
-Web：http://127.0.0.1:5173；API：http://127.0.0.1:8000/api/v1/health/live。完整运行方式、浏览器测试和未实现命令的行为见 [运行手册](docs/RUNBOOK.md)。`make down` 保留数据卷。
+3. 打开 **http://127.0.0.1:5173**，创建自己的管理员账号和密码。
+4. 进入「数据导入」，可以先下载页面提供的**合成演示 ZIP**，再上传体验整个流程；演示文件不是任何人的真实聊天。
+5. 上传自己的 JSONL / JSON / CSV；没有 manifest 时填写账号别名、设备、来源软件版本、时区及字段映射。带媒体的 ZIP 需在根目录包含 `manifest.json`，格式见 `examples/manifest.json` 和 `examples/`。
 
-原交付包的 `CHECKSUMS.sha256` 是规格包基线校验单，不能用于校验已进入开发迭代的工作树；后续版本发布另生成制品清单。
+运行包已包含 Linux amd64 镜像，启动无需联网安装 Python/Node 或依赖；已在 Linux x86_64 Docker 验证。macOS/Windows 使用 Docker Desktop；Windows 可在 WSL 中执行。Apple Silicon 的 amd64 模拟、Windows/macOS 实机尚未验证，可改用源码构建原生镜像。
 
-## 一键交给 Codex
+只有源码包时，运行 `bash start.sh`，首次需联网构建。开发步骤见 [运行手册](docs/RUNBOOK.md)。
 
-1. 在本地新建一个空仓库，将本交付包的所有文件复制到仓库根目录（保留目录结构）。
-2. 在仓库根目录启动 Codex，提交 `CODEX_START_PROMPT.md` 的全部内容。
-3. Codex 必须遵守根目录 `AGENTS.md`，按 `TASKS.md` 顺序交付。
-4. 每一阶段执行 `ACCEPTANCE.md` 对应测试，提交证据和变更日志；不得跳过 P0 数据源兼容性检查。
+## 已能使用
 
-## 文件导航
+- 首次管理员初始化、本地登录、admin/reviewer/reader、工作空间隔离和审计。
+- JSONL、JSON 数组/`messages` 对象、显式字段映射 CSV；异步持久任务、进度、错误隔离、重试、取消、重复批次幂等。
+- 原文件和 manifest 的 SHA-256 不可变归档；每条消息可回查原始来源、设备、行号/定位及哈希。
+- 会话/联系人浏览、分页、中文型号搜索和多条件筛选；安全图片/音频预览，缺失附件明确显示。
+- 相似消息和身份映射人工复核；保留两条真实重复文字，不自动吞并；冲突保留各来源。
+- 管理员 CSV/JSONL 导出、当前工作空间加密备份；CLI 恢复到全新空数据库和目录。
+- 将会话明确批准为业务用途后，本地规则可识别带原文证据的报价候选，审核后查看 Odoo 映射预览。**规则不是 LLM；预览不写 Odoo。**
 
-| 文件 | 用途 |
-| --- | --- |
-| `SPEC.md` | 主开发规格：范围、架构、数据模型、功能、API、安全、部署和交付定义 |
-| `AGENTS.md` | Codex 持续执行约束：编码规范、禁止项、每轮汇报格式、质量门槛 |
-| `CODEX_START_PROMPT.md` | 第一轮直接复制给 Codex 的任务指令 |
-| `CODEX_CONTINUE_PROMPT.md` | Codex 断点续开发/后续任务轮次指令 |
-| `TASKS.md` | 逐阶段可领取的任务分解和依赖关系 |
-| `ACCEPTANCE.md` | 功能、安全、性能、数据质量、灾备、交付验收矩阵 |
-| `SOURCE_COMPATIBILITY.md` | 三平台导出适配器、依赖评估和许可证审查门槛 |
-| `contracts/openapi.yaml` | API 契约起始定义（开发时扩展并生成契约测试） |
-| `contracts/reference_schema.sql` | PostgreSQL 表/约束/索引参考 DDL；以 Alembic 迁移为正式来源 |
-| `examples/` | 双设备合成导入清单、消息和实体样例；**绝不是真实聊天记录** |
-| `.env.example` | 非敏感配置模板 |
-| `docs/SOURCES.md` | 经核对的上游参考来源与待验证项 |
+## 当前支持边界
 
-## 产品分级
+真实 iPhone/Mac/Windows 导出样本未提供，具体微信/导出器版本全部 **NOT TESTED**；支持的是已验证的通用文件合同，不承诺任意导出文件开箱兼容。SQLite、HTML/TXT、微信原生加密备份尚无解析适配器。
 
-- **MVP（P0–P3）**：可在本地完成导入、原始归档、确定性去重、浏览、全文检索、导出和审计。
-- **Release Candidate（P4–P5）**：OCR/ASR、离线 AI、业务实体审核、可选 Odoo 对接、备份恢复。
-- **正式交付（P6）**：真实设备兼容测试、性能基准、安全检查、恢复演练、操作手册和版本化发布均通过。
+OCR、ASR、向量/RAG、LLM、真实 Odoo 连接与写入尚未实现；相关开关保持关闭。规则候选和本地 Odoo dry-run 已可操作。重处理目前提供无损差异预览，尚无批准后的派生版本切换。
 
-**核心边界：**本系统接收用户自主提供的合法导出文件，不负责开发、捆绑或运行微信客户端数据库解密/密钥提取代码。外部工具导出能力须在隔离环境独立评估；原生备份≠可解析备份。
+这是可使用的本地核心版本，**尚未达到原规格全部 REQUIRED 验收和正式生产 RC 门槛**。安全扫描、容量和恢复结果见 [测试证据](docs/TEST_EVIDENCE.md)、[交付状态](docs/DELIVERY_STATUS.md)。
 
-详细验收标准以 `ACCEPTANCE.md` 为准。没有真实导出样本或缺少合法可用的解析路线时，只能宣称“导入和处理平台已完成”，不得宣称“已支持某微信版本全量导出”。
+## 数据与运维
+
+停止但保留数据：`docker compose -f compose.yaml -f compose.offline.yaml down`。不要添加 `-v`，它会删除数据卷。不要丢失 `.env`；已有配置不会被启动脚本覆盖。不要把聊天、密码和备份上传到代码仓库。
+
+备份入口在「审计与备份」，使用至少16字符的独立口令，并把下载的 `.wdhbak` 存到另一块磁盘；丢失口令无法恢复。恢复及升级步骤见 [RECOVERY](docs/RECOVERY.md)。
+
+[规格](SPEC.md) · [任务状态](TASKS.md) · [来源兼容矩阵](SOURCE_COMPATIBILITY.md) · [依赖与许可](docs/DEPENDENCIES.md) · [变更记录](CHANGELOG.md)
