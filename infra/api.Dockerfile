@@ -1,7 +1,7 @@
 FROM python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 UV_LINK_MODE=copy
 WORKDIR /app
-COPY . .
+COPY --chown=10001:10001 . .
 RUN pip install --no-cache-dir uv==0.9.17 && \
     uv sync --frozen --no-dev --no-editable && \
     uv cache clean && \

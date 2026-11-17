@@ -10,6 +10,7 @@ def test_default_deployment_binds_only_loopback_and_never_publishes_database() -
         for port in service.get("ports", []):
             assert port.startswith("127.0.0.1:")
         assert not service.get("privileged", False)
+        assert all(mount.startswith("/") for mount in service.get("tmpfs", []))
         assert all("docker.sock" not in volume for volume in service.get("volumes", []))
         if name in ("api", "migrate", "web"):
             assert service["user"] != "0:0"

@@ -4,6 +4,6 @@ COPY apps/web .
 RUN npm ci --no-audit --no-fund && npm run build && npm cache clean --force
 
 FROM nginxinc/nginx-unprivileged:1.28.0-alpine@sha256:c97ff0bf7cbae369953c6da1232ec14ad9f971d66360c5698db0856a4cd657a0
-COPY infra/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --chmod=644 infra/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /web/dist /usr/share/nginx/html
 EXPOSE 8080
