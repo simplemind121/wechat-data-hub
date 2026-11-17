@@ -1,0 +1,61 @@
+.venv/bin/ruff check apps/api packages scripts tests migrations
+All checks passed!
+.venv/bin/ruff format --check apps/api packages scripts tests migrations
+19 files already formatted
+.venv/bin/mypy
+Success: no issues found in 7 source files
+npm --prefix apps/web run lint
+
+> @wdh/web@0.1.0 lint
+> tsc --noEmit
+
+.venv/bin/python scripts/export_openapi.py --check
+.venv/bin/pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0
+rootdir: /workspace/wechat-data-hub
+configfile: pyproject.toml
+testpaths: tests/unit, tests/integration, tests/security
+plugins: anyio-4.16.0
+collected 33 items
+
+tests/unit/test_bootstrap.py .                                           [  3%]
+tests/unit/test_fixtures.py ..                                           [  9%]
+tests/integration/test_api.py ....                                       [ 21%]
+tests/integration/test_postgres.py ......                                [ 39%]
+tests/security/test_compose.py ..                                        [ 45%]
+tests/security/test_private_defaults.py ..                               [ 51%]
+tests/security/test_storage.py ................                          [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/wechat-data-hub/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 33 passed, 1 warning in 2.61s =========================
+npm --prefix apps/web test
+
+> @wdh/web@0.1.0 test
+> vitest run
+
+
+ RUN  v3.2.7 /workspace/wechat-data-hub/apps/web
+
+ ✓ src/health.test.ts (3 tests) 36ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  13:56:44
+   Duration  1.03s (transform 267ms, setup 0ms, collect 241ms, tests 36ms, environment 0ms, prepare 215ms)
+
+.venv/bin/pytest tests/security -q
+....................                                                     [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/wechat-data-hub/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+20 passed, 1 warning in 1.69s
+.venv/bin/bandit -q -r apps/api packages

@@ -1,0 +1,6 @@
+/wechat-data-hub-api-1 user=10001:10001 health=healthy readonly=true cap_drop=[ALL]
+/wechat-data-hub-db-1 user=70:70 health=healthy readonly=false cap_drop=[ALL]
+/wechat-data-hub-web-1 user=101:101 health=healthy readonly=true cap_drop=[ALL]
+api running healthy 127.0.0.1:8000->8000/tcp
+db running healthy 5432/tcp
+web running healthy 127.0.0.1:5173->8080/tcp

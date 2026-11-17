@@ -1,0 +1,7 @@
+uv sync --frozen
+Checked 43 packages in 15ms
+npm --prefix apps/web ci
+
+added 110 packages in 4s
+.venv/bin/python scripts/bootstrap.py
+Local configuration exists; left unchanged.

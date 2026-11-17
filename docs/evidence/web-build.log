@@ -1,0 +1,13 @@
+
+> @wdh/web@0.1.0 build
+> tsc -b && vite build
+
+vite v6.4.6 building for production...
+transforming...
+✓ 75 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.43 kB │ gzip:  0.32 kB
+dist/assets/index-Dfj7Dsyp.css    6.97 kB │ gzip:  2.27 kB
+dist/assets/index-p04tK8j6.js   238.85 kB │ gzip: 74.67 kB
+✓ built in 1.94s
