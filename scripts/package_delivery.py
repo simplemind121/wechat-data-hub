@@ -9,6 +9,7 @@ import subprocess
 import tempfile
 import tomllib
 import zipfile
+from copy import copy
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, BinaryIO
@@ -105,8 +106,9 @@ def main() -> None:
                 relative = info.filename.removeprefix(prefix)
                 if relative == ".env" or relative.startswith((".local/", ".git/")):
                     raise ValueError("Unexpected private file in source snapshot")
-                info.compress_type = zipfile.ZIP_DEFLATED
-                package.writestr(info, snapshot.read(info.filename))
+                copied = copy(info)
+                copied.compress_type = zipfile.ZIP_DEFLATED
+                package.writestr(copied, snapshot.read(info.filename))
         with package.open(prefix + image_name, "w", force_zip64=True) as entry:
             writer = DigestWriter(entry)
             with gzip.GzipFile(fileobj=writer, mode="wb", compresslevel=1, mtime=0) as compressed:
