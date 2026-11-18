@@ -31,6 +31,7 @@ from wdh_domain.models import (
     MessageAttachment,
     MessageEvent,
     Observation,
+    ProcessingResult,
     RawRecord,
     Review,
     SetupLock,
@@ -173,12 +174,26 @@ def extract_entity(data: ExtractRequest, request: Request, session: DB) -> dict[
 def entities(
     request: Request, session: DB, limit: int = Query(50, ge=1, le=100), cursor: str | None = None
 ) -> dict[str, Any]:
+    from wdh_api.entities import evidence_message
+
     who = principal(request, session)
     query = select(EntityAssertion).where(EntityAssertion.workspace_id == who.workspace_id)
     if cursor:
         scoped(session, EntityAssertion, cursor, who)
         query = query.where(EntityAssertion.id > cursor)
-    return page(list(session.scalars(query.order_by(EntityAssertion.id).limit(limit + 1))), limit)
+    rows = []
+    for row in session.scalars(query.order_by(EntityAssertion.id).execution_options(yield_per=100)):
+        try:
+            if not row.evidence:
+                continue
+            for message_id in {item["message_id"] for item in row.evidence}:
+                evidence_message(session, who, message_id)
+        except ApiError:
+            continue
+        rows.append(row)
+        if len(rows) > limit:
+            break
+    return page(rows, limit)
 
 
 @router.post("/entities/{entity_id}/approve", tags=["entities"])
@@ -224,11 +239,20 @@ def odoo_dry_run(data: DryRunRequest, request: Request, session: DB) -> dict[str
         plans.append(
             {
                 "entity_id": row.id,
-                "target_model": "purchase.order",
-                "state": "draft",
-                "action": "requires_partner_and_product_mapping",
+                "target_model": {
+                    "quotation": "purchase.order",
+                    "purchase_intent": "purchase.order",
+                    "customer": "res.partner",
+                    "supplier": "res.partner",
+                    "product": "product.template",
+                    "order_candidate": "sale.order",
+                }.get(row.entity_type),
+                "state": "draft"
+                if row.entity_type in {"quotation", "purchase_intent", "order_candidate"}
+                else None,
+                "action": "requires_verified_mapping",
                 "source_values": values,
-                "idempotency_key": digest(f"{who.workspace_id}:{row.id}:purchase.order:v1"),
+                "idempotency_key": digest(f"{who.workspace_id}:{row.id}:{row.entity_type}:v1"),
                 "remote_id": None,
                 "blockers": [
                     "未连接经授权的 Odoo CE 测试实例",
@@ -427,6 +451,8 @@ def create_user(data: NewUser, request: Request, session: DB) -> dict[str, Any]:
 
 @router.get("/overview", tags=["browse"])
 def overview(request: Request, session: DB) -> dict[str, Any]:
+    from wdh_api import processing
+
     who = principal(request, session)
 
     def count(model: Any, *conditions: Any) -> int:
@@ -459,7 +485,15 @@ def overview(request: Request, session: DB) -> dict[str, Any]:
                 select(Device).where(Device.workspace_id == who.workspace_id)
             )
         ],
-        "features": {"ocr": False, "asr": False, "embeddings": False, "llm": False, "odoo": False},
+        "features": {
+            "ocr": processing.enabled(session, request.app.state.settings, who.workspace_id, "ocr"),
+            "asr": processing.enabled(session, request.app.state.settings, who.workspace_id, "asr"),
+            "embeddings": processing.enabled(
+                session, request.app.state.settings, who.workspace_id, "embedding"
+            ),
+            "llm": processing.enabled(session, request.app.state.settings, who.workspace_id, "llm"),
+            "odoo": False,
+        },
     }
 
 
@@ -645,8 +679,9 @@ def cancel(job_id: str, request: Request, session: DB) -> dict[str, Any]:
     session.refresh(job, with_for_update=True)
     if job.status not in {"completed", "cancelled"}:
         job.status, job.lease_token = "cancelled", None
-        batch = scoped(session, IngestBatch, job.batch_id, who)
-        batch.batch_status = "cancelled"
+        if job.batch_id:
+            batch = scoped(session, IngestBatch, job.batch_id, who)
+            batch.batch_status = "cancelled"
         audit(session, who, "job.cancelled", job.id)
         session.commit()
     return {"job_id": job.id, "status": job.status}
@@ -774,6 +809,24 @@ def message_view(session: Session, message: Message) -> dict[str, Any]:
         }
         for attachment, link in media
     ]
+    result["processing_results"] = [
+        {
+            **columns(row, {"details", "search_text"}),
+            "text": row.text[:1000],
+            "details": {},
+            "excerpt_truncated": len(row.text) > 1000,
+        }
+        for row in session.scalars(
+            select(ProcessingResult)
+            .join(Job, Job.id == ProcessingResult.job_id)
+            .where(
+                ProcessingResult.workspace_id == message.workspace_id,
+                ProcessingResult.message_id == message.id,
+                ProcessingResult.kind.in_(["ocr", "asr"]),
+                Job.status == "completed",
+            )
+        )
+    ]
     return result
 
 
@@ -900,7 +953,19 @@ def search(
         Message.workspace_id == who.workspace_id, Message.merged_into.is_(None)
     )
     for term in unicodedata.normalize("NFKC", q).casefold().split():
-        query = query.where(Message.search_text.contains(term, autoescape=True))
+        derived = (
+            select(ProcessingResult.id)
+            .join(Job, Job.id == ProcessingResult.job_id)
+            .where(
+                ProcessingResult.workspace_id == who.workspace_id,
+                ProcessingResult.message_id == Message.id,
+                ProcessingResult.kind.in_(["ocr", "asr"]),
+                Job.status == "completed",
+                ProcessingResult.search_text.contains(term, autoescape=True),
+            )
+            .exists()
+        )
+        query = query.where(or_(Message.search_text.contains(term, autoescape=True), derived))
     for key, value, model in (
         ("conversation_id", conversation_id, Conversation),
         ("account_id", account_id, Account),
@@ -1061,6 +1126,24 @@ def resolve(review_id: str, data: Resolve, request: Request, session: DB) -> dic
                 .values(message_id=target.id)
             )
             session.execute(
+                update(ProcessingResult)
+                .where(
+                    ProcessingResult.workspace_id == who.workspace_id,
+                    ProcessingResult.message_id == source.id,
+                )
+                .values(message_id=target.id)
+            )
+            for entity in session.scalars(
+                select(EntityAssertion).where(EntityAssertion.workspace_id == who.workspace_id)
+            ):
+                if any(item.get("message_id") == source.id for item in entity.evidence):
+                    entity.evidence = [
+                        {**item, "message_id": target.id, "merged_from_message_id": source.id}
+                        if item.get("message_id") == source.id
+                        else item
+                        for item in entity.evidence
+                    ]
+            session.execute(
                 update(Message)
                 .where(Message.workspace_id == who.workspace_id, Message.reply_to_id == source.id)
                 .values(reply_to_id=target.id)
@@ -1175,3 +1258,40 @@ def example_bundle(request: Request, session: DB) -> StreamingResponse:
         media_type="application/zip",
         headers={"Content-Disposition": 'attachment; filename="synthetic-example.zip"'},
     )
+
+
+@router.get("/integrations/odoo/status", tags=["integrations"])
+def odoo_status(request: Request, session: DB) -> dict[str, Any]:
+    from wdh_api.odoo import configured
+
+    principal(request, session, "admin")
+    settings = request.app.state.settings
+    return {
+        "enabled": settings.enable_odoo,
+        "configured": configured(settings),
+        "real_validation": "NOT_TESTED"
+        if settings.enable_odoo and configured(settings)
+        else "BLOCKED",
+        "remote_writes_enabled": False,
+    }
+
+
+@router.post("/integrations/odoo/test", tags=["integrations"])
+def odoo_test(request: Request, session: DB) -> dict[str, Any]:
+    from wdh_api.odoo import OdooCheckError, check
+
+    who = principal(request, session, "admin")
+    try:
+        report = check(request.app.state.settings)
+    except OdooCheckError as exc:
+        code = str(exc)
+        audit(session, who, "odoo.handshake_failed", code=code)
+        session.commit()
+        raise ApiError(
+            409 if code in {"ODOO_DISABLED", "ODOO_NOT_CONFIGURED", "ODOO_INVALID_URL"} else 502,
+            code,
+            "Odoo 只读验证未完成，请检查本地连接配置、实例和权限",
+        ) from exc
+    audit(session, who, "odoo.handshake", target_19_ce=report["target_19_ce"])
+    session.commit()
+    return report

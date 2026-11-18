@@ -275,6 +275,10 @@ def sniff(data: bytes) -> str:
         return "application/pdf"
     if data.startswith(b"OggS"):
         return "audio/ogg"
+    if data.startswith(b"fLaC"):
+        return "audio/flac"
+    if data.startswith(b"ID3") or (len(data) >= 2 and data[0] == 0xFF and data[1] & 0xE0 == 0xE0):
+        return "audio/mpeg"
     if data.startswith(b"RIFF") and data[8:12] == b"WAVE":
         return "audio/wav"
     return "application/octet-stream"

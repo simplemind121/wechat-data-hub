@@ -4,13 +4,28 @@ build-backend = "hatchling.build"
 
 [project]
 name = "wechat-data-hub"
-version = "0.2.0"
+version = "0.3.0"
 description = "Local-first archive for user-authorized chat exports"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-  "fastapi>=0.115,<1", "uvicorn>=0.34,<1", "pydantic-settings>=2.8,<3",
-  "sqlalchemy>=2.0.38,<2.1", "alembic>=1.15,<2", "psycopg[binary]>=3.2,<4",
-  "ijson>=3.4,<4", "python-multipart>=0.0.20,<1", "cryptography>=50,<51",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "pydantic-settings>=2.8,<3",
+  "sqlalchemy>=2.0.38,<2.1",
+  "alembic>=1.15,<2",
+  "psycopg[binary]>=3.2,<4",
+  "ijson>=3.4,<4",
+  "python-multipart>=0.0.20,<1",
+  "cryptography>=50,<51",
+  "pillow>=13,<14",
+]
+
+[project.optional-dependencies]
+ai = [
+    "httpx>=0.28,<1",
+    "numpy>=2.2,<3",
+    "sherpa-onnx==2.0.1",
+    "soundfile>=0.13,<1",
 ]
 
 [dependency-groups]
@@ -35,4 +50,3 @@ select = ["E", "F", "I", "UP", "B"]
 python_version = "3.12"
 strict = true
 packages = ["wdh_api", "wdh_domain", "wdh_storage", "wdh_adapters"]
-

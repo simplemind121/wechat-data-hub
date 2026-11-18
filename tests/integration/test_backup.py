@@ -132,3 +132,70 @@ def test_restore_never_clears_existing_database_or_overwrites_originals(
     with pytest.raises(ValueError, match="RESTORE_DATABASE_MUST_BE_EMPTY"):
         restore_backup(backup, "synthetic-backup-passphrase", existing_db)
     assert client.get("/api/v1/overview").json()["messages"] == 5
+
+
+def test_processing_evidence_restores_with_modules_disabled_and_vectors_rebuild(
+    product, tmp_path, restore_target
+):
+    from pathlib import Path
+
+    from tests.integration.test_processing import image_source
+
+    client, app, worker = product
+    message, original = image_source(product)
+    settings = app.state.settings
+    settings.local_model_server = Path(".local/models/runtime/llama-server").resolve()
+    settings.embedding_model_file = Path(
+        ".local/models/embedding/bge-small-zh-v1.5-q8_0.gguf"
+    ).resolve()
+    client.patch(
+        f"/api/v1/conversations/{message['conversation_id']}/privacy",
+        json={"privacy_scope": "business_approved"},
+    )
+    for kind in ("ocr", "embedding"):
+        assert (
+            client.patch("/api/v1/processing/modules/" + kind, json={"enabled": True}).status_code
+            == 200
+        )
+    result = client.post(
+        "/api/v1/process/ocr",
+        json={"message_id": message["id"], "attachment_id": message["attachments"][0]["id"]},
+    ).json()
+    worker.run_once()
+    ocr = client.get("/api/v1/processing/results/" + result["result_id"]).json()
+    client.post(
+        "/api/v1/process/embedding",
+        json={"message_id": message["id"], "source_result_id": ocr["id"]},
+    )
+    worker.run_once()
+    path = tmp_path / "processing.wdhbak"
+    result = create_backup(app.state.engine, worker.store, path, "synthetic-processing-backup")
+    restored = restore_backup(path, "synthetic-processing-backup", restore_target)
+    assert restored["counts"]["processing_results"] == result["counts"]["processing_results"] == 2
+    restore_target.local_model_server = settings.local_model_server
+    restore_target.embedding_model_file = settings.embedding_model_file
+    with TestClient(create_app(restore_target)) as recovered:
+        login = recovered.post(
+            "/api/v1/auth/login", json={"username": "owner", "password": "synthetic-test-password"}
+        )
+        recovered.headers["x-csrf-token"] = login.json()["csrf_token"]
+        modules = recovered.get("/api/v1/processing/capabilities").json()["modules"]
+        assert not any(module["enabled"] for module in modules.values())
+        assert recovered.get("/api/v1/search?q=3200").json()["items"]
+        assert (
+            recovered.get("/api/v1/processing/results/" + ocr["id"]).json()["text"] == ocr["text"]
+        )
+        assert (
+            recovered.patch(
+                "/api/v1/processing/modules/embedding", json={"enabled": True}
+            ).status_code
+            == 200
+        )
+        hits = recovered.get("/api/v1/semantic/search?q=M620").json()["items"]
+        assert hits and hits[0]["citation"]["source_result_id"] == ocr["id"]
+        assert (
+            recovered.get(
+                "/api/v1/attachments/" + message["attachments"][0]["id"] + "/download"
+            ).content
+            == original
+        )

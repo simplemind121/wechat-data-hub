@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "ocr": {
+    "license": "Apache-2.0",
+    "files": [
+      {
+        "name": "chi_sim.traineddata",
+        "url": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/chi_sim.traineddata",
+        "sha256": "a5fcb6f0db1e1d6d8522f39db4e848f05984669172e584e8d76b6b3141e1f730",
+        "bytes": 2469156
+      },
+      {
+        "name": "eng.traineddata",
+        "url": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/eng.traineddata",
+        "sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+        "bytes": 4113088
+      }
+    ]
+  },
+  "asr": {
+    "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.tar.bz2",
+    "archive_sha256": "c46116994e539aa165266d96b325252728429c12535eb9d8b6a2b10f129e66b1",
+    "archive_bytes": 116204861,
+    "files": [
+      {
+        "name": "tiny-decoder.int8.onnx",
+        "sha256": "d2fece8dd42771f1df975c6c0445770d0c292bf7547c2cae04a6c0cc57540925",
+        "bytes": 89855401
+      },
+      {
+        "name": "tiny-encoder.int8.onnx",
+        "sha256": "d24fb083ae3b1041fc24e97971d60e280c9342201fbb67b0ab428a8b4a51a434",
+        "bytes": 12937772
+      },
+      {
+        "name": "tiny-tokens.txt",
+        "sha256": "b34b360dbb493e781e479794586d661700670d65564001f23024971d1f2fa126",
+        "bytes": 816730
+      }
+    ],
+    "model_license": "MIT (OpenAI Whisper)",
+    "engine_license": "Apache-2.0 (sherpa-onnx)"
+  },
+  "runtime": {
+    "url": "https://github.com/ggml-org/llama.cpp/releases/download/b12488/llama-b12488-bin-ubuntu-x64.tar.gz",
+    "archive_sha256": "91d12a00bed007e860575e1dcd5b9aa38d1f73b87b14e020a8cdbb8ab726bd34",
+    "archive_bytes": 23695027,
+    "format": "tar.gz",
+    "version": "b12488",
+    "license": "MIT",
+    "files": [
+      {
+        "name": "libggml-cpu-cannonlake.so",
+        "archive_member": "llama-b12488/libggml-cpu-cannonlake.so",
+        "sha256": "bccc075120a46a49d48c2d393285a5bdf6ef47da5ae99c8fd4f23e3e801abe32",
+        "bytes": 1618576,
+        "executable": false
+      },
+      {
+        "name": "libllama-perplexity-impl.so",
+        "archive_member": "llama-b12488/libllama-perplexity-impl.so",
+        "sha256": "82ad9b5555413eff4fe9b3cc6be30676428b382b659f2e8d7cbc6dbc2d2fa1f5",
+        "bytes": 171912,
+        "executable": false
+      },
+      {
+        "name": "libllama.so.1.0.0",
+        "archive_member": "llama-b12488/libllama.so.1.0.0",
+        "sha256": "1f48a069e42358385f704ba446e2db10488e0fa78f2e4852202f2e53bccb70db",
+        "bytes": 5543512,
+        "executable": false
+      },
+      {
+        "name": "libllama-fit-params-impl.so",
+        "archive_member": "llama-b12488/libllama-fit-params-impl.so",
+        "sha256": "7d66196d5b4acdf62fa4e77b99cb4578bf357bfc66ccc6bbd2d73ecc6e2ead0b",
+        "bytes": 44304,
+        "executable": false
+      },
+      {
+        "name": "libllama-quantize-impl.so",
+        "archive_member": "llama-b12488/libllama-quantize-impl.so",
+        "sha256": "5a37c340dce5f79fe7040f78cee216d169e902ef7ac39c34fbee9c20feefde7c",
+        "bytes": 86384,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-alderlake.so",
+        "archive_member": "llama-b12488/libggml-cpu-alderlake.so",
+        "sha256": "f0fed61fcc5c8d4b7e37b2f554241ac70e4c4c9e766f3be9f9f8696256254f52",
+        "bytes": 1459656,
+        "executable": false
+      },
+      {
+        "name": "libllama-cli-impl.so",
+        "archive_member": "llama-b12488/libllama-cli-impl.so",
+        "sha256": "a095cc093d92c34b8039643e6a8bfe981bd58039244457b6580f53afc88485e7",
+        "bytes": 285744,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-zen4.so",
+        "archive_member": "llama-b12488/libggml-cpu-zen4.so",
+        "sha256": "a213d9bea25cb2f74375c0017dccb3d25805e2e87a0fa5783263e3e8a53fe414",
+        "bytes": 1634736,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-skylakex.so",
+        "archive_member": "llama-b12488/libggml-cpu-skylakex.so",
+        "sha256": "9cae4db531616415c9a203f88d94d74d283365c120b5428b9aed70061e7a2098",
+        "bytes": 1618576,
+        "executable": false
+      },
+      {
+        "name": "libmtmd.so.1.0.0",
+        "archive_member": "llama-b12488/libmtmd.so.1.0.0",
+        "sha256": "f204fa91cade82f02b47071f1a533438d535f8e435d0d971bf538d8ba4fe9914",
+        "bytes": 2729400,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-icelake.so",
+        "archive_member": "llama-b12488/libggml-cpu-icelake.so",
+        "sha256": "d94afc36bbd308f27e0dbed0a45f6a66045038655c7843d4bd8bef29ae2d7a89",
+        "bytes": 1634664,
+        "executable": false
+      },
+      {
+        "name": "libggml.so.1.0.0",
+        "archive_member": "llama-b12488/libggml.so.1.0.0",
+        "sha256": "405441c70127eb7fbf000ee9681a8ef9e4a540f151bed57d1475b8115b6b46d4",
+        "bytes": 51040,
+        "executable": false
+      },
+      {
+        "name": "libllama-bench-impl.so",
+        "archive_member": "llama-b12488/libllama-bench-impl.so",
+        "sha256": "6733c7d30334121c6676dcdf38cfed2638f20b251a2e4e8e7730d97d4f73dbd3",
+        "bytes": 490960,
+        "executable": false
+      },
+      {
+        "name": "libggml-base.so.1.0.0",
+        "archive_member": "llama-b12488/libggml-base.so.1.0.0",
+        "sha256": "ed1bd4361ea47ca102da7b0172368336bc1a37af8107c02b75ff4e3783384d4c",
+        "bytes": 937456,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-cascadelake.so",
+        "archive_member": "llama-b12488/libggml-cpu-cascadelake.so",
+        "sha256": "d45b813edfd894eb2c781999f940fcc319880311dbf985d0aa6bbccd1a930c23",
+        "bytes": 1634664,
+        "executable": false
+      },
+      {
+        "name": "libllama-completion-impl.so",
+        "archive_member": "llama-b12488/libllama-completion-impl.so",
+        "sha256": "3177812cb53c305b3b9730604eb4adb0e8e3b55e9cfc629bad4dd1fea0959ca7",
+        "bytes": 144976,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-haswell.so",
+        "archive_member": "llama-b12488/libggml-cpu-haswell.so",
+        "sha256": "18562a707db27ea3fdd81a579225a47bc700a4111e119075dad4e70cfad0e364",
+        "bytes": 1459656,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-ivybridge.so",
+        "archive_member": "llama-b12488/libggml-cpu-ivybridge.so",
+        "sha256": "f24142148cb80562ad56739c11ccab88af6982bfff91707a1ca80f6863a5d311",
+        "bytes": 1399368,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-sandybridge.so",
+        "archive_member": "llama-b12488/libggml-cpu-sandybridge.so",
+        "sha256": "1766505a0036aa1f6c0c5c3b0b0931259a7edd19bed7a2f31d56aecda67f7c7a",
+        "bytes": 1368528,
+        "executable": false
+      },
+      {
+        "name": "libllama-server-impl.so",
+        "archive_member": "llama-b12488/libllama-server-impl.so",
+        "sha256": "34a06cc4d9c4c02339b1eb31c361003f6992717241a17f7a7dac2e635f09a433",
+        "bytes": 8642760,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-sapphirerapids.so",
+        "archive_member": "llama-b12488/libggml-cpu-sapphirerapids.so",
+        "sha256": "067535b37ba43ece60c1532ab462835f3860f287056d164ef642f6a2070b358d",
+        "bytes": 1901032,
+        "executable": false
+      },
+      {
+        "name": "libllama-common.so.1.0.0",
+        "archive_member": "llama-b12488/libllama-common.so.1.0.0",
+        "sha256": "824491a495dc33b5b0d79b0e2faacfe4ef607323fa3575ee8c73950e92c69ca4",
+        "bytes": 7013336,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-piledriver.so",
+        "archive_member": "llama-b12488/libggml-cpu-piledriver.so",
+        "sha256": "38bc5370dfc0316efc77ed27ae17790903088e425e9adbdeec29b14dbbaf00ed",
+        "bytes": 1395272,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-x64.so",
+        "archive_member": "llama-b12488/libggml-cpu-x64.so",
+        "sha256": "978076a720724b4c761f21bcad80ab0adfc77e35739d51ad97f6d4bfd2bab251",
+        "bytes": 976288,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-cooperlake.so",
+        "archive_member": "llama-b12488/libggml-cpu-cooperlake.so",
+        "sha256": "9c675bb7aac912056c7ae0a235b8213a21ccccf75ff7ba4c4da68ebc46c80931",
+        "bytes": 1634736,
+        "executable": false
+      },
+      {
+        "name": "libggml-rpc.so",
+        "archive_member": "llama-b12488/libggml-rpc.so",
+        "sha256": "9424638301a94bf9c74499a1df1349d233817f07ee54f2aa0572bdd52aa10851",
+        "bytes": 328712,
+        "executable": false
+      },
+      {
+        "name": "libggml-cpu-sse42.so",
+        "archive_member": "llama-b12488/libggml-cpu-sse42.so",
+        "sha256": "3b98a9584cab8518f579797467d10bac4198492a56b2248638d18c2b2eea2bcd",
+        "bytes": 976176,
+        "executable": false
+      },
+      {
+        "name": "libllama-batched-bench-impl.so",
+        "archive_member": "llama-b12488/libllama-batched-bench-impl.so",
+        "sha256": "0d4d5903392ff55c4d7b85a42e4b0fea69192163d09b98bb07747ced4fbe7199",
+        "bytes": 48904,
+        "executable": false
+      },
+      {
+        "name": "llama-server",
+        "archive_member": "llama-b12488/llama-server",
+        "sha256": "f0fe413831086cbf62c95dd0a7eac50a639881cb78fe308e258f1ccc2d3e4d21",
+        "bytes": 30840,
+        "executable": true
+      },
+      {
+        "name": "libmtmd.so.1",
+        "alias_of": "libmtmd.so.1.0.0",
+        "sha256": "f204fa91cade82f02b47071f1a533438d535f8e435d0d971bf538d8ba4fe9914",
+        "bytes": 2729400
+      },
+      {
+        "name": "libllama-common.so.1",
+        "alias_of": "libllama-common.so.1.0.0",
+        "sha256": "824491a495dc33b5b0d79b0e2faacfe4ef607323fa3575ee8c73950e92c69ca4",
+        "bytes": 7013336
+      },
+      {
+        "name": "libggml.so.1",
+        "alias_of": "libggml.so.1.0.0",
+        "sha256": "405441c70127eb7fbf000ee9681a8ef9e4a540f151bed57d1475b8115b6b46d4",
+        "bytes": 51040
+      },
+      {
+        "name": "libmtmd.so",
+        "alias_of": "libmtmd.so.1",
+        "sha256": "f204fa91cade82f02b47071f1a533438d535f8e435d0d971bf538d8ba4fe9914",
+        "bytes": 2729400
+      },
+      {
+        "name": "libggml-base.so.1",
+        "alias_of": "libggml-base.so.1.0.0",
+        "sha256": "ed1bd4361ea47ca102da7b0172368336bc1a37af8107c02b75ff4e3783384d4c",
+        "bytes": 937456
+      },
+      {
+        "name": "libllama-common.so",
+        "alias_of": "libllama-common.so.1",
+        "sha256": "824491a495dc33b5b0d79b0e2faacfe4ef607323fa3575ee8c73950e92c69ca4",
+        "bytes": 7013336
+      },
+      {
+        "name": "libggml-base.so",
+        "alias_of": "libggml-base.so.1",
+        "sha256": "ed1bd4361ea47ca102da7b0172368336bc1a37af8107c02b75ff4e3783384d4c",
+        "bytes": 937456
+      },
+      {
+        "name": "libllama.so.1",
+        "alias_of": "libllama.so.1.0.0",
+        "sha256": "1f48a069e42358385f704ba446e2db10488e0fa78f2e4852202f2e53bccb70db",
+        "bytes": 5543512
+      },
+      {
+        "name": "libggml.so",
+        "alias_of": "libggml.so.1",
+        "sha256": "405441c70127eb7fbf000ee9681a8ef9e4a540f151bed57d1475b8115b6b46d4",
+        "bytes": 51040
+      }
+    ]
+  },
+  "embedding": {
+    "license": "MIT",
+    "version": "bge-small-zh-v1.5/q8_0",
+    "files": [
+      {
+        "name": "bge-small-zh-v1.5-q8_0.gguf",
+        "url": "https://huggingface.co/CompendiumLabs/bge-small-zh-v1.5-gguf/resolve/5bf683e6a1bd454bbb60ba051088c50731d63fcb/bge-small-zh-v1.5-q8_0.gguf",
+        "sha256": "5a88d266870fbd27c6f329df60de80e2d4cf3bbd5e6f080bd5c1b2e5abb12039",
+        "bytes": 26472640
+      }
+    ]
+  },
+  "llm": {
+    "license": "Apache-2.0",
+    "version": "Qwen2.5-0.5B-Instruct/q4_k_m",
+    "files": [
+      {
+        "name": "qwen2.5-0.5b-instruct-q4_k_m.gguf",
+        "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/9217f5db79a29953eb74d5343926648285ec7e67/qwen2.5-0.5b-instruct-q4_k_m.gguf",
+        "sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db",
+        "bytes": 491400032
+      }
+    ]
+  }
+}

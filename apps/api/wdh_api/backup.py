@@ -298,6 +298,8 @@ def restore_backup(source: Path, password: str, target: Settings) -> dict[str, A
                         count += 1
                         if table.name == LoginSession.__tablename__:
                             continue  # Recovered users log in again; old sessions stay invalid.
+                        if table.name == "processing_policies":
+                            row["enabled"] = {name: False for name in row.get("enabled", {})}
                         for column in table.columns:
                             if (
                                 isinstance(column.type, DateTime)

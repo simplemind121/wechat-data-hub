@@ -366,6 +366,35 @@ class EntityAssertion(Owned):
     approved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
+class ProcessingPolicy(Owned):
+    __tablename__ = "processing_policies"
+    __table_args__ = owned_constraints(UniqueConstraint("workspace_id"))
+    enabled: Mapped[dict[str, bool]] = mapped_column(JSON, default=dict)
+
+
+class ProcessingResult(Owned):
+    __tablename__ = "processing_results"
+    __table_args__ = owned_constraints(
+        ForeignKeyConstraint(["workspace_id", "job_id"], ["jobs.workspace_id", "jobs.id"]),
+        ForeignKeyConstraint(
+            ["workspace_id", "message_id"], ["messages.workspace_id", "messages.id"]
+        ),
+        ForeignKeyConstraint(
+            ["workspace_id", "attachment_id"], ["attachments.workspace_id", "attachments.id"]
+        ),
+        UniqueConstraint("job_id"),
+    )
+    kind: Mapped[str] = mapped_column(String(30))
+    job_id: Mapped[str] = mapped_column(Uuid(as_uuid=False))
+    message_id: Mapped[str] = mapped_column(Uuid(as_uuid=False), index=True)
+    attachment_id: Mapped[str | None] = mapped_column(Uuid(as_uuid=False))
+    source_sha256: Mapped[str] = mapped_column(String(64))
+    provider_version: Mapped[str] = mapped_column(String(200))
+    text: Mapped[str] = mapped_column(Text, default="")
+    search_text: Mapped[str] = mapped_column(Text, default="")
+    details: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
+
+
 Index("ix_messages_timeline", Message.conversation_id, Message.sent_at, Message.id)
 Index(
     "ix_messages_search_trgm",

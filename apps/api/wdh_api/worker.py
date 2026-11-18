@@ -23,6 +23,7 @@ from wdh_domain.models import (
     MessageAttachment,
     MessageEvent,
     Observation,
+    ProcessingResult,
     RawRecord,
     Review,
     Workspace,
@@ -298,7 +299,10 @@ class Worker:
             )
             job = session.scalar(
                 select(Job)
-                .where(Job.kind == "ingest", eligible)
+                .where(
+                    Job.kind.in_(["ingest", "ocr", "asr", "embedding", "llm", "model_install"]),
+                    eligible,
+                )
                 .order_by(Job.created_at, Job.id)
                 .with_for_update(skip_locked=True)
                 .limit(1)
@@ -311,7 +315,13 @@ class Worker:
             token = uuid4().hex
             job.status, job.lease_token = "running", token
             job.attempt_count += 1
-            job.lease_until = now + timedelta(seconds=90)
+            job.lease_until = now + timedelta(
+                seconds=90
+                if job.kind == "ingest"
+                else 660
+                if job.kind == "model_install"
+                else self.settings.processing_timeout_seconds + 60
+            )
             job.updated_at = now
             return job.id, token
 
@@ -370,7 +380,15 @@ class Worker:
         try:
             with self.factory() as session:
                 job = self.owned_job(session, job_id, token)
-                batch = session.get(IngestBatch, job.batch_id)
+                if job.kind == "model_install":
+                    session.close()
+                    self.install_model(job_id, token)
+                    return
+                if job.kind != "ingest":
+                    session.close()
+                    self.run_processing(job_id, token)
+                    return
+                batch = session.get(IngestBatch, job.batch_id) if job.batch_id else None
                 if batch is None:
                     raise ValueError("BATCH_NOT_FOUND")
                 manifest = Manifest.model_validate(batch.manifest)
@@ -459,12 +477,16 @@ class Worker:
         except LeaseLost:
             return
         except Exception as exc:
+            from wdh_api.processing import ModelBusy
+
             with self.factory.begin() as session:
                 try:
                     job = self.owned_job(session, job_id, token)
                 except LeaseLost:
                     return
                 permanent = isinstance(exc, (ValueError, KeyError, zipfile_error()))
+                if isinstance(exc, ModelBusy):
+                    job.attempt_count -= 1
                 job.status = (
                     "failed_permanent"
                     if permanent
@@ -473,13 +495,125 @@ class Worker:
                 job.failure_code = (
                     (str(exc) if re_safe_code(str(exc)) else "INVALID_SOURCE")
                     if permanent
+                    else "LOCAL_MODEL_BUSY"
+                    if isinstance(exc, ModelBusy)
                     else "PROCESSING_FAILED"
                 )
                 job.lease_until = None
                 job.next_retry_at = datetime.now(UTC) + timedelta(seconds=2**job.attempt_count)
-                batch = session.get(IngestBatch, job.batch_id)
+                batch = session.get(IngestBatch, job.batch_id) if job.batch_id else None
                 if batch:
                     batch.batch_status = job.status
+
+    def run_processing(self, job_id: str, token: str) -> None:
+        from wdh_api import ai, processing
+
+        with self.factory() as session:
+            job = self.owned_job(session, job_id, token)
+            if not processing.enabled(session, self.settings, job.workspace_id, job.kind):
+                raise ValueError("MODULE_DISABLED")
+            result = session.scalar(
+                select(ProcessingResult).where(ProcessingResult.job_id == job.id)
+            )
+            if not result:
+                raise ValueError("PROCESSING_RESULT_MISSING")
+            kind = job.kind
+            source_id = job.payload.get("source_result_id")
+            actor_id = job.payload.get("actor_id")
+            attachment = None
+            source_text = ""
+            if kind in {"ocr", "asr"}:
+                attachment = session.get(Attachment, result.attachment_id)
+                if not attachment or attachment.workspace_id != job.workspace_id:
+                    raise ValueError("ATTACHMENT_MISSING")
+                if attachment.sha256 != result.source_sha256:
+                    raise ValueError("SOURCE_CHANGED")
+                session.expunge(attachment)
+            else:
+                source_text = ai.material(session, job.workspace_id, result.message_id, source_id)
+                if ai.text_hash(source_text) != result.source_sha256:
+                    raise ValueError("SOURCE_CHANGED")
+            current = processing.capability(self.settings, job.kind)
+            if not current["available"]:
+                raise ValueError("PROVIDER_UNAVAILABLE")
+            if current["provider_version"] != result.provider_version:
+                raise ValueError("PROVIDER_VERSION_CHANGED")
+        if kind in {"ocr", "asr"}:
+            if attachment is None:
+                raise ValueError("ATTACHMENT_MISSING")
+            processor = processing.ocr if kind == "ocr" else processing.asr
+            text, details = processor(self.settings, self.store, attachment)
+        else:
+            processor_ai = ai.embedding if kind == "embedding" else ai.extract
+            text, details = processor_ai(self.settings, source_text)
+            details["source_result_id"] = source_id
+        with self.factory.begin() as session:
+            job = self.owned_job(session, job_id, token)
+            if not processing.enabled(session, self.settings, job.workspace_id, job.kind):
+                raise ValueError("MODULE_DISABLED")
+            result = session.scalar(
+                select(ProcessingResult).where(ProcessingResult.job_id == job.id)
+            )
+            if not result:
+                raise ValueError("PROCESSING_RESULT_MISSING")
+            if kind in {"embedding", "llm"}:
+                current_source = ai.material(
+                    session, job.workspace_id, result.message_id, source_id, lock=True
+                )
+                if ai.text_hash(current_source) != result.source_sha256:
+                    raise ValueError("SOURCE_CHANGED")
+                if kind == "llm":
+                    if not actor_id:
+                        raise ValueError("INVALID_JOB_CONTEXT")
+                    ai.persist_candidates(session, result, details, source_id, actor_id)
+            result.text, result.search_text, result.details = text, processing.folded(text), details
+            if kind == "embedding":
+                from wdh_api.semantic import write_index
+
+                write_index(session, result)
+            job.status, job.lease_until = "completed", None
+            job.failure_code, job.updated_at = None, datetime.now(UTC)
+            session.add(
+                AuditEvent(
+                    workspace_id=job.workspace_id,
+                    event_type="processing.completed",
+                    object_id=job.id,
+                    details={"kind": job.kind},
+                )
+            )
+
+    def install_model(self, job_id: str, token: str) -> None:
+        from wdh_api.models import install, revision
+        from wdh_api.processing import KINDS
+
+        with self.factory() as session:
+            job = self.owned_job(session, job_id, token)
+            module = job.payload.get("module")
+            if module not in KINDS or job.payload.get("asset_revision") != revision(module):
+                raise ValueError("MODEL_VERSION_CHANGED")
+        checked = 0.0
+
+        def checkpoint() -> None:
+            nonlocal checked
+            if time.monotonic() - checked < 2:
+                return
+            with self.factory() as session:
+                self.owned_job(session, job_id, token)
+            checked = time.monotonic()
+
+        install(module, self.settings, checkpoint=checkpoint)
+        with self.factory.begin() as session:
+            job = self.owned_job(session, job_id, token)
+            job.status, job.failure_code, job.lease_until = "completed", None, None
+            job.updated_at = datetime.now(UTC)
+            session.add(
+                AuditEvent(
+                    workspace_id=job.workspace_id,
+                    event_type="model.installed",
+                    object_id=job.id,
+                    details={"module": module},
+                )
+            )
 
     def run_once(self) -> bool:
         claimed = self.claim()

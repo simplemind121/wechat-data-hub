@@ -19,10 +19,12 @@ from wdh_storage.cas import StorageError
 
 from wdh_api.config import Settings, get_settings
 from wdh_api.db import make_engine, sessions
+from wdh_api.processing_routes import router as processing_router
 from wdh_api.routes import router
 from wdh_api.security import ApiError, principal
+from wdh_api.semantic_routes import router as semantic_router
 
-SCHEMA_REVISION = "0003_entities"
+SCHEMA_REVISION = "0004_processing"
 
 
 class BodyLimitMiddleware:
@@ -61,7 +63,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         yield
         engine.dispose()
 
-    app = FastAPI(title="WeChat Data Hub", version="0.2.0", lifespan=lifespan)
+    app = FastAPI(title="WeChat Data Hub", version="0.3.0", lifespan=lifespan)
     app.state.settings = config
     app.state.factory = sessions(engine)
     app.state.engine = engine
@@ -186,4 +188,6 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return JSONResponse({"status": "ready"})
 
     app.include_router(router)
+    app.include_router(processing_router)
+    app.include_router(semantic_router)
     return app

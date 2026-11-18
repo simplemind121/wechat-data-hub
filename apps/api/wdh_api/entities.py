@@ -6,7 +6,7 @@ from typing import Any
 from uuid import UUID
 
 from sqlalchemy.orm import Session
-from wdh_domain.models import Contact, Conversation, EntityAssertion, Message
+from wdh_domain.models import Contact, Conversation, EntityAssertion, Job, Message, ProcessingResult
 
 from wdh_api.ingest import fingerprint
 from wdh_api.security import ApiError, Principal
@@ -119,9 +119,21 @@ def verified_payload(
                 and contact.native_ref == value == span
             )
         else:
-            valid = bool(
-                span and span in (message.body_text or "") and normalize_field(key, span) == value
-            )
+            source = message.body_text or ""
+            if item.get("source_result_id"):
+                result = session.get(ProcessingResult, item["source_result_id"])
+                job = session.get(Job, result.job_id) if result else None
+                if (
+                    not result
+                    or result.workspace_id != who.workspace_id
+                    or result.message_id != message.id
+                    or result.kind not in {"ocr", "asr"}
+                    or not job
+                    or job.status != "completed"
+                ):
+                    raise ApiError(400, "EVIDENCE_REQUIRED", "识别来源不可用")
+                source = result.text
+            valid = bool(span and span in source and normalize_field(key, span) == value)
         if not valid:
             raise ApiError(400, "UNSUPPORTED_FIELD_VALUE", "字段值或修改缺乏原始证据")
     if corrections:
