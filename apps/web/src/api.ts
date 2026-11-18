@@ -30,6 +30,57 @@ export type Message = {
   attachments: Attachment[];
   observations?: Observation[];
   privacy_scope?: string;
+  processing_results?: ProcessingResult[];
+};
+export type ProcessingResult = {
+  id: string;
+  kind: string;
+  job_id: string;
+  message_id: string;
+  attachment_id: string | null;
+  source_sha256: string;
+  provider_version: string;
+  text: string;
+  search_text: string;
+  status?: string;
+  failure_code?: string | null;
+  details: {
+    segments?: { start: number; end: number; text: string }[];
+    duration_seconds?: number;
+    timestamp_granularity?: string;
+    languages?: string[];
+    width?: number;
+    height?: number;
+    words?: {
+      text: string;
+      bbox: [number, number, number, number];
+      confidence_raw: number;
+    }[];
+    entity_ids?: string[];
+    rejected_candidates?: { kind: string; reason: string }[];
+    source_result_id?: string | null;
+    dimensions?: number;
+  };
+};
+export type ProcessingCapabilities = {
+  modules: Record<
+    string,
+    {
+      enabled: boolean;
+      available: boolean;
+      reason: string | null;
+      provider_version: string;
+      installable?: boolean;
+      download_bytes?: number;
+      install_job?: {
+        id: string;
+        status: string;
+        failure_code: string | null;
+      } | null;
+    }
+  >;
+  external_inference: boolean;
+  model_download_requires_network: boolean;
 };
 export type Entity = {
   id: string;

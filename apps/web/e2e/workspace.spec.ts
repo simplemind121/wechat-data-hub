@@ -29,13 +29,11 @@ test.describe.serial("complete local product", () => {
     const file = await download;
     const path = await file.path();
     expect(path).toBeTruthy();
-    await page
-      .getByLabel("选择导出文件", { exact: true })
-      .setInputFiles({
-        name: file.suggestedFilename(),
-        mimeType: "application/zip",
-        buffer: await readFile(path!),
-      });
+    await page.getByLabel("选择导出文件", { exact: true }).setInputFiles({
+      name: file.suggestedFilename(),
+      mimeType: "application/zip",
+      buffer: await readFile(path!),
+    });
     await page.getByRole("button", { name: "校验并开始导入" }).click();
     await expect(
       page.getByText("原件已归档，后台任务已排队。可在下方查看进度。"),
@@ -187,13 +185,11 @@ test.describe.serial("complete local product", () => {
       ],
       { cwd: "../.." },
     );
-    await page
-      .getByLabel("选择导出文件", { exact: true })
-      .setInputFiles({
-        name: "media-demo.zip",
-        mimeType: "application/zip",
-        buffer: data,
-      });
+    await page.getByLabel("选择导出文件", { exact: true }).setInputFiles({
+      name: "media-demo.zip",
+      mimeType: "application/zip",
+      buffer: data,
+    });
     await page.getByRole("button", { name: "校验并开始导入" }).click();
     await expect(page.getByText("已完成", { exact: true })).toHaveCount(2, {
       timeout: 30000,
@@ -206,5 +202,228 @@ test.describe.serial("complete local product", () => {
     await expect
       .poll(() => image.evaluate((node: HTMLImageElement) => node.naturalWidth))
       .toBe(1);
+  });
+
+  test("local Chinese OCR, coordinates, evidence export and derived search", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByLabel("用户名", { exact: true }).fill("browser-owner");
+    await page
+      .getByLabel("密码", { exact: true })
+      .fill("synthetic-browser-password");
+    await page.getByRole("button", { name: "登录工作空间" }).click();
+    await page.getByRole("button", { name: "设置", exact: true }).click();
+    await page
+      .getByRole("button", { name: "启用图片文字识别", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "关闭图片文字识别", exact: true }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "数据导入", exact: true }).click();
+    const data = execFileSync(
+      ".venv/bin/python",
+      [
+        "-c",
+        "from tests.integration.test_processing import processing_image_bundle; import sys; sys.stdout.buffer.write(processing_image_bundle()[0])",
+      ],
+      { cwd: "../.." },
+    );
+    await page.getByLabel("选择导出文件", { exact: true }).setInputFiles({
+      name: "synthetic-ocr.zip",
+      mimeType: "application/zip",
+      buffer: data,
+    });
+    await page.getByRole("button", { name: "校验并开始导入" }).click();
+    await expect(
+      page.getByText("原件已归档，后台任务已排队。可在下方查看进度。"),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "会话", exact: true }).click();
+    await page.getByRole("button", { name: /合成·产品讨论/ }).click();
+    const card = page
+      .locator("article.message-card")
+      .filter({ hasText: "仅合成图片，文字需从图中识别" });
+    await expect(card).toBeVisible({ timeout: 30000 });
+    await card.getByRole("button", { name: "查看证据" }).click();
+    await page
+      .getByRole("button", { name: "识别图片文字", exact: true })
+      .click();
+    await expect(
+      page.getByText("图片文字识别 · 已完成", { exact: true }),
+    ).toBeVisible({ timeout: 30000 });
+    await expect(page.locator(".recognized-text")).toContainText("3200");
+    await expect(page.locator(".recognized-text")).toContainText("报价");
+    await page
+      .getByRole("button", { name: "定位原图文字", exact: true })
+      .click();
+    await expect(
+      page.getByRole("img", { name: "OCR原图与文字位置" }),
+    ).toBeVisible();
+    await expect(page.locator("rect.ocr-selected-box")).toHaveCount(1);
+    if (process.env.WDH_CAPTURE_SCREENSHOTS)
+      await page.screenshot({
+        path: "../../docs/evidence/ocr-coordinates.png",
+        fullPage: true,
+      });
+    const evidence = page.waitForEvent("download");
+    await page
+      .getByRole("button", { name: "导出识别证据", exact: true })
+      .click();
+    expect((await evidence).suggestedFilename()).toBe(
+      "recognition-evidence.json",
+    );
+    await page.getByRole("button", { name: "关闭详情" }).click();
+    await page.getByRole("button", { name: "搜索", exact: true }).click();
+    await page.getByLabel("搜索关键词").fill("3200");
+    await page.getByRole("button", { name: "搜索记录", exact: true }).click();
+    await expect(
+      page.getByText("仅合成图片，文字需从图中识别", { exact: true }),
+    ).toBeVisible();
+  });
+
+  test("local voice transcription preserves source and supports timed playback", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByLabel("用户名", { exact: true }).fill("browser-owner");
+    await page
+      .getByLabel("密码", { exact: true })
+      .fill("synthetic-browser-password");
+    await page.getByRole("button", { name: "登录工作空间" }).click();
+    await page.getByRole("button", { name: "设置", exact: true }).click();
+    await page
+      .getByRole("button", { name: "启用语音转文字", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "关闭语音转文字", exact: true }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "数据导入", exact: true }).click();
+    const data = execFileSync(
+      ".venv/bin/python",
+      [
+        "-c",
+        "from tests.integration.test_asr import audio_bundle; import sys; sys.stdout.buffer.write(audio_bundle()[0])",
+      ],
+      { cwd: "../.." },
+    );
+    await page.getByLabel("选择导出文件", { exact: true }).setInputFiles({
+      name: "synthetic-voice.zip",
+      mimeType: "application/zip",
+      buffer: data,
+    });
+    await page.getByRole("button", { name: "校验并开始导入" }).click();
+    await expect(
+      page.getByText("原件已归档，后台任务已排队。可在下方查看进度。"),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "会话", exact: true }).click();
+    await page.getByRole("button", { name: /合成·产品讨论/ }).click();
+    const card = page
+      .locator("article.message-card")
+      .filter({ hasText: "合成语音测试，转录需核对原音频" });
+    await expect(card).toBeVisible({ timeout: 15000 });
+    await card.getByRole("button", { name: "查看证据" }).click();
+    await page.getByRole("button", { name: "转录语音", exact: true }).click();
+    await expect(
+      page.getByText("语音转文字 · 已完成", { exact: true }),
+    ).toBeVisible({ timeout: 15000 });
+    await expect(page.locator(".recognized-text")).toContainText("synthetic");
+    await page
+      .getByRole("button", { name: "核对原始语音", exact: true })
+      .click();
+    await expect(page.getByLabel("原始语音", { exact: true })).toBeVisible();
+    await expect(page.locator(".transcript-segment").first()).toContainText(
+      "synthetic",
+    );
+    if (process.env.WDH_CAPTURE_SCREENSHOTS)
+      await page.screenshot({
+        path: "../../docs/evidence/asr-timestamps.png",
+        fullPage: true,
+      });
+    await page.getByRole("button", { name: "关闭详情" }).click();
+    await page.getByRole("button", { name: "搜索", exact: true }).click();
+    await page.getByLabel("搜索关键词").fill("synthetic recording");
+    await page.getByRole("button", { name: "搜索记录", exact: true }).click();
+    await expect(
+      page.getByText("合成语音测试，转录需核对原音频", { exact: true }),
+    ).toBeVisible();
+  });
+  test("local semantic search, cited answers and pending AI candidates", async ({
+    page,
+  }) => {
+    test.setTimeout(90000);
+    await page.goto("/");
+    await page.getByLabel("用户名", { exact: true }).fill("browser-owner");
+    await page
+      .getByLabel("密码", { exact: true })
+      .fill("synthetic-browser-password");
+    await page.getByRole("button", { name: "登录工作空间" }).click();
+    await page.getByRole("button", { name: "设置", exact: true }).click();
+    await page
+      .getByRole("button", { name: "启用语义检索", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "关闭语义检索", exact: true }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: "启用AI 摘要与候选", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "关闭AI 摘要与候选", exact: true }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "搜索", exact: true }).click();
+    await page
+      .getByRole("button", { name: "索引业务会话消息", exact: true })
+      .click();
+    await expect(page.getByRole("status")).toContainText("已排队");
+    await expect(page.getByText(/已索引 [1-9].*待处理 0 项/)).toBeVisible({
+      timeout: 30000,
+    });
+    await page.getByLabel("语义问题").fill("M620的价格是多少");
+    await page.getByRole("button", { name: "按含义搜索", exact: true }).click();
+    await expect(page.locator(".semantic-hits")).toContainText("3200", {
+      timeout: 15000,
+    });
+    await page
+      .getByRole("button", { name: "依据证据回答", exact: true })
+      .click();
+    await expect(page.locator(".semantic-answer")).toContainText("3200", {
+      timeout: 30000,
+    });
+    if (process.env.WDH_CAPTURE_SCREENSHOTS)
+      await page.screenshot({
+        path: "../../docs/evidence/semantic-cited-answer.png",
+        fullPage: true,
+      });
+    await page
+      .getByRole("button", { name: "查看引用 1 的原消息", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "AI 摘要与提取候选", exact: true })
+      .first()
+      .click();
+    await expect(
+      page.getByText("AI 摘要与候选 · 已完成", { exact: true }),
+    ).toBeVisible({ timeout: 45000 });
+    await expect(page.getByText(/已生成 [1-9].*个待审核候选/)).toBeVisible();
+    if (process.env.WDH_CAPTURE_SCREENSHOTS)
+      await page.screenshot({
+        path: "../../docs/evidence/ai-source-candidates.png",
+        fullPage: true,
+      });
+    await page.getByRole("button", { name: "关闭详情" }).click();
+    await page.getByLabel("语义问题").fill("2029年火星基地的租金是多少");
+    await page
+      .getByRole("button", { name: "依据证据回答", exact: true })
+      .click();
+    await expect(page.locator(".semantic-answer")).toContainText(
+      "现有证据不足，无法确定。",
+      { timeout: 15000 },
+    );
+    await page.setViewportSize({ width: 390, height: 844 });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBeTruthy();
   });
 });

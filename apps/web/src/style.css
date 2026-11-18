@@ -1698,3 +1698,110 @@ header {
 .modal audio {
   width: 100%;
 }
+.module-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line, #e3e7df);
+  overflow-wrap: anywhere;
+}
+.module-row button {
+  flex-shrink: 0;
+}
+.processing-panel {
+  border-top: 1px solid #e3e7df;
+  margin: 22px 0;
+  padding-top: 18px;
+}
+.processing-result {
+  border: 1px solid #dbe3d8;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 14px;
+}
+.recognized-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f2f6ef;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 14px 0;
+}
+.ocr-image {
+  width: 100%;
+  max-height: 380px;
+  background: white;
+  border: 1px solid #dbe3d8;
+  margin-top: 12px;
+}
+.ocr-selected-box {
+  fill: #e8bf4940;
+  stroke: #d89714;
+  stroke-width: 3;
+}
+.ocr-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 10px 0;
+  max-height: 160px;
+  overflow: auto;
+}
+.ocr-words button {
+  padding: 4px 8px;
+}
+.ocr-words button[aria-pressed="true"] {
+  background: #dceacb;
+  color: #26462b;
+}
+.derived-excerpt {
+  white-space: pre-wrap;
+  font-size: 13px;
+  color: #496044;
+  background: #f3f6ef;
+  padding: 12px;
+  border-radius: 6px;
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+.derived-excerpt span {
+  display: block;
+  font-size: 11px;
+  color: #77866b;
+  margin-bottom: 6px;
+}
+@media (max-width: 600px) {
+  .module-row {
+    flex-wrap: wrap;
+  }
+  .processing-result {
+    padding: 10px;
+  }
+}
+.semantic-panel {
+  margin-bottom: 24px;
+}
+.semantic-panel form {
+  margin-top: 20px;
+}
+.semantic-panel input {
+  width: 100%;
+}
+.semantic-citation {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line, #e4e9ed);
+}
+.semantic-citation blockquote {
+  margin: 0 0 12px;
+  padding: 12px 16px;
+  border-left: 3px solid #188479;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f1f8f6;
+}
+.audio-evidence audio {
+  max-width: 100%;
+}
+.semantic-panel .checkbox-row input { width: auto; }

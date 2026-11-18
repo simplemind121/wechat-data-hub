@@ -24,6 +24,9 @@ import {
   type Entity,
 } from "./api";
 import "./style.css";
+import { ProcessingModules, ProcessingPanel } from "./Processing";
+import { SemanticPanel } from "./Semantic";
+import { OdooConnection } from "./Odoo";
 
 const client = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },
@@ -814,6 +817,7 @@ function SourceDetail({
             原始时间：{detail.data.original_time_text || "未提供"} ·{" "}
             {statusText(detail.data.merge_status)}
           </p>
+          <ProcessingPanel message={detail.data} me={me} />
           {detail.data.observations?.map((source, index) => (
             <section className="source-card" key={source.id}>
               <h3>
@@ -876,6 +880,16 @@ function MessageCard({
         <div className="message-text">
           {message.body_text || `［${message.message_type}］`}
         </div>
+        {message.processing_results
+          ?.filter((r) => r.text)
+          .map((result) => (
+            <div className="derived-excerpt" key={result.id}>
+              <span>
+                {result.kind === "asr" ? "语音转录文字" : "图片识别文字"}
+              </span>
+              {result.text.slice(0, 500)}
+            </div>
+          ))}
         {message.reply_source_ref && (
           <div className="reply-note">
             ↳ 引用 {message.reply_to_id ? "已关联原消息" : "目标尚未导入"} ·{" "}
@@ -1099,9 +1113,11 @@ function Conversations({
   );
 }
 function SearchPage({
+  me,
   overview,
   showSource,
 }: {
+  me: Me;
   overview: Overview | undefined;
   showSource: (id: string) => void;
 }) {
@@ -1136,6 +1152,7 @@ function SearchPage({
           <p>从关键词到来源证据，缩小范围，找到完整上下文。</p>
         </div>
       </div>
+      <SemanticPanel me={me} showSource={showSource} />
       <form className="search-panel" onSubmit={submit}>
         <div className="search-input">
           <span>⌕</span>
@@ -1506,6 +1523,8 @@ function SettingsPage({ me }: { me: Me }) {
       <ErrorBox error={error || users.error} />
       {notice && <div className="success-box">{notice}</div>}
       <div className="settings-grid">
+        {me.role === "admin" && <ProcessingModules />}
+        {me.role === "admin" && <OdooConnection />}
         {me.role === "admin" && <BackupPanel />}
         <section className="panel">
           <h2>当前工作空间</h2>
@@ -1517,7 +1536,7 @@ function SettingsPage({ me }: { me: Me }) {
             <dt>数据处理</dt>
             <dd>本地文件 · 原件不可覆盖</dd>
             <dt>外部服务</dt>
-            <dd>AI / OCR / ASR / Odoo 当前未启用</dd>
+            <dd>本地识别模块可单独启用；外部同步未启用</dd>
           </dl>
           <p className="fine">
             真实微信版本兼容性尚未通过样本验证。当前支持本系统明确契约的 JSONL /
@@ -1643,9 +1662,10 @@ function EntitiesPage({
       </div>
       <div className="note">
         <div>
-          <h3>本地规则提取 · 人工复核</h3>
+          <h3>本地规则与 AI 候选 · 人工复核</h3>
           <p>
-            当前报价候选来自明确的型号、数字和币种规则。仅处理管理员允许的业务会话；Odoo
+            规则或本地 AI
+            可从消息、图片识别和语音转录中提出候选。所有字段必须有来源证据，且只处理管理员允许的业务会话；Odoo
             预览不会执行外部写入。
           </p>
         </div>
@@ -1656,7 +1676,24 @@ function EntitiesPage({
         .map((entity) => (
           <section className="panel entity-card" key={entity.id}>
             <div className="review-head">
-              <h2>报价候选 · {entity.payload.product_model}</h2>
+              <h2>
+                {(
+                  {
+                    quotation: "报价",
+                    customer: "客户",
+                    supplier: "供应商",
+                    product: "产品",
+                    purchase_intent: "采购意向",
+                    order_candidate: "订单",
+                    task: "任务",
+                  } as Record<string, string>
+                )[entity.entity_type] || entity.entity_type}
+                候选 ·{" "}
+                {entity.payload.product_model ||
+                  entity.payload.name ||
+                  entity.payload.company_name ||
+                  "待核对"}
+              </h2>
               <span className="badge">
                 {entity.review_status === "approved"
                   ? "已批准"
@@ -1732,7 +1769,10 @@ function EntitiesPage({
       {editing && (
         <Modal title="业务字段审核" close={() => setEditing(null)}>
           <form onSubmit={review}>
-            <p>修正必须直接取自原始消息文字；未经来源支持的字段会被拒绝。</p>
+            <p>
+              修正必须直接取自来源消息或对应的 OCR/ASR
+              文字；未经来源支持的字段会被拒绝。
+            </p>
             {editing.evidence
               .filter((item) => item.field !== "supplier_ref")
               .map((item) => (
@@ -1855,6 +1895,15 @@ function Workspace({ me, logout }: { me: Me; logout: () => void }) {
     queryFn: () => request<Overview>("/overview"),
     refetchInterval: 3000,
   });
+  useEffect(() => {
+    void client.invalidateQueries({ queryKey: ["messages"] });
+    void client.invalidateQueries({ queryKey: ["conversations"] });
+    void client.invalidateQueries({ queryKey: ["search"] });
+  }, [
+    overview.data?.messages,
+    overview.data?.imports,
+    overview.data?.running_jobs,
+  ]);
   const tabs = Object.keys(icons).filter(
     (item) => !(["审计日志"].includes(item) && me.role !== "admin"),
   );
@@ -1915,7 +1964,11 @@ function Workspace({ me, logout }: { me: Me; logout: () => void }) {
             />
           )}
           {tab === "搜索" && (
-            <SearchPage overview={overview.data} showSource={setSource} />
+            <SearchPage
+              me={me}
+              overview={overview.data}
+              showSource={setSource}
+            />
           )}
           {tab === "审核队列" && (
             <Reviews me={me} showSource={setSource} refresh={refresh} />
@@ -1927,7 +1980,7 @@ function Workspace({ me, logout }: { me: Me; logout: () => void }) {
           {tab === "审计日志" && <AuditPage />}
           {tab === "设置" && <SettingsPage me={me} />}
           <footer>
-            <span>WeChat Data Hub · 0.2.0</span>
+            <span>WeChat Data Hub · 0.3.0</span>
             <span>原件保全 · 来源可追溯 · 本地优先</span>
           </footer>
         </main>
