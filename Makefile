@@ -8,7 +8,7 @@ COMPOSE := docker compose
 .PHONY: bootstrap lint test test-python test-e2e test-security up down migrate seed-demo fixtures contract dev-api dev-web benchmark backup restore-check
 
 bootstrap:
-	$(UV) sync --frozen
+	$(UV) sync --frozen --extra ai
 	npm --prefix apps/web ci
 	$(PY) scripts/bootstrap.py
 
@@ -67,3 +67,11 @@ benchmark:
 
 worker:
 	.venv/bin/python -m wdh_api.worker
+
+# Explicit downloads of pinned public assets; startup never downloads weights.
+models:
+	$(PY) -m wdh_api.models install ocr --root .local/models
+	$(PY) -m wdh_api.models install asr --root .local/models
+	$(PY) -m wdh_api.models install runtime --root .local/models
+	$(PY) -m wdh_api.models install embedding --root .local/models
+	$(PY) -m wdh_api.models install llm --root .local/models

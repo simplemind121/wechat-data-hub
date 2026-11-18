@@ -1,19 +1,19 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:0d9d16c7-2a79-4db7-bc04-e5da1c5ba1a1",
+  "serialNumber": "urn:uuid:c0e38cfc-d230-43fb-9784-bebf40266e17",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-11-17T17:54:52.469363+00:00",
+    "timestamp": "2026-11-18T02:31:35.268057+00:00",
     "component": {
       "type": "application",
       "name": "WeChat Data Hub",
-      "version": "0.2.0"
+      "version": "0.3.0"
     },
     "properties": [
       {
         "name": "wdh:scope",
-        "value": "Python installed environment + npm lock; excludes OS/image packages"
+        "value": "Python environment + npm lock + native/model catalog; excludes full OS"
       }
     ]
   },
@@ -452,6 +452,22 @@
     },
     {
       "type": "library",
+      "name": "numpy",
+      "version": "2.5.5",
+      "purl": "pkg:pypi/numpy@2.5.5",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "name": "opentelemetry-api",
       "version": "1.45.2",
       "purl": "pkg:pypi/opentelemetry-api@1.45.2",
@@ -491,6 +507,22 @@
         {
           "name": "wdh:license-metadata",
           "value": "NOASSERTION"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pillow",
+      "version": "13.0.0",
+      "purl": "pkg:pypi/pillow@13.0.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT-CMU"
         },
         {
           "name": "wdh:inventory-scope",
@@ -692,6 +724,54 @@
     },
     {
       "type": "library",
+      "name": "sherpa-onnx-core",
+      "version": "2.0.1",
+      "purl": "pkg:pypi/sherpa-onnx-core@2.0.1",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sherpa_onnx",
+      "version": "2.0.1",
+      "purl": "pkg:pypi/sherpa-onnx@2.0.1",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache licensed, as found in the LICENSE file"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "soundfile",
+      "version": "0.14.0",
+      "purl": "pkg:pypi/soundfile@0.14.0",
+      "properties": [
+        {
+          "name": "wdh:license-metadata",
+          "value": "BSD 3-Clause License"
+        },
+        {
+          "name": "wdh:inventory-scope",
+          "value": "runtime-and-development"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "name": "starlette",
       "version": "1.10.0",
       "purl": "pkg:pypi/starlette@1.10.0",
@@ -773,8 +853,8 @@
     {
       "type": "library",
       "name": "wechat-data-hub",
-      "version": "0.2.0",
-      "purl": "pkg:pypi/wechat-data-hub@0.2.0",
+      "version": "0.3.0",
+      "purl": "pkg:pypi/wechat-data-hub@0.3.0",
       "properties": [
         {
           "name": "wdh:license-metadata",
@@ -2642,6 +2722,101 @@
         {
           "name": "wdh:license-metadata",
           "value": "ISC"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "name": "wdh-local-ocr",
+      "version": "catalog-sha256:4aa72028b2c40a81",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "wdh:asset-manifest",
+          "value": "apps/api/wdh_api/model_assets.json"
+        },
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "name": "wdh-local-asr",
+      "version": "catalog-sha256:f69689f7a40f4f1f",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:asset-manifest",
+          "value": "apps/api/wdh_api/model_assets.json"
+        },
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT (OpenAI Whisper)"
+        }
+      ]
+    },
+    {
+      "type": "application",
+      "name": "wdh-local-runtime",
+      "version": "b12488",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "wdh:asset-manifest",
+          "value": "apps/api/wdh_api/model_assets.json"
+        },
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "name": "wdh-local-embedding",
+      "version": "bge-small-zh-v1.5/q8_0",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:asset-manifest",
+          "value": "apps/api/wdh_api/model_assets.json"
+        },
+        {
+          "name": "wdh:license-metadata",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "name": "wdh-local-llm",
+      "version": "Qwen2.5-0.5B-Instruct/q4_k_m",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "wdh:asset-manifest",
+          "value": "apps/api/wdh_api/model_assets.json"
+        },
+        {
+          "name": "wdh:license-metadata",
+          "value": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pgvector",
+      "version": "0.8.7",
+      "properties": [
+        {
+          "name": "wdh:source-commit",
+          "value": "f37c13f68b57d2c3472b2214fbcff699d6d34876"
+        },
+        {
+          "name": "wdh:license-metadata",
+          "value": "PostgreSQL"
         }
       ]
     }

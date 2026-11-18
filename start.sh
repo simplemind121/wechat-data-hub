@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
-if [[ -f WeChat_Data_Hub_images_v0.2.0.tar.gz ]]; then
+if [[ -f WeChat_Data_Hub_images_v0.3.0.tar.gz ]]; then
   exec bash ./start-offline.sh
 fi
 command -v docker >/dev/null || { echo '请先安装并启动 Docker Desktop / Docker Engine。'; exit 1; }
 docker info >/dev/null 2>&1 || { echo 'Docker 尚未运行，请启动后重试。'; exit 1; }
+if [[ ! -f .env ]] && docker volume inspect "${COMPOSE_PROJECT_NAME:-wechat-data-hub}_postgres" >/dev/null 2>&1; then
+  echo '检测到已有数据库卷但缺少 .env。升级请先复制旧版本 .env，避免生成不匹配的数据库密码。'
+  exit 1
+fi
 if [[ ! -f .env ]]; then
   if command -v python3 >/dev/null; then
     python3 scripts/bootstrap.py

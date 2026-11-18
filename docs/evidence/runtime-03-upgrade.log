@@ -1,0 +1,25 @@
+ Container wechat-data-hub-db-1  Creating
+ Container wechat-data-hub-db-1  Created
+ Container wechat-data-hub-api-1  Creating
+ Container wechat-data-hub-api-1  Created
+ Container wechat-data-hub-web-1  Creating
+ Container wechat-data-hub-web-1  Created
+ Container wechat-data-hub-db-1  Starting
+ Container wechat-data-hub-db-1  Started
+ Container wechat-data-hub-db-1  Waiting
+ Container wechat-data-hub-db-1  Healthy
+ Container wechat-data-hub-api-1  Starting
+ Container wechat-data-hub-api-1  Started
+ Container wechat-data-hub-api-1  Waiting
+ Container wechat-data-hub-api-1  Healthy
+ Container wechat-data-hub-web-1  Starting
+ Container wechat-data-hub-web-1  Started
+ Container wechat-data-hub-web-1  Waiting
+ Container wechat-data-hub-db-1  Waiting
+ Container wechat-data-hub-api-1  Waiting
+ Container wechat-data-hub-api-1  Healthy
+ Container wechat-data-hub-db-1  Healthy
+ Container wechat-data-hub-web-1  Healthy
+
+已启动：http://127.0.0.1:5173
+首次打开请创建自己的管理员账号和密码。

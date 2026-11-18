@@ -1,4 +1,4 @@
-name: WDH foundation
+name: WDH local product
 on: [push, pull_request]
 permissions:
   contents: read
@@ -26,7 +26,14 @@ jobs:
         with: {node-version: '24.11.1', cache: npm, cache-dependency-path: apps/web/package-lock.json}
       - run: pip install uv==0.9.17
       - run: make bootstrap
+      - run: sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+      - run: make models
+      - run: docker build -f infra/postgres.Dockerfile -t wdh-ci-db .
+      - run: docker run -d --name wdh-ci-pg -e POSTGRES_PASSWORD=synthetic-ci-only -e POSTGRES_USER=test_hub -e POSTGRES_DB=wdh_control -p 127.0.0.1:5433:5432 wdh-ci-db
+      - run: for i in $(seq 1 30); do docker exec wdh-ci-pg pg_isready -U test_hub -d wdh_control && exit 0; sleep 1; done; exit 1
       - run: make lint test test-security
+        env:
+          PRODUCT_POSTGRES_URL: postgresql+psycopg://test_hub:synthetic-ci-only@127.0.0.1:5433/wdh_control
       - run: npm --prefix apps/web run build
       - run: cd apps/web && npx playwright install --with-deps chromium
       - run: make test-e2e

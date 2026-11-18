@@ -1,0 +1,10 @@
+.....................................ssssss............................. [ 85%]
+............                                                             [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/integration/test_postgres.py:77: TEST_POSTGRES_URL not configured; SQLite is not PostgreSQL evidence
+SKIPPED [1] tests/integration/test_postgres.py:83: TEST_POSTGRES_URL not configured; SQLite is not PostgreSQL evidence
+SKIPPED [1] tests/integration/test_postgres.py:95: TEST_POSTGRES_URL not configured; SQLite is not PostgreSQL evidence
+SKIPPED [1] tests/integration/test_postgres.py:115: TEST_POSTGRES_URL not configured; SQLite is not PostgreSQL evidence
+SKIPPED [1] tests/integration/test_postgres.py:132: TEST_POSTGRES_URL not configured; SQLite is not PostgreSQL evidence
+SKIPPED [1] tests/integration/test_postgres.py:156: TEST_POSTGRES_URL not configured; SQLite is not PostgreSQL evidence
+78 passed, 6 skipped in 22.41s

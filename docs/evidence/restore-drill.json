@@ -2,8 +2,8 @@
   "source_database": "PostgreSQL 17",
   "restored_database": "new PostgreSQL 17 database",
   "scope": "synthetic-only",
-  "backup_seconds": 0.2208354499998677,
-  "restore_seconds": 0.6003015129990672,
+  "backup_seconds": 0.15062037400639383,
+  "restore_seconds": 0.6018322000018088,
   "rpo_seconds": null,
   "rpo_note": "Consistent snapshot verified; no production schedule is claimed.",
   "counts": {
@@ -20,6 +20,7 @@
     "login_sessions": 0,
     "memberships": 1,
     "message_events": 0,
+    "processing_policies": 0,
     "review_tasks": 1,
     "source_blobs": 4,
     "wechat_accounts": 1,
@@ -27,6 +28,7 @@
     "source_devices": 1,
     "ingest_batches": 1,
     "message_attachments": 1,
+    "processing_results": 0,
     "raw_records": 5,
     "message_observations": 5
   },
@@ -44,6 +46,7 @@
     "login_sessions": 1,
     "memberships": 1,
     "message_events": 0,
+    "processing_policies": 0,
     "review_tasks": 1,
     "source_blobs": 4,
     "wechat_accounts": 1,
@@ -51,6 +54,7 @@
     "source_devices": 1,
     "ingest_batches": 1,
     "message_attachments": 1,
+    "processing_results": 0,
     "raw_records": 5,
     "message_observations": 5
   },

@@ -126,3 +126,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
+## Local processing
+
+Tesseract and tessdata_fast: Apache-2.0. llama.cpp b12488: MIT; upstream notices in docs/licenses/llama.cpp-b12488.
+pgvector 0.8.7: PostgreSQL license; source in infra/postgres.Dockerfile; notice in docs/licenses/pgvector.
+Optional Whisper weights: MIT. BGE-small-zh-v1.5: MIT. Qwen2.5-0.5B-Instruct: Apache-2.0. Exact assets/SHA: apps/api/wdh_api/model_assets.json.
+sherpa-onnx: Apache-2.0; soundfile: BSD-3-Clause; bundled dynamic libsndfile: LGPL-2.1-or-later. Wheels retain upstream LICENSE/COPYING; no static linking or modification of libsndfile.
+Runtime images retain Python wheel and Debian/Alpine package license files. This inventory is not a full OS or legal audit.

@@ -14,19 +14,23 @@ images_match() {
   done < images.lock
 }
 if ! images_match; then
-  [[ -f WeChat_Data_Hub_images_v0.2.0.tar.gz ]] || {
-    echo '缺少离线镜像包；请把 WeChat_Data_Hub_images_v0.2.0.tar.gz 放在本目录，或使用 ./start.sh 从源码构建。'
+  [[ -f WeChat_Data_Hub_images_v0.3.0.tar.gz ]] || {
+    echo '缺少离线镜像包；请把 WeChat_Data_Hub_images_v0.3.0.tar.gz 放在本目录，或使用 ./start.sh 从源码构建。'
     exit 1
   }
-  docker load -i WeChat_Data_Hub_images_v0.2.0.tar.gz
+  docker load -i WeChat_Data_Hub_images_v0.3.0.tar.gz
 fi
 images_match || { echo '镜像 ID 与交付清单不符，已停止启动。'; exit 1; }
+if [[ ! -f .env ]] && docker volume inspect "${COMPOSE_PROJECT_NAME:-wechat-data-hub}_postgres" >/dev/null 2>&1; then
+  echo '检测到已有数据库卷但缺少 .env。升级请先复制旧版本 .env，避免生成不匹配的数据库密码。'
+  exit 1
+fi
 if [[ ! -f .env ]]; then
   if command -v python3 >/dev/null; then
     python3 scripts/bootstrap.py
   else
     docker run --rm --network none --user "$(id -u):$(id -g)" \
-      -v "$PWD:/work" -w /work wechat-data-hub-api:0.2.0 python scripts/bootstrap.py
+      -v "$PWD:/work" -w /work wechat-data-hub-api:0.3.0 python scripts/bootstrap.py
   fi
 fi
 docker compose -f compose.yaml -f compose.offline.yaml up -d --no-build --wait

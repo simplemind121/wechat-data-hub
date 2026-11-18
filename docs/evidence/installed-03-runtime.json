@@ -1,0 +1,13 @@
+{
+  "app": "0.3.0",
+  "pillow": "13.0.0",
+  "pgvector": "0.8.7",
+  "cosine_identical": 0.0,
+  "models_available": {
+    "ocr": true,
+    "asr": true,
+    "embedding": true,
+    "llm": true
+  },
+  "scope": "isolated synthetic clean database, actual shipped images"
+}

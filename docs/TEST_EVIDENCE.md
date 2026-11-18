@@ -104,3 +104,36 @@ PostgreSQL→新PostgreSQL的恢复演练：备份0.129秒、恢复0.524秒（�
 合成验证项目及其明确命名的测试卷已清理，交付实例的原件/PostgreSQL卷保留，不打入压缩包。之前自动审批曾拒绝宽范围 `docker system prune --force`，未执行；后续仅清理了明确属于本任务的构建/测试资源，未影响用户数据卷。
 
 完整规格 REQUIRED 未全部通过，尤其OCR/ASR/RAG/LLM/真实Odoo outbox和真实兼容覆盖；参见 `ACCEPTANCE_STATUS.md`。当前交付为可用本地核心版本，不是正式RC，不把合成兼容结果冒充真实微信实机验收。
+
+# 2026-11-18 OCR增量
+
+WDH-040：新增图片验证/识别/证据表、真实本地Tesseract5.5.0 + tessdata_fast中文/英文。合成图片成功识别“八方/M620/报价/3200”，坐标/原图SHA与模型hash留存。7项新集成覆盖真实识别、关闭/取消/重试、损坏/像素超限、缺模型、角色/workspace、租约fencing。模型固定上游commit87416418657359cb625c412a48b6e1d6d41c29bd，资产SHA在model_assets.json。
+
+全套：专用新PG库84 passed/47.40s，见evidence/ocr-postgres-tests.log；SQLite局部全套78 passed/6 skipped，见evidence/ocr-python-tests.log。新增真实Chromium OCR流程后4 passed/30.6s，包含原图框选/证据下载/派生搜索；截图evidence/ocr-coordinates.png。首次浏览器测试发现异步批次完成后时间线未刷新，已修复缓存失效通知后实测通过，未跳过失败断言。Ruff、mypy22文件、Bandit通过。
+
+PostgreSQL测试通过本任务明确命名、仅127.0.0.1:18032的轻量TCP代理执行，不改变默认交付编排；新库前缀wdhai_control/wdhai_schema，结束只删除其自身测试库。原交付库和数据卷未修改。此为源码切片证据，当前0.2.0包尚未包含新模块；本轮结束统一打包。
+
+## 2026-11-18 · 0.3.0 最终本地识别与AI验证
+
+所有输入均为自制合成数据；未使用真实微信聊天，没有Odoo真实实例操作。最新执行日志优先于上述早期切片日志。
+
+- Python3.12.14、PostgreSQL17.6 + 实际编译安装的pgvector0.8.7：完整回归 **109 passed / 0 failed / 0 skipped**，129.55秒。每个产品测试使用随机新库；`evidence/ai-postgres-tests.log`。运行入口是 `pytest -q`，设置 `PRODUCT_POSTGRES_URL`（专用可创建库的控制库）及 `TEST_POSTGRES_URL`（新的空库）；不连接用户聊天库。
+- Chromium真实界面与独立worker：**6 passed**，包含初始化/导入/幂等/来源/审核/导出、手机宽度、图片预览、中文OCR词框/导出/搜索、语音片段/原音频、语义与混合搜索/引用问答/未知问题/AI待审候选。命令 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium WDH_CAPTURE_SCREENSHOTS=1 npm --prefix apps/web run test:e2e`；日志 `evidence/ai-browser-tests.log`，截图 `ocr-coordinates.png`、`asr-timestamps.png`、`semantic-cited-answer.png`、`ai-source-candidates.png`。
+- 模型不是HTTP模拟：真实Tesseract中文图片，真实Whisper tiny在WAV/OGG/FLAC/MP3转录，真实BGE512维余弦，真实Qwen JSON候选/问答均有正向集成。另有明确标注的恶意提供方输出契约样例，验证无原文字段拒绝；不能把这些fixture当真实来源验证。
+- 实际发布容器的四类引擎/官方权重再次执行，结果 `evidence/packaged-model-proof.json`。Tesseract5.3与固定tessdata读取24个词框，Whisper音频1个片段，BGE512维，标准合成报价产生3个机器候选。另一个短句的模型字段跨度无法通过校验，返回0个候选；此局限如实保留，不宣称准确率或每条必有候选。LLM权重以内存传入验证，不进入默认镜像。
+- 新增恢复回归：OCR与embedding结果、识别文字搜索、附件字节一致；恢复后所有模块关闭，重新允许embedding后从核心JSON重建新的PG向量缓存。已有会话作废/加密篡改防护继续通过。
+- `ruff check`、`ruff format --check`、`mypy`（28个源码文件）、生成OpenAPI漂移检查、Bandit通过；Vitest3项通过，Vite生产构建通过。启动脚本 `bash -n` 通过。
+- 发布前pip-audit检出Pillow12.3.0的42条公开记录，已升级**13.0.0**，全套PG/浏览器回归与复审通过。`uvx pip-audit --disable-pip --no-deps -r .local/runtime-requirements-03.txt -f json`：完整核心/AI锁定运行依赖未检出已知漏洞，`evidence/python-runtime-audit.json`。npm运行依赖0；开发工具链仍为picomatch根因导致5个HIGH派生报告，`npm-all-audit.json`，不进入nginx静态成品。完整OS审计尚未完成。
+- SBOM更新为202组件，明确包含Python开发/运行、npm锁、固定原生/模型目录；完整OS范围排除。原生许可证与源码commit在 `licenses/`，模型SHA和许可在 `apps/api/wdh_api/model_assets.json`；libsndfile保留动态库和上游许可。
+- 早期100k核心关键词测量沿用0.2证据（P95 .299391秒，RSS293648KiB），不是0.3十万向量/问答性能测量，不据此承诺AI吞吐。
+- 真实导出WDH-003/063、Odoo真实握手/写入WDH-050/052、完整RC继续BLOCKED；只读Odoo HTTP fixture仅证明调用方法约束、配置缺失状态和零外部写入。分开验收见REAL_VALIDATION.md。
+
+### 成品镜像的新卷复验与打包修复
+
+最终三镜像在独立 Compose 项目、全新 PostgreSQL 数据库/原件子目录上运行，同一套6项浏览器流程 **6 passed（1.5分钟）**；`evidence/installed-03-browser-tests.log`。权重为校验后的官方公开文件，显式预置在仅供合成测试的私有卷；测试后已清理该验证卷，不进入运行包。实际版本/可用性/余弦同向量结果见 `evidence/installed-03-runtime.json`（Pillow13.0.0，pgvector0.8.7，四模型可用，cosine distance=0）。主实例继续保持无预置管理员、可选模块默认关闭。
+
+首次成品复验发现pgvector SQL/control文件在宿主暂存后权限为0600，数据库角色不能读取；这不是源码模型测试能覆盖的。已将发布镜像和Dockerfile明确设置0644，生成新的数据库内容ID，再在实际新库创建扩展、重跑全部成品流程通过。初次升级/验证还遇到开发机VFS磁盘不足，回收本任务旧镜像和合成副本后重新执行；没有清理主数据卷或修改源原件。
+
+最终 `make lint`、27项安全测试/Bandit、3项Vitest通过，日志分别为 `ai-final-lint.log`、`ai-security-tests.log`、`ai-web-unit-tests.log`。此前因磁盘不足失败的安全执行已在容量恢复后完整重跑。默认项目及自定义项目的「已有数据库卷但无.env」升级保护实测2项通过，`upgrade-guard-tests.log`。
+
+打包脚本 `scripts/package_delivery.py` 从已提交源码和 `images.lock` 指定的三个镜像流式生成完整ZIP，排除本地配置/原件/数据卷/可选权重；提供Git提交、镜像内容ID、内层镜像压缩流SHA、完整包/源码包SHA和ZIP CRC核验。不把已有测试账号或数据卷封装到镜像。

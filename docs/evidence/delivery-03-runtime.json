@@ -1,0 +1,45 @@
+{
+  "app": "0.3.0",
+  "ready": {
+    "status": "ready"
+  },
+  "setup_required": true,
+  "no_default_administrator": true,
+  "services": [
+    {
+      "name": "wechat-data-hub-api-1",
+      "image_id": "sha256:b31f608b04c75bd1c3f1816f74f51d331ad89dabf06fac16b7972e32d65d5664",
+      "status": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "wechat-data-hub-web-1",
+      "image_id": "sha256:efcb33ab9551297cb97b728c0ed4b3f033fc4ab76ab715398f703c32ca570e48",
+      "status": "healthy",
+      "ports": {
+        "8080/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "5173"
+          }
+        ]
+      }
+    },
+    {
+      "name": "wechat-data-hub-db-1",
+      "image_id": "sha256:97a31d16fafe76ad3f9130aa1bfc9b9959b3bb378c677f41923493952570f58d",
+      "status": "healthy",
+      "ports": {
+        "5432/tcp": null
+      }
+    }
+  ],
+  "model_weights_policy": "OCR bundled; ASR/BGE/Qwen explicitly downloaded by administrator"
+}

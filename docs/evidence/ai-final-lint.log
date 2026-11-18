@@ -1,0 +1,12 @@
+.venv/bin/ruff check apps/api packages scripts tests migrations
+All checks passed!
+.venv/bin/ruff format --check apps/api packages scripts tests migrations
+66 files already formatted
+.venv/bin/mypy
+Success: no issues found in 28 source files
+npm --prefix apps/web run lint
+
+> @wdh/web@0.3.0 lint
+> tsc --noEmit
+
+.venv/bin/python scripts/export_openapi.py --check

@@ -32,9 +32,11 @@ NOASSERTION is not approval. This is not a legal opinion or OS/image SBOM.
 | Python | mdurl | 0.1.2 | NOASSERTION |
 | Python | mypy | 1.20.2 | MIT |
 | Python | mypy_extensions | 1.2.0 | MIT |
+| Python | numpy | 2.5.5 | BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 |
 | Python | opentelemetry-api | 1.45.2 | Apache-2.0 |
 | Python | packaging | 26.3 | Apache-2.0 OR BSD-2-Clause |
 | Python | pathspec | 1.1.1 | NOASSERTION |
+| Python | pillow | 13.0.0 | MIT-CMU |
 | Python | pluggy | 1.7.0 | MIT |
 | Python | psycopg | 3.3.9 | LGPL-3.0-only |
 | Python | psycopg-binary | 3.3.9 | LGPL-3.0-only |
@@ -47,12 +49,15 @@ NOASSERTION is not approval. This is not a legal opinion or OS/image SBOM.
 | Python | python-multipart | 0.0.34 | Apache-2.0 |
 | Python | rich | 15.0.0 | MIT |
 | Python | ruff | 0.17.5 | MIT |
+| Python | sherpa-onnx-core | 2.0.1 | Apache-2.0 |
+| Python | sherpa_onnx | 2.0.1 | Apache licensed, as found in the LICENSE file |
+| Python | soundfile | 0.14.0 | BSD 3-Clause License |
 | Python | starlette | 1.10.0 | BSD-3-Clause |
 | Python | stevedore | 5.10.0 | Apache-2.0 |
 | Python | typing-inspection | 0.4.5 | MIT |
 | Python | typing_extensions | 4.16.0 | PSF-2.0 |
 | Python | uvicorn | 0.54.0 | BSD-3-Clause |
-| Python | wechat-data-hub | 0.2.0 | NOASSERTION |
+| Python | wechat-data-hub | 0.3.0 | NOASSERTION |
 | npm | @babel/code-frame | 7.29.7 | MIT |
 | npm | @babel/compat-data | 7.29.7 | MIT |
 | npm | @babel/core | 7.29.13 | MIT |

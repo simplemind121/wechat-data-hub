@@ -1,0 +1,36 @@
+{
+  "app": "0.3.0",
+  "scope": "synthetic-only, actual packaged engines and official weights",
+  "modules": {
+    "ocr": {
+      "text": "合成 测试 : 八方 M620 报价\n单价 3200 元 ， 起 订 数 量 50 套\nSYNTHETIC OCR TEST - NOT A REAL QUOTATION",
+      "provider": "tesseract/5.3.0/models:0aec1d8a34646d67/v1",
+      "evidence_count": 24
+    },
+    "asr": {
+      "text": "This is a synthetic recording, the price is $3,200.",
+      "provider": "sherpa-whisper/2.0.1/models:622e521416906a37/lang:auto/v1",
+      "evidence_count": 1
+    },
+    "embedding": {
+      "dimensions": 512,
+      "chunks": 1
+    },
+    "llm": {
+      "summary": "合成示例：M620 Ultra，50套起订，3200元/套。",
+      "pending_candidates": 3,
+      "model_bytes_hash_verified": 491400032,
+      "rejected": 0,
+      "additional_short_sentence_probe": {
+        "source": "合成报价：型号M620，单价3200元，50套起订。",
+        "candidates": 0,
+        "rejected": [
+          {
+            "kind": "entity",
+            "reason": "UNSUPPORTED_SOURCE_SPAN"
+          }
+        ]
+      }
+    }
+  }
+}
