@@ -2,6 +2,21 @@
 
 把已合法导出的聊天文件保存在自己的电脑：导入、会话浏览、中文搜索、来源追溯、附件预览、重复候选复核、导出和加密备份。默认不接外部 AI，不暴露公网，不提供默认管理员密码。
 
+## 从 GitHub 获取并运行源码
+
+先安装并启动 Docker Desktop / Docker Engine + Compose v2，再执行：
+
+```sh
+git clone https://github.com/simplemind121/wechat-data-hub.git
+cd wechat-data-hub
+bash start.sh
+```
+
+首次构建需要联网。启动后打开 http://127.0.0.1:5173，创建管理员。
+也可从 [0.3.0 源码发布页](https://github.com/simplemind121/wechat-data-hub/releases/tag/delivery-v0.3.0) 下载 Source code ZIP，解压后执行 `bash start.sh`。
+
+完整离线运行包尚未作为 GitHub Release 附件上传；下述 `start-offline.sh` 用于含镜像的完整运行包。
+
 ## 直接使用
 
 1. 安装并启动 Docker Desktop（或 Docker Engine + Compose v2）。完整 AI 建议至少 8GB 内存、5GB 可用磁盘，另为聊天和备份预留空间。
