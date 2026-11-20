@@ -426,4 +426,113 @@ test.describe.serial("complete local product", () => {
       ),
     ).toBeTruthy();
   });
+  test("collector setup, durable upload, pause and mobile controls", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByLabel("用户名", { exact: true }).fill("browser-owner");
+    await page
+      .getByLabel("密码", { exact: true })
+      .fill("synthetic-browser-password");
+    await page.getByRole("button", { name: "登录工作空间" }).click();
+    await page.getByRole("button", { name: "数据导入", exact: true }).click();
+    await page.getByLabel("数据源名称", { exact: true }).fill("合成同步端");
+    await page
+      .getByLabel("微信账号别名", { exact: true })
+      .fill("collector-browser");
+    await page
+      .getByLabel("来源设备标识", { exact: true })
+      .fill("collector-browser-device");
+    await page.getByRole("button", { name: "创建数据源", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { name: "采集端配置仅本次可下载" }),
+    ).toBeVisible();
+    const downloading = page.waitForEvent("download");
+    await page
+      .getByRole("button", { name: "下载采集端配置", exact: true })
+      .click();
+    const downloaded = await downloading;
+    const config = JSON.parse(
+      await readFile((await downloaded.path())!, "utf8"),
+    );
+    expect(config.token).toMatch(/^wdhc_/);
+    await page.getByRole("button", { name: "已保存，关闭" }).click();
+    const raw = Buffer.from(
+      JSON.stringify({
+        conversation_ref: "合成同步会话",
+        sender_ref: "fixture",
+        sent_at: "2026-11-20T08:00:00+08:00",
+        message_type: "text",
+        body_text: "连接器验收 😀",
+      }) + "\n",
+    );
+    const headers = { Authorization: `Bearer ${config.token}` };
+    const first = await page.request.post("/api/v1/collector/batches", {
+      headers,
+      multipart: {
+        cursor: "browser-fixture-1",
+        file: {
+          name: "messages.jsonl",
+          mimeType: "application/octet-stream",
+          buffer: raw,
+        },
+      },
+    });
+    expect(first.status()).toBe(202);
+    const result = await first.json();
+    const again = await page.request.post("/api/v1/collector/batches", {
+      headers,
+      multipart: {
+        cursor: "browser-fixture-1",
+        file: {
+          name: "messages.jsonl",
+          mimeType: "application/octet-stream",
+          buffer: raw,
+        },
+      },
+    });
+    expect((await again.json()).import_id).toBe(result.import_id);
+    await expect
+      .poll(
+        async () =>
+          (
+            await (
+              await page.request.get(`/api/v1/jobs/${result.job_id}`)
+            ).json()
+          ).status,
+      )
+      .toBe("completed");
+    const card = page
+      .locator("article")
+      .filter({
+        has: page.getByRole("heading", {
+          name: "合成同步端 · 个人微信文件",
+          exact: true,
+        }),
+      });
+    await card.getByRole("button", { name: "暂停同步", exact: true }).click();
+    await expect(
+      card.getByRole("button", { name: "恢复同步", exact: true }),
+    ).toBeVisible();
+    expect(
+      (
+        await page.request.get("/api/v1/collector/status", { headers })
+      ).status(),
+    ).toBe(401);
+    await page.setViewportSize({ width: 390, height: 844 });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBeTruthy();
+    if (process.env.WDH_CAPTURE_SCREENSHOTS)
+      await page.screenshot({
+        path: "../../docs/evidence/connectors04-source-mobile.png",
+        fullPage: true,
+      });
+    await page.getByRole("button", { name: "设置", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { name: "Odoo 投递记录", exact: true }),
+    ).toBeVisible();
+  });
 });

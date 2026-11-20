@@ -2,6 +2,7 @@
 
 import importlib.metadata as metadata
 import json
+import tomllib
 from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
@@ -11,6 +12,8 @@ components = []
 license_rows = []
 for distribution in sorted(metadata.distributions(), key=lambda item: item.metadata["Name"]):
     name = distribution.metadata["Name"]
+    if name.lower().replace("_", "-") == "wechat-data-hub":
+        continue  # The release application is recorded in metadata.component below.
     version = distribution.version
     license_value = (
         distribution.metadata.get("License-Expression")
@@ -93,7 +96,11 @@ report = {
     "version": 1,
     "metadata": {
         "timestamp": datetime.now(UTC).isoformat(),
-        "component": {"type": "application", "name": "WeChat Data Hub", "version": "0.3.0"},
+        "component": {
+            "type": "application",
+            "name": "WeChat Data Hub",
+            "version": tomllib.loads((root / "pyproject.toml").read_text())["project"]["version"],
+        },
         "properties": [
             {
                 "name": "wdh:scope",

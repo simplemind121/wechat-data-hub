@@ -27,6 +27,8 @@ import "./style.css";
 import { ProcessingModules, ProcessingPanel } from "./Processing";
 import { SemanticPanel } from "./Semantic";
 import { OdooConnection } from "./Odoo";
+import { OdooDraft, OdooOutbox } from "./OdooSync";
+import { SourcesPanel } from "./Sources";
 
 const client = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },
@@ -420,6 +422,7 @@ function ImportPage({ me, onImported }: { me: Me; onImported: () => void }) {
         )}
       </div>
       <ErrorBox error={error || batches.error} />
+      {me.role === "admin" && <SourcesPanel />}
       {me.role === "reader" ? (
         <Empty title="当前账号仅有浏览权限" />
       ) : (
@@ -1525,6 +1528,7 @@ function SettingsPage({ me }: { me: Me }) {
       <div className="settings-grid">
         {me.role === "admin" && <ProcessingModules />}
         {me.role === "admin" && <OdooConnection />}
+        {me.role === "admin" && <OdooOutbox />}
         {me.role === "admin" && <BackupPanel />}
         <section className="panel">
           <h2>当前工作空间</h2>
@@ -1751,6 +1755,9 @@ function EntitiesPage({
                 </button>
               )}
             </div>
+            {me.role === "admin" && entity.review_status === "approved" && (
+              <OdooDraft entity={entity} />
+            )}
             <p className="fine">提取版本：{entity.extractor_version}</p>
           </section>
         ))}
@@ -1980,7 +1987,7 @@ function Workspace({ me, logout }: { me: Me; logout: () => void }) {
           {tab === "审计日志" && <AuditPage />}
           {tab === "设置" && <SettingsPage me={me} />}
           <footer>
-            <span>WeChat Data Hub · 0.3.0</span>
+            <span>WeChat Data Hub · 0.4.0</span>
             <span>原件保全 · 来源可追溯 · 本地优先</span>
           </footer>
         </main>

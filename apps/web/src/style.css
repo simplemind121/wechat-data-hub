@@ -1804,4 +1804,20 @@ header {
 .audio-evidence audio {
   max-width: 100%;
 }
-.semantic-panel .checkbox-row input { width: auto; }
+.semantic-panel .checkbox-row input {
+  width: auto;
+}
+/* Collector and draft mapping forms keep readable controls at narrow widths. */
+.connector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 14px;
+  margin: 14px 0;
+}
+.connector-grid label {
+  margin: 0;
+  min-width: 0;
+}
+.panel .fine {
+  overflow-wrap: anywhere;
+}

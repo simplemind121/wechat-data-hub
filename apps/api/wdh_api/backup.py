@@ -300,6 +300,17 @@ def restore_backup(source: Path, password: str, target: Settings) -> dict[str, A
                             continue  # Recovered users log in again; old sessions stay invalid.
                         if table.name == "processing_policies":
                             row["enabled"] = {name: False for name in row.get("enabled", {})}
+                        if table.name == "data_sources":
+                            row["enabled"], row["token_hash"] = False, None
+                        if (
+                            table.name == "jobs"
+                            and row.get("kind") == "odoo_sync"
+                            and row.get("status") != "completed"
+                        ):
+                            row["status"], row["failure_code"] = (
+                                "cancelled",
+                                "RESTORE_REQUIRES_REAPPROVAL",
+                            )
                         for column in table.columns:
                             if (
                                 isinstance(column.type, DateTime)

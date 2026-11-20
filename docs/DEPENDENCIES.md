@@ -57,7 +57,6 @@ NOASSERTION is not approval. This is not a legal opinion or OS/image SBOM.
 | Python | typing-inspection | 0.4.5 | MIT |
 | Python | typing_extensions | 4.16.0 | PSF-2.0 |
 | Python | uvicorn | 0.54.0 | BSD-3-Clause |
-| Python | wechat-data-hub | 0.3.0 | NOASSERTION |
 | npm | @babel/code-frame | 7.29.7 | MIT |
 | npm | @babel/compat-data | 7.29.7 | MIT |
 | npm | @babel/core | 7.29.13 | MIT |

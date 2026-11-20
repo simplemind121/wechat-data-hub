@@ -300,7 +300,9 @@ class Worker:
             job = session.scalar(
                 select(Job)
                 .where(
-                    Job.kind.in_(["ingest", "ocr", "asr", "embedding", "llm", "model_install"]),
+                    Job.kind.in_(
+                        ["ingest", "ocr", "asr", "embedding", "llm", "model_install", "odoo_sync"]
+                    ),
                     eligible,
                 )
                 .order_by(Job.created_at, Job.id)
@@ -383,6 +385,12 @@ class Worker:
                 if job.kind == "model_install":
                     session.close()
                     self.install_model(job_id, token)
+                    return
+                if job.kind == "odoo_sync":
+                    from wdh_api.odoo_sync import deliver
+
+                    session.close()
+                    deliver(self, job_id, token)
                     return
                 if job.kind != "ingest":
                     session.close()

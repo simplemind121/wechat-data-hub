@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "WeChat Data Hub",
-    "version": "0.3.0"
+    "version": "0.4.0"
   },
   "paths": {
     "/api/v1/health/live": {
@@ -2413,6 +2413,495 @@
           }
         }
       }
+    },
+    "/api/v1/sources": {
+      "get": {
+        "tags": [
+          "sources"
+        ],
+        "summary": "List Sources",
+        "operationId": "list_sources_api_v1_sources_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response List Sources Api V1 Sources Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "sources"
+        ],
+        "summary": "Create Source",
+        "operationId": "create_source_api_v1_sources_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewSource"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Create Source Api V1 Sources Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sources/{source_id}/state": {
+      "post": {
+        "tags": [
+          "sources"
+        ],
+        "summary": "Source State",
+        "operationId": "source_state_api_v1_sources__source_id__state_post",
+        "parameters": [
+          {
+            "name": "source_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SourceState"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Source State Api V1 Sources  Source Id  State Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sources/{source_id}/rotate": {
+      "post": {
+        "tags": [
+          "sources"
+        ],
+        "summary": "Rotate",
+        "operationId": "rotate_api_v1_sources__source_id__rotate_post",
+        "parameters": [
+          {
+            "name": "source_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Rotate Api V1 Sources  Source Id  Rotate Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/collector/status": {
+      "get": {
+        "tags": [
+          "sources"
+        ],
+        "summary": "Collector Status",
+        "operationId": "collector_status_api_v1_collector_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Collector Status Api V1 Collector Status Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/collector/heartbeat": {
+      "post": {
+        "tags": [
+          "sources"
+        ],
+        "summary": "Heartbeat",
+        "operationId": "heartbeat_api_v1_collector_heartbeat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Heartbeat"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "boolean"
+                  },
+                  "type": "object",
+                  "title": "Response Heartbeat Api V1 Collector Heartbeat Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/collector/batches": {
+      "post": {
+        "tags": [
+          "sources"
+        ],
+        "summary": "Collect Batch",
+        "operationId": "collect_batch_api_v1_collector_batches_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_collect_batch_api_v1_collector_batches_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Collect Batch Api V1 Collector Batches Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integrations/odoo/plan": {
+      "post": {
+        "tags": [
+          "integrations"
+        ],
+        "summary": "Preview",
+        "operationId": "preview_api_v1_integrations_odoo_plan_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Preview Api V1 Integrations Odoo Plan Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integrations/odoo/sync": {
+      "post": {
+        "tags": [
+          "integrations"
+        ],
+        "summary": "Enqueue",
+        "operationId": "enqueue_api_v1_integrations_odoo_sync_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Enqueue Api V1 Integrations Odoo Sync Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integrations/odoo/outbox": {
+      "get": {
+        "tags": [
+          "integrations"
+        ],
+        "summary": "Outbox",
+        "operationId": "outbox_api_v1_integrations_odoo_outbox_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Outbox Api V1 Integrations Odoo Outbox Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integrations/odoo/outbox/{delivery_id}/retry": {
+      "post": {
+        "tags": [
+          "integrations"
+        ],
+        "summary": "Retry",
+        "operationId": "retry_api_v1_integrations_odoo_outbox__delivery_id__retry_post",
+        "parameters": [
+          {
+            "name": "delivery_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Delivery Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Retry Api V1 Integrations Odoo Outbox  Delivery Id  Retry Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integrations/odoo/lookup": {
+      "get": {
+        "tags": [
+          "integrations"
+        ],
+        "summary": "Lookup",
+        "operationId": "lookup_api_v1_integrations_odoo_lookup_get",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "res.partner",
+                "product.template",
+                "product.product",
+                "res.currency",
+                "uom.uom"
+              ],
+              "type": "string",
+              "title": "Model"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Lookup Api V1 Integrations Odoo Lookup Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2431,6 +2920,38 @@
           "password"
         ],
         "title": "BackupRequest"
+      },
+      "Body_collect_batch_api_v1_collector_batches_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Cursor"
+          },
+          "manifest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manifest"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file",
+          "cursor"
+        ],
+        "title": "Body_collect_batch_api_v1_collector_batches_post"
       },
       "Body_upload_api_v1_imports_post": {
         "properties": {
@@ -2565,6 +3086,24 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "Heartbeat": {
+        "properties": {
+          "failure_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z_]{1,80}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failure Code"
+          }
+        },
+        "type": "object",
+        "title": "Heartbeat"
+      },
       "IndexBatch": {
         "properties": {
           "conversation_id": {
@@ -2600,6 +3139,88 @@
         "type": "object",
         "title": "IndexBatch"
       },
+      "Mapping": {
+        "properties": {
+          "existing_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Existing Id"
+          },
+          "partner_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Partner Id"
+          },
+          "product_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Id"
+          },
+          "currency_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency Id"
+          },
+          "uom_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uom Id"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1000000000.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "title": "Mapping"
+      },
       "ModuleChange": {
         "properties": {
           "enabled": {
@@ -2612,6 +3233,34 @@
           "enabled"
         ],
         "title": "ModuleChange"
+      },
+      "NewSource": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "personal_files",
+              "wecom_archive"
+            ],
+            "title": "Kind"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/SourceMetadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "kind",
+          "metadata"
+        ],
+        "title": "NewSource"
       },
       "NewUser": {
         "properties": {
@@ -2644,6 +3293,34 @@
           "password"
         ],
         "title": "NewUser"
+      },
+      "PlanRequest": {
+        "properties": {
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "target_model": {
+            "type": "string",
+            "enum": [
+              "res.partner",
+              "product.template",
+              "purchase.order",
+              "sale.order",
+              "crm.lead"
+            ],
+            "title": "Target Model"
+          },
+          "mapping": {
+            "$ref": "#/components/schemas/Mapping"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_id",
+          "target_model"
+        ],
+        "title": "PlanRequest"
       },
       "Privacy": {
         "properties": {
@@ -2776,6 +3453,153 @@
           "password"
         ],
         "title": "Setup"
+      },
+      "SourceMetadata": {
+        "properties": {
+          "account_ref": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Account Ref"
+          },
+          "device_ref": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Device Ref"
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "ios",
+              "macos",
+              "windows",
+              "other"
+            ],
+            "title": "Platform",
+            "default": "other"
+          },
+          "os_version": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Os Version",
+            "default": "unknown"
+          },
+          "wechat_version": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Wechat Version",
+            "default": "unknown"
+          },
+          "exporter_name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Exporter Name",
+            "default": "user-export"
+          },
+          "exporter_version": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Exporter Version",
+            "default": "unknown"
+          },
+          "original_timezone": {
+            "type": "string",
+            "title": "Original Timezone",
+            "default": "Asia/Shanghai"
+          },
+          "data_format": {
+            "type": "string",
+            "enum": [
+              "jsonl-v1",
+              "json-v1",
+              "csv-v1"
+            ],
+            "title": "Data Format",
+            "default": "jsonl-v1"
+          },
+          "field_mapping": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "maxProperties": 30,
+            "title": "Field Mapping"
+          },
+          "json_root": {
+            "type": "string",
+            "enum": [
+              "array",
+              "messages"
+            ],
+            "title": "Json Root",
+            "default": "array"
+          },
+          "delimiter": {
+            "type": "string",
+            "enum": [
+              ",",
+              ";",
+              "\t"
+            ],
+            "title": "Delimiter",
+            "default": ","
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_ref",
+          "device_ref"
+        ],
+        "title": "SourceMetadata"
+      },
+      "SourceState": {
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled"
+          }
+        },
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "title": "SourceState"
+      },
+      "SyncRequest": {
+        "properties": {
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "target_model": {
+            "type": "string",
+            "enum": [
+              "res.partner",
+              "product.template",
+              "purchase.order",
+              "sale.order",
+              "crm.lead"
+            ],
+            "title": "Target Model"
+          },
+          "mapping": {
+            "$ref": "#/components/schemas/Mapping"
+          },
+          "confirm": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirm"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_id",
+          "target_model",
+          "confirm"
+        ],
+        "title": "SyncRequest"
       },
       "ValidationError": {
         "properties": {

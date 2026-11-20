@@ -1,0 +1,16 @@
+{
+  "scope": "synthetic only; published wheel client + isolated installed wheel API + PostgreSQL",
+  "first": {
+    "status": "ok",
+    "archived_files": 1,
+    "skipped_files": 0,
+    "failed_files": 0
+  },
+  "second": {
+    "status": "ok",
+    "archived_files": 0,
+    "skipped_files": 1,
+    "failed_files": 0
+  },
+  "message_count_delta": 1
+}

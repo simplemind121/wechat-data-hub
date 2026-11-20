@@ -1,0 +1,41 @@
+# Optional collectors share only the API network namespace, not its data filesystem.
+# Put the downloaded config in collector/personal.json or collector/wecom.json.
+services:
+  personal-collector:
+    image: wechat-data-hub-api:0.4.0
+    platform: linux/amd64
+    profiles: [personal-collector]
+    network_mode: service:api
+    command: [python, -m, wdh_api.collector, files, --config, /collector/config.json]
+    user: "${COLLECTOR_UID:-1000}:${COLLECTOR_GID:-1000}"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+    mem_limit: 256m
+    tmpfs: ["/tmp:mode=1777,size=16m"]
+    volumes:
+      - ./collector/personal.json:/collector/config.json:ro
+      - ./collector/inbox:/collector/inbox:ro
+      - ./collector/personal-state:/collector/state
+    depends_on:
+      api: {condition: service_healthy}
+  wecom-collector:
+    image: wechat-data-hub-api:0.4.0
+    platform: linux/amd64
+    profiles: [wecom-collector]
+    network_mode: service:api
+    command: [python, -m, wdh_api.collector, wecom, --config, /collector/config.json]
+    user: "${COLLECTOR_UID:-1000}:${COLLECTOR_GID:-1000}"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+    mem_limit: 256m
+    tmpfs: ["/tmp:mode=1777,size=16m"]
+    volumes:
+      - ./collector/wecom.json:/collector/config.json:ro
+      - ./collector/secrets:/collector/secrets:ro
+      - ./collector/wecom-state:/collector/state
+    depends_on:
+      api: {condition: service_healthy}

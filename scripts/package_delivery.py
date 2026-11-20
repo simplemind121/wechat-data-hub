@@ -3,9 +3,11 @@
 import argparse
 import gzip
 import hashlib
+import io
 import json
 import os
 import subprocess
+import tarfile
 import tempfile
 import tomllib
 import zipfile
@@ -35,9 +37,42 @@ def sha(path: Path) -> str:
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
+def merge_docker_archives(archives: list[bytes], output: BinaryIO) -> None:
+    """Combine per-image Docker save streams using the portable manifest format.
+
+    Image config/layer bytes and their content-addressed names stay unchanged.
+    Omitting OCI index files avoids retaining an index for only the final image.
+    """
+    manifests: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    with tarfile.open(fileobj=output, mode="w|") as combined:
+        for data in archives:
+            with tarfile.open(fileobj=io.BytesIO(data), mode="r:") as source:
+                manifest_file = source.extractfile("manifest.json")
+                if manifest_file is None:
+                    raise ValueError("Docker manifest unavailable")
+                manifests.extend(json.load(manifest_file))
+                for item in source:
+                    if item.name in {"manifest.json", "index.json", "oci-layout", "repositories"}:
+                        continue
+                    if item.name in seen:
+                        continue
+                    seen.add(item.name)
+                    combined.addfile(item, source.extractfile(item) if item.isfile() else None)
+        encoded = json.dumps(manifests, separators=(",", ":")).encode()
+        info = tarfile.TarInfo("manifest.json")
+        info.size, info.mode = len(encoded), 0o644
+        combined.addfile(info, io.BytesIO(encoded))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path("/workspace"))
+    parser.add_argument(
+        "--memory-images",
+        action="store_true",
+        help="Export images one at a time before writing ZIP; needs RAM for images",
+    )
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     os.chdir(root)
@@ -83,8 +118,11 @@ def main() -> None:
         "platform": "linux/amd64",
         "images": locked,
         "source_sha256": sha(source),
-        "release_scope": "Usable local OCR/ASR/AI increment; not a full-spec production RC",
-        "test_scope": "Synthetic fixtures and actual local models; no real WeChat/Odoo instance",
+        "release_scope": (
+            "Scoped collectors and approved draft integration; prerelease, not a production RC"
+        ),
+        "test_scope": "Synthetic fixtures, local models and fixed-runtime wheel install; "
+        "no real WeChat/WeCom/Odoo instance",
         "model_policy": "OCR weights and engines included; "
         "ASR/BGE/Qwen weights require explicit first download",
         "excluded": [
@@ -100,6 +138,12 @@ def main() -> None:
         "real_odoo_validation": "BLOCKED",
     }
     image_name = f"WeChat_Data_Hub_images_v{version}.tar.gz"
+    archives = None
+    if args.memory_images:
+        archives = []
+        for image in locked:
+            archives.append(subprocess.check_output(["docker", "save", image]))
+        manifest["image_archive_layout"] = "merged per-image Docker save manifests"
     with zipfile.ZipFile(complete, "x", allowZip64=True) as package:
         with zipfile.ZipFile(source) as snapshot:
             for info in snapshot.infolist():
@@ -112,16 +156,19 @@ def main() -> None:
         with package.open(prefix + image_name, "w", force_zip64=True) as entry:
             writer = DigestWriter(entry)
             with gzip.GzipFile(fileobj=writer, mode="wb", compresslevel=1, mtime=0) as compressed:
-                process = subprocess.Popen(
-                    ["docker", "save", *locked], stdout=subprocess.PIPE, stderr=subprocess.PIPE
-                )
-                if process.stdout is None:
-                    raise RuntimeError("Docker export stream unavailable")
-                while data := process.stdout.read(1_048_576):
-                    compressed.write(data)
-                _, error = process.communicate()
-                if process.returncode:
-                    raise RuntimeError(error.decode("utf-8", "replace")[-2000:])
+                if archives is not None:
+                    merge_docker_archives(archives, compressed)
+                else:
+                    process = subprocess.Popen(
+                        ["docker", "save", *locked], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                    )
+                    if process.stdout is None:
+                        raise RuntimeError("Docker export stream unavailable")
+                    while data := process.stdout.read(1_048_576):
+                        compressed.write(data)
+                    _, error = process.communicate()
+                    if process.returncode:
+                        raise RuntimeError(error.decode("utf-8", "replace")[-2000:])
             manifest["image_archive_sha256"] = writer.digest.hexdigest()
             manifest["image_archive_bytes"] = writer.count
         package.writestr(

@@ -395,6 +395,63 @@ class ProcessingResult(Owned):
     details: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
 
 
+class DataSource(Owned):
+    __tablename__ = "data_sources"
+    __table_args__ = owned_constraints(
+        ForeignKeyConstraint(["owner_id"], ["users.id"]),
+        UniqueConstraint("token_hash"),
+        CheckConstraint("kind IN ('personal_files','wecom_archive')"),
+    )
+    name: Mapped[str] = mapped_column(String(200))
+    kind: Mapped[str] = mapped_column(String(30))
+    owner_id: Mapped[str] = mapped_column(Uuid(as_uuid=False))
+    token_hash: Mapped[str | None] = mapped_column(String(64))
+    enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    source_metadata: Mapped[dict[str, Any]] = mapped_column(JSON)
+    last_seen_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_cursor: Mapped[str | None] = mapped_column(String(200))
+    failure_code: Mapped[str | None] = mapped_column(String(80))
+
+
+class SourceReceipt(Owned):
+    __tablename__ = "source_receipts"
+    __table_args__ = owned_constraints(
+        ForeignKeyConstraint(
+            ["workspace_id", "source_id"], ["data_sources.workspace_id", "data_sources.id"]
+        ),
+        ForeignKeyConstraint(
+            ["workspace_id", "batch_id"], ["ingest_batches.workspace_id", "ingest_batches.id"]
+        ),
+        UniqueConstraint("source_id", "cursor"),
+    )
+    source_id: Mapped[str] = mapped_column(Uuid(as_uuid=False), index=True)
+    batch_id: Mapped[str] = mapped_column(Uuid(as_uuid=False))
+    cursor: Mapped[str] = mapped_column(String(200))
+    sha256: Mapped[str] = mapped_column(String(64))
+
+
+class OdooDelivery(Owned):
+    __tablename__ = "odoo_deliveries"
+    __table_args__ = owned_constraints(
+        ForeignKeyConstraint(
+            ["workspace_id", "entity_id"],
+            ["entity_assertions.workspace_id", "entity_assertions.id"],
+        ),
+        ForeignKeyConstraint(["workspace_id", "job_id"], ["jobs.workspace_id", "jobs.id"]),
+        UniqueConstraint("workspace_id", "idempotency_key"),
+        UniqueConstraint("job_id"),
+    )
+    entity_id: Mapped[str] = mapped_column(Uuid(as_uuid=False))
+    job_id: Mapped[str] = mapped_column(Uuid(as_uuid=False))
+    idempotency_key: Mapped[str] = mapped_column(String(64))
+    instance_hash: Mapped[str] = mapped_column(String(64))
+    target_model: Mapped[str] = mapped_column(String(100))
+    values: Mapped[dict[str, Any]] = mapped_column(JSON)
+    evidence_hash: Mapped[str] = mapped_column(String(64))
+    remote_id: Mapped[int | None] = mapped_column(Integer)
+    read_back: Mapped[dict[str, Any] | None] = mapped_column(JSON)
+
+
 Index("ix_messages_timeline", Message.conversation_id, Message.sent_at, Message.id)
 Index(
     "ix_messages_search_trgm",

@@ -1,14 +1,14 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:c0e38cfc-d230-43fb-9784-bebf40266e17",
+  "serialNumber": "urn:uuid:c28b3be0-f7a0-4270-ba2b-164625ab8dd6",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-11-18T02:31:35.268057+00:00",
+    "timestamp": "2026-11-20T12:50:37.700122+00:00",
     "component": {
       "type": "application",
       "name": "WeChat Data Hub",
-      "version": "0.3.0"
+      "version": "0.4.0"
     },
     "properties": [
       {
@@ -843,22 +843,6 @@
         {
           "name": "wdh:license-metadata",
           "value": "BSD-3-Clause"
-        },
-        {
-          "name": "wdh:inventory-scope",
-          "value": "runtime-and-development"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "wechat-data-hub",
-      "version": "0.3.0",
-      "purl": "pkg:pypi/wechat-data-hub@0.3.0",
-      "properties": [
-        {
-          "name": "wdh:license-metadata",
-          "value": "NOASSERTION"
         },
         {
           "name": "wdh:inventory-scope",

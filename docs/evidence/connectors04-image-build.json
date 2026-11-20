@@ -1,0 +1,10 @@
+{
+  "version": "0.4.0",
+  "strategy": "streamed verified 0.3 runtime with new wheel/migrations and production web build; no volumes exported",
+  "base_api_image": "sha256:b31f608b04c75bd1c3f1816f74f51d331ad89dabf06fac16b7972e32d65d5664",
+  "images": {
+    "api": "sha256:9f24e284e32f1b6060045fb9d52e3cfa5b3258ab02977c2778df75761af362a1",
+    "web": "sha256:0bb925f7a83832d94aba3a84af73c80c25175d33591c19339922b72234ba5c3e",
+    "db": "sha256:97a31d16fafe76ad3f9130aa1bfc9b9959b3bb378c677f41923493952570f58d"
+  }
+}

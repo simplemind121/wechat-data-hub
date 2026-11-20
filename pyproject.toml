@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "wechat-data-hub"
-version = "0.3.0"
+version = "0.4.0"
 description = "Local-first archive for user-authorized chat exports"
 requires-python = ">=3.12,<3.13"
 dependencies = [
@@ -18,11 +18,11 @@ dependencies = [
   "python-multipart>=0.0.20,<1",
   "cryptography>=50,<51",
   "pillow>=13,<14",
+  "httpx>=0.28,<1",
 ]
 
 [project.optional-dependencies]
 ai = [
-    "httpx>=0.28,<1",
     "numpy>=2.2,<3",
     "sherpa-onnx==2.0.1",
     "soundfile>=0.13,<1",

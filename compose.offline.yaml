@@ -1,7 +1,7 @@
 # Exact content IDs are checked by start-offline.sh before starting.
 services:
   db:
-    image: wechat-data-hub-db:0.3.0
+    image: wechat-data-hub-db:0.4.0
     pull_policy: never
   api:
     pull_policy: never

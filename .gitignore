@@ -1,5 +1,6 @@
 # Never commit private data or credentials
 .env
+collector/
 .env.*
 !.env.example
 *.key

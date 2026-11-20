@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     enable_embeddings: bool = False
     enable_llm: bool = False
     enable_odoo: bool = False
+    enable_odoo_writes: bool = False
     odoo_url: str = ""
     odoo_database: str = ""
     odoo_username: str = ""

@@ -1,0 +1,10 @@
+<odoo>
+  <record id="group_wdh_bridge" model="res.groups">
+    <field name="name">WDH approved draft bridge</field>
+  </record>
+  <record id="rule_wdh_own_receipts" model="ir.rule">
+    <field name="name">WDH receipts belong to their integration user</field>
+    <field name="model_id" ref="model_wdh_sync_request"/>
+    <field name="domain_force">[('create_uid', '=', user.id)]</field>
+  </record>
+</odoo>

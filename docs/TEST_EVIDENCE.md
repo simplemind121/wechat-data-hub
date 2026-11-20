@@ -137,3 +137,30 @@ PostgreSQL测试通过本任务明确命名、仅127.0.0.1:18032的轻量TCP代�
 最终 `make lint`、27项安全测试/Bandit、3项Vitest通过，日志分别为 `ai-final-lint.log`、`ai-security-tests.log`、`ai-web-unit-tests.log`。此前因磁盘不足失败的安全执行已在容量恢复后完整重跑。默认项目及自定义项目的「已有数据库卷但无.env」升级保护实测2项通过，`upgrade-guard-tests.log`。
 
 打包脚本 `scripts/package_delivery.py` 从已提交源码和 `images.lock` 指定的三个镜像流式生成完整ZIP，排除本地配置/原件/数据卷/可选权重；提供Git提交、镜像内容ID、内层镜像压缩流SHA、完整包/源码包SHA和ZIP CRC核验。不把已有测试账号或数据卷封装到镜像。
+
+# 2026-11-20 · 0.4 接入与草稿同步
+
+本节输入全部为自制合成数据。未读取用户微信客户端、未获得企业存档账号、未连接真实Odoo实例。
+
+| 验证 | 结果 | 原始证据 |
+| --- | --- | --- |
+| 专用新PG库完整pytest | 118 passed，0失败/0跳过，240.50s | evidence/connectors04-postgres-tests.log |
+| 回读加强/安全修正后的采集与Odoo专项PG复验 | 13 passed；涵盖凭据权限/CSRF/暂停/轮换、恢复撤销、原件重发、坏文件隔离、已创建后响应丢失、显式数量和回读 | evidence/connectors04-final-targeted-pg.log |
+| Chromium源码完整业务流程 | 7 passed，1.9分钟；含四类真实引擎及新增采集流程 | evidence/connectors04-browser-tests.log |
+| 发布wheel安装到固定运行环境、新空PG/独立tmp目录；生产静态页面 | 5 passed，1.3分钟；初始化/导入/审核/导出/备份、移动端、媒体、OCR、采集凭据/上传/暂停。未重复语音与语义两项 | evidence/connectors04-installed-wheel-browser.log |
+| 发布wheel采集CLI → 安装wheel API → PostgreSQL | 首次归档1，第二次0，消息增量1；不包含凭据/原文日志 | evidence/connectors04-collector-cli.json |
+| make lint test-security | Ruff/format/mypy32文件/TypeScript/OpenAPI通过；27安全项通过；Bandit无排除规则通过 | evidence/connectors04-final-checks.log |
+| 网页单元/生产构建 | 3项通过，生产构建通过 | 本轮终端；原版本Vitest套件未新增镜像测试 |
+| 镜像来源 | 固定0.3运行环境、当前wheel/迁移/生产页面流式组装；DB沿用同一内容ID | evidence/connectors04-image-build.json，../images.lock |
+
+测试数据库为本轮创建的wdh04控制库及随机子库。PG连接通过仅回环的临时测试转发进程，不改现有数据库端口配置；未将其凭据、测试账号或数据卷打包。测试耗时含转发额外开销，不能据此宣称生产同步吞吐。
+
+官方SDK下载收到403，ABI接口核对后只运行了合成协议替身，不把它称为SDK实测。Odoo19官方源码核对了Constraint与product_uom_id；独立桥接模块尚无真实Odoo安装证据。合同替身只证明调用边界和幂等重试逻辑，不能证明目标实例已具备约束与权限。
+
+首次Bandit发现两项Low：assert和心跳异常pass，已修复为实际条件检查及显式报告；最终扫描通过。完整OS审计及原开发工具链HIGH处置仍未完成。正式RC仍BLOCKED。
+
+环境为7.9GB/VFS；创建额外测试容器时空间不足，已清理本轮可再生临时文件/旧运行包缓存，原0.3发布包仍在GitHub。为节省磁盘，公开Qwen缓存转入本轮临时内存；其余公开测试权重可在结束后清理重装，不进发布包。自动审批拒绝了复制主库/替换活动API-Web容器的动作，该动作未执行。安装复验改用现有固定运行环境中的独立进程、全新测试库和/tmp目录；当前主服务未停机。未宣称三个新镜像在全新主机同时启动成功。
+
+旧0.3备份应使用匹配的0.3版本恢复到空目标，再升级至0.4；不能直接把旧schema备份交给0.4恢复器。升级需保存旧配置与镜像，保护已有数据卷。
+
+打包补充：低磁盘环境使用package_delivery.py --memory-images，先逐镜像导出到内存，再合并为标准Docker manifest归档，避免ZIP增长与多镜像临时导出同时占盘。新增合成多镜像引用/去重测试；实际web镜像经该格式重新docker load后内容ID不变，见connectors04-docker-archive.json。API镜像41个wheel文件、web镜像3个静态文件逐一SHA256匹配发布产物，见connectors04-image-content.json；这不是新主机启动声明。

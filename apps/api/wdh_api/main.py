@@ -19,12 +19,15 @@ from wdh_storage.cas import StorageError
 
 from wdh_api.config import Settings, get_settings
 from wdh_api.db import make_engine, sessions
+from wdh_api.odoo_sync import router as odoo_sync_router
 from wdh_api.processing_routes import router as processing_router
 from wdh_api.routes import router
 from wdh_api.security import ApiError, principal
 from wdh_api.semantic_routes import router as semantic_router
+from wdh_api.source_routes import COLLECTOR_PATHS, collector
+from wdh_api.source_routes import router as source_router
 
-SCHEMA_REVISION = "0004_processing"
+SCHEMA_REVISION = "0005_connectors"
 
 
 class BodyLimitMiddleware:
@@ -36,7 +39,11 @@ class BodyLimitMiddleware:
             await self.app(scope, receive, send)
             return
         total = 0
-        limit = self.maximum + 2_097_152 if scope["path"] == "/api/v1/imports" else 1_048_576
+        limit = (
+            self.maximum + 2_097_152
+            if scope["path"] in {"/api/v1/imports", "/api/v1/collector/batches"}
+            else 1_048_576
+        )
 
         async def limited_receive() -> ASGIMessage:
             nonlocal total
@@ -63,7 +70,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         yield
         engine.dispose()
 
-    app = FastAPI(title="WeChat Data Hub", version="0.3.0", lifespan=lifespan)
+    app = FastAPI(title="WeChat Data Hub", version="0.4.0", lifespan=lifespan)
     app.state.settings = config
     app.state.factory = sessions(engine)
     app.state.engine = engine
@@ -86,7 +93,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             length = request.headers.get("content-length")
             limit = (
                 config.import_max_bytes + 2_097_152
-                if request.url.path == "/api/v1/imports"
+                if request.url.path in {"/api/v1/imports", "/api/v1/collector/batches"}
                 else 1_048_576
             )
             if length and (not length.isdecimal() or int(length) > limit):
@@ -107,8 +114,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                         in {"/api/v1/imports", "/api/v1/users", "/api/v1/backups"}
                         else "reader"
                     )
-                    principal(request, session, minimum)
-            if request.method == "POST" and request.url.path == "/api/v1/imports" and length:
+                    if request.url.path in COLLECTOR_PATHS:
+                        collector(request, session)
+                    else:
+                        principal(request, session, minimum)
+            if (
+                request.method == "POST"
+                and request.url.path in {"/api/v1/imports", "/api/v1/collector/batches"}
+                and length
+            ):
                 free = shutil.disk_usage(config.data_root).free
                 if int(length) * 3 + 33_554_432 > free:
                     raise ApiError(
@@ -190,4 +204,6 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(router)
     app.include_router(processing_router)
     app.include_router(semantic_router)
+    app.include_router(source_router)
+    app.include_router(odoo_sync_router)
     return app

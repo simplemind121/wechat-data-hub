@@ -1272,7 +1272,7 @@ def odoo_status(request: Request, session: DB) -> dict[str, Any]:
         "real_validation": "NOT_TESTED"
         if settings.enable_odoo and configured(settings)
         else "BLOCKED",
-        "remote_writes_enabled": False,
+        "remote_writes_enabled": settings.enable_odoo and settings.enable_odoo_writes,
     }
 
 
